@@ -1,0 +1,7 @@
+{
+  "name": "RestaurantHotel",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}
