@@ -7,7 +7,6 @@
         </ion-buttons>
         <ion-title>{{ $route.params.id }}</ion-title>
       </ion-toolbar>
-      
     </ion-header>
 
     <ion-content :fullscreen="true">
