@@ -13,6 +13,14 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/folder/MenuPage',
     component: () => import ('../views/MenuPage.vue')
+  },
+  {
+    path: '/folder/Favorites',
+    component: () => import ('../views/FolderPage.vue')
+  },
+  {
+    path: '/folder/Menu1',
+    component: () => import ('../views/selectMenu.vue')
   }
 ]
 

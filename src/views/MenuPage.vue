@@ -5,7 +5,7 @@
         <ion-buttons slot="start">
           <ion-menu-button color="primary"></ion-menu-button>
         </ion-buttons>
-        <ion-title>สั่งอาหาร</ion-title>
+          <ion-title>สั่งอาหาร</ion-title>
       </ion-toolbar>
     </ion-header>
 
@@ -16,13 +16,18 @@
         </ion-toolbar>
       </ion-header>
 
+      <ion-searchbar placeholder="ค้นหาเมนู"></ion-searchbar>
+
+      
+    <ion-card>
       <ion-grid>
         <ion-row>
           <ion-col
           :offsetMd="0.05"
           :sizeXs="4"
           :sizeMd="2.5"
-          v-for="i in counts" :key="i">
+          v-for="i in counts" :key="i.name"
+          :router-link="i.url">
             <ion-card>
               <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
               <ion-card-header>
@@ -33,44 +38,83 @@
           </ion-col>
         </ion-row>
       </ion-grid>
-    </ion-content>
-  </ion-page>
+    </ion-card>
+  </ion-content>
+</ion-page>
 </template>
 
-<script setup lang="ts">
+<script lang="ts">
 // import { Item } from '@ionic/core/dist/types/components/item/item';
-import {
-  IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonCol, IonGrid, IonRow, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonItem
+import { ref, defineComponent } from 'vue';
+import { useRoute } from 'vue-router';
+import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonCol, IonGrid, IonRow, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonItem, IonSearchbar, onIonViewDidEnter,
 } from '@ionic/vue';
 
+export default defineComponent({
+  components: { 
+    IonButtons, 
+    IonContent, 
+    IonHeader, 
+    IonMenuButton, 
+    IonPage, 
+    IonTitle, 
+    IonToolbar, 
+    IonCol, 
+    IonGrid, 
+    IonRow, 
+    IonCard, 
+    IonCardHeader, 
+    IonCardSubtitle, 
+    IonCardTitle, 
+    IonSearchbar,
+   },
+  data(){
+    return {
+      counts : [
+        {
+          name: 'ข้าวต้ม',
+          price: '40',
+          url: '/folder/MenuPage',
+        },
+        {
+          name: 'ส้มตำ',
+          price: '60',
+          url: '/folder/Menu1',
+        },
+        {
+          name: 'ข้าวผัด',
+          price: '50',
+          url: '/folder/Menu2',
+        },
+        {
+          name: 'ก๋วยเตี๋ยว',
+          price: '60',
+          url: '/folder/menu1',
+        },
+        {
+          name: 'ข้าวเปล่า',
+          price: '10',
+          url: '/folder/menu1',
+        },
+      ]
+    }
+  },
+  setup() {
+    const route = useRoute();
+    const i = ref('');
+    onIonViewDidEnter(() => {
+      const id = route.params.id as string;
+      i.value = id;
+    })
+    return {i}
+  },
+  // methods: {
+  //   selectMenu() {
+  //     this.$router.push({ path: '/folder/menu' })
+  //   }
+  // },
+  });
 // const countt = ['Family', 'Friends', 'Notes', 'Notes', 'Notes', 'Notes', 'Notes', 'Notes'];
-const counts = [
-  {
-    name: 'ข้าวต้ม',
-    price: '40',
-    url: '/folder/menu1',
-  },
-  {
-    name: 'ส้มตำ',
-    price: '60',
-    url: '/folder/menu1',
-  },
-  {
-    name: 'ข้าวผัด',
-    price: '50',
-    url: '/folder/menu1',
-  },
-  {
-    name: 'ก๋วยเตี๋ยว',
-    price: '60',
-    url: '/folder/menu1',
-  },
-  {
-    name: 'ข้าวเปล่า',
-    price: '10',
-    url: '/folder/menu1',
-  },
-]
 </script>
 
 <style scoped>

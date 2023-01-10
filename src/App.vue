@@ -38,14 +38,14 @@ import {
   IonItem,
   IonLabel,
   IonList,
-  IonListHeader,
+  // IonListHeader,
   IonMenu,
   IonMenuToggle,
-  IonNote,
+  // IonNote,
   IonRouterOutlet,
   IonSplitPane,
 } from '@ionic/vue';
-import { ref, defineComponent, } from 'vue';
+import { ref, } from 'vue';
 import {
   // archiveOutline,
   // archiveSharp,
