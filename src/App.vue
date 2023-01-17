@@ -78,7 +78,7 @@ const appPages = [
   },
   {
     title: 'ออเดอร์ปัจจุบัน',
-    url: '/folder/Home',
+    url: '/folder/Order',
     iosIcon: readerOutline,
     mdIcon: readerOutline,
   },

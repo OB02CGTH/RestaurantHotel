@@ -15,13 +15,13 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import ('../views/MenuPage.vue')
   },
   {
-    path: '/folder/Favorites',
-    component: () => import ('../views/FolderPage.vue')
+    path: '/folder/Menu1',
+    component: () => import ('../views/OptionMenu.vue')
   },
   {
-    path: '/folder/Menu1',
-    component: () => import ('../views/selectMenu.vue')
-  }
+    path: '/folder/Order',
+    component: () => import ('../views/OrderPage.vue')
+  },
 ]
 
 const router = createRouter({
