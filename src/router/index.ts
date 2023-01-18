@@ -8,16 +8,16 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/folder/:id',
-    component: () => import ('../views/FolderPage.vue')
+    component: () => import ('../views/OptionMenu.vue')
   },
   {
     path: '/folder/MenuPage',
     component: () => import ('../views/MenuPage.vue')
   },
-  {
-    path: '/folder/Menu1',
-    component: () => import ('../views/OptionMenu.vue')
-  },
+  // {
+  //   path: '/folder/Menu1',
+  //   component: () => import ('../views/OptionMenu.vue')
+  // },
   {
     path: '/folder/Order',
     component: () => import ('../views/OrderPage.vue')

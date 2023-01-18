@@ -39,9 +39,10 @@
                   <ion-label slot="start">x{{ n.quantity }}{{ n.name }}</ion-label>
                   <ion-label slot="end">{{ n.price * n.quantity }}</ion-label>
                 </ion-item>
-                <!-- <ion-label slot="end">รวม *???</ion-label> -->
                 <ion-label slot="end">รวม {{ sumprice(i.menu) }} บาท</ion-label>
               </ion-card-content>
+              <ion-button v-if="i.statorder===2" expand="block" color="primary">นำเสิร์ฟ</ion-button>
+              <ion-button v-if="i.statorder===3" expand="block" color="success">ชำระ</ion-button>
             </ion-card>
           </ion-col>
         </ion-row>
@@ -55,7 +56,7 @@
 import { ref, defineComponent } from 'vue';
 import { RouteLocationRaw, useRoute } from 'vue-router';
 import {
-  IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonCol, IonGrid, IonRow, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonSearchbar, onIonViewDidEnter, IonLabel, IonSegment, IonSegmentButton, IonItem, IonButton
+  IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonCol, IonGrid, IonRow, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonLabel, IonSegment, IonSegmentButton, IonItem, IonButton
 } from '@ionic/vue';
 import { Item } from '@ionic/core/dist/types/components/item/item';
 import { pricetag } from 'ionicons/icons';
@@ -82,7 +83,7 @@ export default defineComponent({
     IonSegment,
     IonSegmentButton,
     IonItem,
-    // IonButton,
+    IonButton,
   },
   data() {
     return {
@@ -122,7 +123,7 @@ export default defineComponent({
       ],
       categorymenu: [
         { name: 'กำลังเตรียม',statorder: 1, },
-        { name: 'นำเสิร์ฟ',statorder: 2, },
+        { name: 'รอนำเสิร์ฟ',statorder: 2, },
         { name: 'รอชำระ',statorder: 3, },
       ],
       filteredOrder: {}

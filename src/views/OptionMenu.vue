@@ -5,14 +5,14 @@
         <ion-buttons slot="start">
           <ion-menu-button color="primary"></ion-menu-button>
         </ion-buttons>
-        <ion-title>Menu 2</ion-title>
+        <ion-title>ตัวเลือกอาหาร</ion-title>
       </ion-toolbar>
     </ion-header>
 
     <ion-content :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title size="large">{{ $route.params.id }}</ion-title>
+          <ion-title size="large">ตัวเลือกอาหาร</ion-title>
         </ion-toolbar>
       </ion-header>
 
@@ -20,7 +20,7 @@
         <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
         <ion-card-header>
           <ion-label color="dark">
-            <h1>เมนู 1</h1>
+            <h1>{{ $route.params.id }}</h1>
           </ion-label>
         </ion-card-header>
 
@@ -28,85 +28,55 @@
           <ion-label color="dark">
             <h2>ตัวเลือกอาหาร</h2>
           </ion-label>
-          <ion-item>
+
+          <ion-item v-for="i in optionmenu" :key="i.nameoption">
             <ion-list>
               <ion-list-header>
                 <ion-item lines="none">
-                  <ion-label>
-                    <h2>ตัวเลือก 1</h2>
-                  </ion-label>
-                  <ion-label slot="end" color="medium">*?????</ion-label>
+                  <ion-text>
+                    {{ i.nameoption }}
+                  </ion-text>
+                  <ion-text v-if="i.request === 1" slot="end" color="medium">*จำเป็นต้องเลือก</ion-text>
+                  <ion-text v-if="i.requestmax > 0" slot="end" color="medium">*เลือกได้สูงสุด {{ i.requestmax }} ชิ้น</ion-text>
                 </ion-item>
               </ion-list-header>
-              <ion-item lines="none">
-                <ion-checkbox slot="start"></ion-checkbox>
-                <ion-label>
-                  <h3>ตัวเลือกย่อย 1</h3>
-                </ion-label>
-                <ion-label slot="end">ราคา</ion-label>
-              </ion-item>
-              <ion-item lines="none">
-                <ion-checkbox slot="start"></ion-checkbox>
-                <ion-label>
-                  <h3>ตัวเลือกย่อย 2</h3>
-                </ion-label>
-              </ion-item>
-              <ion-item lines="none">
-                <ion-checkbox slot="start"></ion-checkbox>
-                <ion-label>
-                  <h3>ตัวเลือกย่อย 3</h3>
-                </ion-label>
-              </ion-item>
-            </ion-list>
-          </ion-item>
-          <ion-item>
-            <ion-list>
-              <ion-list-header>
-                <ion-item lines="none">
-                  <ion-label>
-                    <h2>ตัวเลือก 2</h2>
-                  </ion-label>
-                  <ion-label slot="end" color="medium">*จำเป็นต้องเลือก</ion-label>
-                </ion-item>
-              </ion-list-header>
-              <ion-radio-group>
-                <ion-item lines="none">
+
+              <ion-radio-group v-if="i.checktype === 1" >
+                <ion-item v-for="n in i.suboption" :key="n.namesub" lines="none">
                   <ion-radio slot="start"></ion-radio>
-                  <ion-label>
-                    <h3>ตัวเลือกย่อย 1</h3>
-                  </ion-label>
-                </ion-item>
-                <ion-item lines="none">
-                  <ion-radio slot="start"></ion-radio>
-                  <ion-label>
-                    <h3>ตัวเลือกย่อย 2</h3>
-                  </ion-label>
-                </ion-item>
-                <ion-item lines="none">
-                  <ion-radio slot="start"></ion-radio>
-                  <ion-label>
-                    <h3>ตัวเลือกย่อย 3</h3>
-                  </ion-label>
+                  <ion-text><h3>{{ n.namesub }}</h3></ion-text>
+                  <ion-text slot="end"><h3>+{{ n.price }}</h3></ion-text>
                 </ion-item>
               </ion-radio-group>
+
+              <div v-if="i.checktype === 2" lines="none">
+                <ion-item  v-for="n in i.suboption" :key="n.namesub" lines="none">
+                  <ion-checkbox slot="start"></ion-checkbox>
+                  <ion-text><h3>{{ n.namesub }}</h3></ion-text>
+                  <ion-text slot="end"><h3>+{{ n.price }}</h3></ion-text>
+                </ion-item>
+              </div>
             </ion-list>
           </ion-item>
 
           <ion-item>
             <ion-input placeholder="เพิ่มหมายเหตุเมนูนี้ "></ion-input>
           </ion-item>
+          
+          <!-- <ion-item class="ion-align-items-center ion-justify-content-center">
+            <ion-icon :icon="removeCircle"></ion-icon>
+            <ion-text>1</ion-text>
+            <ion-icon :icon="addCircle"></ion-icon>
+          </ion-item> -->
 
           <ion-button expand="block" color="success">
             <ion-icon slot="start" :icon="addCircle"></ion-icon>
             เพิ่ม
             <ion-label>: [ราคา]</ion-label>
           </ion-button>
+
         </ion-card-content>
       </ion-card>
-      <!-- <div id="container">
-        <strong class="capitalize">{{ $route.params.id }}</strong>
-        <p>Explore <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-      </div> -->
     </ion-content>
   </ion-page>
 </template>
@@ -114,7 +84,7 @@
 <script lang="ts">
 import { ref, defineComponent } from 'vue';
 import { useRoute } from 'vue-router';
-import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonItem, IonItemGroup, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonLabel, IonCheckbox, IonList, IonRadio, IonRadioGroup, IonListHeader, } from '@ionic/vue';
+import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonItem, IonItemGroup, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonLabel, IonCheckbox, IonList, IonRadio, IonRadioGroup, IonListHeader, IonText, } from '@ionic/vue';
 import { star, addCircle, removeCircle, } from 'ionicons/icons';
 
 export default defineComponent({
@@ -138,6 +108,35 @@ export default defineComponent({
     IonRadio,
     IonRadioGroup,
     IonListHeader,
+    IonText,
+  },
+  data(){
+    return {
+      optionmenu: [
+        {
+          nameoption: 'ตัวเลือก 1',
+          request: 0,   //จำเป็นต้องเลือก
+          requestmax: 3,
+          checktype: 2, //checkBox
+          suboption: [
+            {namesub: 'ตัวเลือกย่อย 1', price: 0},
+            {namesub: 'ตัวเลือกย่อย 2', price: 5},
+            {namesub: 'ตัวเลือกย่อย 3', price: 10},
+          ],
+        },
+        {
+          nameoption: 'ตัวเลือก 2',
+          request: 1,   //จำเป็นต้องเลือก
+          requestmax: 0,
+          checktype: 1, //Radio
+          suboption: [
+            {namesub: 'ตัวเลือกย่อย 1', price: 0},
+            {namesub: 'ตัวเลือกย่อย 2', price: 0},
+            {namesub: 'ตัวเลือกย่อย 3', price: 0},
+          ],
+        },
+      ]
+    }
   },
   setup() {
     return {

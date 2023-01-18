@@ -101,8 +101,8 @@ const appPages = [
     mdIcon: alarmOutline,
   },
   {
-    title: 'Spam',
-    url: '/folder/Spam',
+    title: '???',
+    url: '/folder/???',
     iosIcon: warningOutline,
     mdIcon: warningSharp,
   },

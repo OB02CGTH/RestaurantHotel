@@ -18,14 +18,20 @@
 
       <ion-searchbar placeholder="ค้นหาเมนู"></ion-searchbar>
 
-      <ion-segment :scrollable="true" :value="categorymenu[0].name">
+      <!-- A segment that is scrollable. It has two buttons, one for all menu and one for each category. -->
+      <ion-segment :scrollable="true" value="all">
+        <ion-segment-button value="all" @click="allMenu()">
+          <ion-label>ทั้งหมด</ion-label>
+        </ion-segment-button>
+
         <ion-segment-button v-for="i in categorymenu" :key="i.name" :value="i.name" @click="filterMenu(i.category)">
           <ion-label>{{ i.name }}</ion-label>
         </ion-segment-button>
       </ion-segment>
+
       <ion-grid>
         <ion-row>
-          <ion-col :sizeXs="6" :sizeMd="2.4" v-for="i in filteredMenu" :key="i.name" @click="toroute(i.url)">
+          <ion-col :sizeXs="6" :sizeMd="2.4" v-for="i in filteredMenu" :key="i.name" :routerLink="i.url">
             <ion-card>
               <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
               <ion-card-header>
@@ -36,6 +42,7 @@
           </ion-col>
         </ion-row>
       </ion-grid>
+
     </ion-content>
   </ion-page>
 </template>
@@ -77,73 +84,73 @@ export default defineComponent({
         {
           name: 'ข้าวเปล่า',
           price: '10',
-          url: '/folder/Menu1',
+          url: '/folder/ข้าวเปล่า',
           category: 1,
         },
         {
           name: 'ราดหน้า',
           price: '70',
-          url: '/folder/Menu1',
+          url: '/folder/ราดหน้า',
           category: 1,
         },
         {
           name: 'ข้าวราดผักพริกหยวก',
           price: '70',
-          url: '/folder/Menu2',
+          url: '/folder/ข้าวราดผักพริกหยวก',
           category: 2,
         },
         {
           name: 'ข้าวผัดอเมริกัน',
           price: '130',
-          url: '/folder/Menu3',
+          url: '/folder/ข้าวผัดอเมริกัน',
           category: 2,
         },
         {
           name: 'สุกี้',
           price: '70',
-          url: '/folder/menu4',
+          url: '/folder/สุกี้',
           category: 3,
         },
         {
           name: 'ข้าวราดพะแนง',
           price: '70',
-          url: '/folder/menu5',
+          url: '/folder/ข้าวราดพะแนง',
           category: 3,
         },
         {
           name: 'ข้าวต้ม',
           price: '60',
-          url: '/folder/menu6',
+          url: '/folder/ข้าวต้ม',
           category: 4,
         },
         {
           name: 'ข้าวราดผัดผักรวมมิตร',
           price: '70',
-          url: '/folder/menu7',
+          url: '/folder/ข้าวราดผัดผักรวมมิตร',
           category: 4,
         },
         {
           name: 'ข้าวราดผักคะน้าหมูกรอบ',
           price: '89',
-          url: '/folder/menu8',
+          url: '/folder/ข้าวราดผักคะน้าหมูกรอบ',
           category: 5,
         },
         {
           name: 'ข้าวราดผักคะน้าปลาเค็ม',
           price: '75',
-          url: '/folder/menu9',
+          url: '/folder/ข้าวราดผักคะน้าปลาเค็ม',
           category: 5,
         },
         {
           name: 'ผัดไทยห่อไข่',
           price: '79',
-          url: '/folder/menu10',
+          url: '/folder/ผัดไทยห่อไข่',
           category: 6,
         },
         {
           name: 'ข้าวอบสับปะรด',
           price: '120',
-          url: '/folder/menu11',
+          url: '/folder/ข้าวอบสับปะรด',
           category: 6,
         },
       ],
@@ -176,26 +183,22 @@ export default defineComponent({
       filteredMenu: {}
     }
   },
-  // setup() {
-  //   const route = useRoute();
-  //   const i = ref('');
-  //   onIonViewDidEnter(() => {
-  //     const id = route.params.id as string;
-  //     i.value = id;
-  //   })
-  //   return {i}
-  // },
+
   methods: {
     toroute(rou: RouteLocationRaw) {
       this.$router.push(rou)
+    },
+    allMenu() {
+      this.filteredMenu = this.listmenu
     },
     filterMenu(iddata: number) {
       console.log(iddata)
       this.filteredMenu = this.listmenu.filter(item => item.category === iddata)
     },
   },
-  beforeMount(){
-    this.filterMenu(1)
+
+  beforeMount() {
+    this.allMenu()
   },
   // created(){
   //   this.filterMenu(1)
