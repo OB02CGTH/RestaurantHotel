@@ -44,6 +44,13 @@
       </ion-grid>
 
     </ion-content>
+
+    <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+      <ion-fab-button routerLink="/folder/ListMenu">
+        <ion-icon :icon="fastFood"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+
   </ion-page>
 </template>
 
@@ -52,9 +59,10 @@
 import { ref, defineComponent } from 'vue';
 import { RouteLocationRaw, useRoute } from 'vue-router';
 import {
-  IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonCol, IonGrid, IonRow, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonSearchbar, onIonViewDidEnter, IonLabel, IonSegment, IonSegmentButton,
+  IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonCol, IonGrid, IonRow, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonSearchbar, IonLabel, IonSegment, IonSegmentButton, IonFab, IonFabButton,
 } from '@ionic/vue';
-import { Select } from '@ionic/core/dist/types/components/select/select';
+import { fastFood, } from 'ionicons/icons';
+// import { Select } from '@ionic/core/dist/types/components/select/select';
 
 export default defineComponent({
   components: {
@@ -77,6 +85,8 @@ export default defineComponent({
     IonLabel,
     IonSegment,
     IonSegmentButton,
+    IonFab,
+    IonFabButton,
   },
   data() {
     return {
@@ -184,8 +194,15 @@ export default defineComponent({
     }
   },
 
+  setup() {
+    return {
+      fastFood,
+    }
+  },
+
   methods: {
-    toroute(rou: RouteLocationRaw) {
+// A function that is used to navigate to a different page.
+    toroute(rou: RouteLocationRaw): void {
       this.$router.push(rou)
     },
     allMenu() {

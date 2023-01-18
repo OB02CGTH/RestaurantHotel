@@ -56,6 +56,7 @@
                   <ion-text slot="end"><h3>+{{ n.price }}</h3></ion-text>
                 </ion-item>
               </div>
+              
             </ion-list>
           </ion-item>
 
@@ -69,7 +70,7 @@
             <ion-icon :icon="addCircle"></ion-icon>
           </ion-item> -->
 
-          <ion-button expand="block" color="success">
+          <ion-button expand="block" color="success" routerLink="/folder/MenuPage">
             <ion-icon slot="start" :icon="addCircle"></ion-icon>
             เพิ่ม
             <ion-label>: [ราคา]</ion-label>
@@ -83,12 +84,13 @@
 
 <script lang="ts">
 import { ref, defineComponent } from 'vue';
-import { useRoute } from 'vue-router';
-import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonItem, IonItemGroup, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonLabel, IonCheckbox, IonList, IonRadio, IonRadioGroup, IonListHeader, IonText, } from '@ionic/vue';
+// import { RouteLocationRaw, useRoute } from 'vue-router';
+import { IonButton, IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonItem, IonItemGroup, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonLabel, IonCheckbox, IonList, IonRadio, IonRadioGroup, IonListHeader, IonText, } from '@ionic/vue';
 import { star, addCircle, removeCircle, } from 'ionicons/icons';
 
 export default defineComponent({
   components: {
+    IonButton,
     IonButtons,
     IonContent,
     IonHeader,
@@ -117,7 +119,7 @@ export default defineComponent({
           nameoption: 'ตัวเลือก 1',
           request: 0,   //จำเป็นต้องเลือก
           requestmax: 3,
-          checktype: 2, //checkBox
+          checktype: 2, //Type CheckBox
           suboption: [
             {namesub: 'ตัวเลือกย่อย 1', price: 0},
             {namesub: 'ตัวเลือกย่อย 2', price: 5},
@@ -128,7 +130,7 @@ export default defineComponent({
           nameoption: 'ตัวเลือก 2',
           request: 1,   //จำเป็นต้องเลือก
           requestmax: 0,
-          checktype: 1, //Radio
+          checktype: 1, //Type Radio
           suboption: [
             {namesub: 'ตัวเลือกย่อย 1', price: 0},
             {namesub: 'ตัวเลือกย่อย 2', price: 0},
@@ -144,7 +146,13 @@ export default defineComponent({
       addCircle,
       removeCircle,
     }
-  }
+  },
+
+  // methods:{
+  //   toroute(rou: RouteLocationRaw) {
+  //     this.$router.push(rou)
+  //   }
+  // }
 })
 </script>
 

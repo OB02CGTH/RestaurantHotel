@@ -14,10 +14,10 @@ const routes: Array<RouteRecordRaw> = [
     path: '/folder/MenuPage',
     component: () => import ('../views/MenuPage.vue')
   },
-  // {
-  //   path: '/folder/Menu1',
-  //   component: () => import ('../views/OptionMenu.vue')
-  // },
+  {
+    path: '/folder/ListMenu',
+    component: () => import ('../views/ListMenu.vue')
+  },
   {
     path: '/folder/Order',
     component: () => import ('../views/OrderPage.vue')
