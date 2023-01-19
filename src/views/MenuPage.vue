@@ -23,7 +23,6 @@
         <ion-segment-button value="all" @click="allMenu()">
           <ion-label>ทั้งหมด</ion-label>
         </ion-segment-button>
-
         <ion-segment-button v-for="i in categorymenu" :key="i.name" :value="i.name" @click="filterMenu(i.category)">
           <ion-label>{{ i.name }}</ion-label>
         </ion-segment-button>

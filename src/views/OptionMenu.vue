@@ -85,7 +85,7 @@
 <script lang="ts">
 import { ref, defineComponent } from 'vue';
 // import { RouteLocationRaw, useRoute } from 'vue-router';
-import { IonButton, IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonItem, IonItemGroup, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonLabel, IonCheckbox, IonList, IonRadio, IonRadioGroup, IonListHeader, IonText, } from '@ionic/vue';
+import { IonButton, IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonItem, IonItemGroup, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonLabel, IonCheckbox, IonList, IonRadio, IonRadioGroup, IonListHeader, IonText, IonInput, IonIcon, } from '@ionic/vue';
 import { star, addCircle, removeCircle, } from 'ionicons/icons';
 
 export default defineComponent({
@@ -111,6 +111,9 @@ export default defineComponent({
     IonRadioGroup,
     IonListHeader,
     IonText,
+    IonInput,
+    IonIcon
+    
   },
   data(){
     return {

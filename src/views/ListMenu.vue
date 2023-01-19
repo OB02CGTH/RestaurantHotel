@@ -19,21 +19,48 @@
 
       <ion-list>
         <ion-item>
-          <ion-select interface="action-sheet" placeholder="เลือกโต๊ะของออเดอร์">
+          <ion-select interface="action-sheet" placeholder="เลือกโต๊ะของออเดอร์นี้">
             <ion-select-option v-for="i in listtable" :key="i.name" :value="i.name">{{ i.name }}</ion-select-option>
           </ion-select>
         </ion-item>
       </ion-list>
 
-        <ion-card>
-          <ion-card-header>
-            <ion-card-title></ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-          </ion-card-content>
-        </ion-card>
+
+      <ion-card>
+        <ion-card-header>
+          <ion-item lines="none">
+            <ion-card-title>รายการอาหารในตะกร้า</ion-card-title>
+            <ion-button slot="end" fill="clear" routerLink="/folder/MenuPage">
+                เพิ่มรายการอาหาร
+            </ion-button>
+          </ion-item>
+        </ion-card-header>
+
+        <ion-card-content class="ion-text-center">
+          <ion-item lines="none" v-for="i in ordermenu.menu" :key="i.name" :routerLink="'/folder/' + i.name">
+            <ion-label slot="start">x{{ i.quantity }}{{ i.name }}</ion-label>
+            <ion-label slot="end">{{ i.price * i.quantity }}</ion-label>
+          </ion-item>
+          <ion-text>รวม {{ sumprice(ordermenu.menu) }} บาท</ion-text>
+        </ion-card-content>
+      </ion-card>
       
+      <ion-item>
+        <ion-input placeholder="เพิ่มหมายเหตุออเดอร์ "></ion-input>
+      </ion-item>
+
     </ion-content>
+
+    <ion-footer>
+      <ion-toolbar>
+        <ion-button expand="block" color="success" routerLink="/folder/Order">
+          <ion-text>
+            สั่งอาหาร
+          </ion-text>
+        </ion-button>
+      </ion-toolbar>
+    </ion-footer>
+
   </ion-page>
 </template>
 
@@ -42,7 +69,7 @@
 import { ref, defineComponent } from 'vue';
 import { RouteLocationRaw, useRoute } from 'vue-router';
 import {
-  IonButtons,IonContent,IonHeader, IonMenuButton, IonPage, IonTitle,IonToolbar, IonItem, IonButton, IonLabel, IonList,
+  IonButtons,IonContent,IonHeader, IonMenuButton, IonPage, IonTitle,IonToolbar, IonItem, IonButton, IonLabel, IonList, IonText, IonInput, IonFooter,
   IonCol, IonGrid, IonRow, IonCard, 
   IonCardContent, IonCardHeader, IonCardTitle,
   IonSegment, IonSegmentButton,
@@ -69,27 +96,28 @@ export default defineComponent({
     // IonCardSubtitle,
     IonCardContent,
     // IonSearchbar,
-    // IonLabel,
+    IonLabel,
     IonList,
     IonItem,
-    // IonButton,
+    IonButton,
     IonSelect,
     IonSelectOption,
+    IonText,
+    IonInput,
+    IonFooter,
   },
   data() {
     return {
-      ordermenu: [
-        {
-          ordertype: 'โต๊ะ',
-          ordernum: 'od01',
-          menu: [
-            { name: 'ราดหน้า', price: 70, quantity: 1, },
-            { name: 'ข้าวผัดอเมริกัน', price: 130, quantity: 1, },
-            { name: 'สุกี้', price: 70, quantity: 2, },
-          ],
-          // url: '/folder/Menu1',
-        },
-      ],
+      ordermenu: {
+        ordertype: 'โต๊ะ',
+        ordernum: 'od01',
+        menu: [
+          { name: 'ราดหน้า', price: 70, quantity: 1, },
+          { name: 'ข้าวผัดอเมริกัน', price: 130, quantity: 1, },
+          { name: 'สุกี้', price: 70, quantity: 2, },
+        ],
+        // url: '/folder/Menu1',
+      },
       listtable: [
         { name: 'โต๊ะ: A01' },
         { name: 'โต๊ะ: A02' },
@@ -100,7 +128,7 @@ export default defineComponent({
       // filteredOrder: {}
     }
   },
-  // methods: {
+  methods: {
   //   toroute(rou: RouteLocationRaw) {
   //     this.$router.push(rou)
   //   },
@@ -108,16 +136,19 @@ export default defineComponent({
   //     console.log(iddata)
   //     this.filteredOrder = this.ordermenu.filter(item => item.statorder === iddata)
   //   },
-  //   sumprice(menu: {
-  //   name: string; price: number; quantity: number;
-  //   }[]) {
-  //     let sum = 0;
-  //     for (const i in menu) {
-  //       const menuobject = menu[i];
-  //       sum += menuobject.price*menuobject.quantity
-  //     }
-  //     return sum;
-  //   },
+    sumprice(menu: {
+    name: string; price: number; quantity: number;
+    }[]) {
+      let sum = 0;
+      for (const i in menu) {
+        const menuobject = menu[i];
+        sum += menuobject.price*menuobject.quantity
+      }
+      return sum;
+    },
+  },
+  // beforeMount(){
+  //   this.filterOrder(1)
   // },
 });
 </script>
@@ -143,5 +174,9 @@ ion-col {
 ion-card-header.ios {
   display: flex;
   flex-flow: column-reverse;
+}
+
+.ion-text-center {
+  text-align: center;
 }
 </style>

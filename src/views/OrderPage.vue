@@ -30,7 +30,10 @@
             <ion-card>
               <ion-card-header>
                 <!-- <ion-toolbar> -->
-                <ion-card-title>{{ i.ordertype }}: {{ i.ordernum }}</ion-card-title>
+                <ion-item>
+                  <ion-card-title>{{ i.ordertype }}: {{ i.ordernum }}</ion-card-title>
+                  <ion-checkbox slot="end" v-if="i.statorder===3"></ion-checkbox>
+                </ion-item>
                 <!-- </ion-toolbar> -->
                 <!-- <ion-card-subtitle>{{i.price}} THB</ion-card-subtitle> -->
               </ion-card-header>
@@ -39,15 +42,35 @@
                   <ion-label slot="start">x{{ n.quantity }}{{ n.name }}</ion-label>
                   <ion-label slot="end">{{ n.price * n.quantity }}</ion-label>
                 </ion-item>
-                <ion-label slot="end">รวม {{ sumprice(i.menu) }} บาท</ion-label>
+                <ion-label>รวม {{ sumprice(i.menu) }} บาท</ion-label>
               </ion-card-content>
-              <ion-button v-if="i.statorder===2" expand="block" color="primary">นำเสิร์ฟ</ion-button>
-              <ion-button v-if="i.statorder===3" expand="block" color="success">ชำระ</ion-button>
+              <ion-button v-if="i.statorder===2" expand="block" color="secondary">นำเสิร์ฟ</ion-button>
+              <div v-if="i.statorder===3">
+                <ion-grid>
+                  <ion-row>
+                    <ion-col :sizeXs="4">
+                      <ion-button expand="block" color="secondary" routerLink="/folder/MenuPage">สั่งเพิ่ม</ion-button>
+                    </ion-col>
+                    <ion-col :sizeXs="8">
+                      <ion-button expand="block" color="success">ชำระ</ion-button>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </div>
             </ion-card>
           </ion-col>
         </ion-row>
       </ion-grid>
+
     </ion-content>
+
+    <ion-footer v-if="filteredOrder[0].statorder===3">
+      <ion-toolbar>
+        <ion-button v-show="isChecked = false" :disabled="true" expand="block" color="primary">ชำระหลายบิล</ion-button>
+        <ion-button v-show="isChecked = true" expand="block" color="primary">ชำระหลายบิล</ion-button>
+      </ion-toolbar>
+    </ion-footer>
+
   </ion-page>
 </template>
 
@@ -56,7 +79,7 @@
 import { ref, defineComponent } from 'vue';
 import { RouteLocationRaw, useRoute } from 'vue-router';
 import {
-  IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonCol, IonGrid, IonRow, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonLabel, IonSegment, IonSegmentButton, IonItem, IonButton
+  IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonCol, IonGrid, IonRow, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonLabel, IonSegment, IonSegmentButton, IonItem, IonButton, IonCheckbox, IonFooter,
 } from '@ionic/vue';
 import { Item } from '@ionic/core/dist/types/components/item/item';
 import { pricetag } from 'ionicons/icons';
@@ -84,6 +107,8 @@ export default defineComponent({
     IonSegmentButton,
     IonItem,
     IonButton,
+    IonCheckbox,
+    IonFooter,
   },
   data() {
     return {
@@ -120,25 +145,35 @@ export default defineComponent({
           statorder: 3,
           // url: '/folder/Menu1',
         },
+        {
+          ordertype: 'ห้อง',
+          ordernum: '205',
+          menu: [
+            { name: 'ข้าวต้ม', price: 60, quantity: 1, },
+            { name: 'สุกี้', price: 70, quantity: 2, },
+            { name: 'ผัดไทยห่อไข่', price: 79, quantity: 1, },
+          ],
+          statorder: 3,
+          // url: '/folder/Menu1',
+        },
       ],
       categorymenu: [
         { name: 'กำลังเตรียม',statorder: 1, },
         { name: 'รอนำเสิร์ฟ',statorder: 2, },
         { name: 'รอชำระ',statorder: 3, },
       ],
-      filteredOrder: {}
+      filteredOrder: {},
     }
   },
   methods: {
-    toroute(rou: RouteLocationRaw) {
-      this.$router.push(rou)
-    },
+    // toroute(rou: RouteLocationRaw) {
+    //   this.$router.push(rou)
+    // },
     filterOrder(iddata: number) {
       console.log(iddata)
       this.filteredOrder = this.ordermenu.filter(item => item.statorder === iddata)
     },
     sumprice(menu: {
-    // import { Item } from '@ionic/core/dist/types/components/item/item';
     name: string; price: number; quantity: number;
     }[]) {
       let sum = 0;
