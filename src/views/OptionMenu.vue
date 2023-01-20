@@ -49,7 +49,7 @@
                 </ion-item>
               </ion-radio-group>
 
-              <div v-if="i.checktype === 2" lines="none">
+              <div v-if="i.checktype === 2">
                 <ion-item  v-for="n in i.suboption" :key="n.namesub" lines="none">
                   <ion-checkbox slot="start"></ion-checkbox>
                   <ion-text><h3>{{ n.namesub }}</h3></ion-text>

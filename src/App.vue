@@ -66,6 +66,7 @@ import {
   bagHandleOutline,
   homeOutline,
   alarmOutline,
+  receiptOutline
 } from 'ionicons/icons';
 
 const selectedIndex = ref(0);
@@ -79,8 +80,8 @@ const appPages = [
   {
     title: 'ออเดอร์ปัจจุบัน',
     url: '/folder/Order',
-    iosIcon: readerOutline,
-    mdIcon: readerOutline,
+    iosIcon: receiptOutline,
+    mdIcon: receiptOutline,
   },
   {
     title: 'เดลิเวอรี',
@@ -95,16 +96,16 @@ const appPages = [
     mdIcon: homeOutline,
   },
   {
-    title: 'จองโต๊ะ',
-    url: '/folder/Trash',
-    iosIcon: alarmOutline,
-    mdIcon: alarmOutline,
+    title: 'ออเดอร์เชฟ',
+    url: '/folder/cheforder',
+    iosIcon: readerOutline,
+    mdIcon: readerOutline,
   },
   {
-    title: '???',
+    title: 'จองโต๊ะ',
     url: '/folder/???',
-    iosIcon: warningOutline,
-    mdIcon: warningSharp,
+    iosIcon: alarmOutline,
+    mdIcon: alarmOutline,
   },
 ];
 // const labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];

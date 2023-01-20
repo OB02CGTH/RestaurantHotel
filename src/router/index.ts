@@ -22,6 +22,10 @@ const routes: Array<RouteRecordRaw> = [
     path: '/folder/Order',
     component: () => import ('../views/OrderPage.vue')
   },
+  {
+    path: '/folder/cheforder',
+    component: () => import ('../views/ChefOrder.vue')
+  },
 ]
 
 const router = createRouter({
