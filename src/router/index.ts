@@ -8,23 +8,23 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/folder/:id',
-    component: () => import ('../views/OptionMenu.vue')
+    component: () => import ('../views/Menu/OptionMenu.vue')
   },
   {
     path: '/folder/MenuPage',
-    component: () => import ('../views/MenuPage.vue')
+    component: () => import ('../views/Menu/MenuPage.vue')
   },
   {
     path: '/folder/ListMenu',
-    component: () => import ('../views/ListMenu.vue')
+    component: () => import ('../views/Menu/ListMenu.vue')
   },
   {
     path: '/folder/Order',
-    component: () => import ('../views/OrderPage.vue')
+    component: () => import ('../views/Order/OrderPage.vue')
   },
   {
     path: '/folder/cheforder',
-    component: () => import ('../views/ChefOrder.vue')
+    component: () => import ('../views/Chef/ChefOrder.vue')
   },
 ]
 

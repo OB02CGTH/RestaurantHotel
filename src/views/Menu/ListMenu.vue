@@ -129,13 +129,6 @@ export default defineComponent({
     }
   },
   methods: {
-  //   toroute(rou: RouteLocationRaw) {
-  //     this.$router.push(rou)
-  //   },
-  //   filterOrder(iddata: number) {
-  //     console.log(iddata)
-  //     this.filteredOrder = this.ordermenu.filter(item => item.statorder === iddata)
-  //   },
     sumprice(menu: {
     name: string; price: number; quantity: number;
     }[]) {

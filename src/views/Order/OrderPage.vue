@@ -29,13 +29,12 @@
           <ion-col :sizeXs="12" :sizeMd="6" v-for="i in filteredOrder" :key="i.ordernum">
             <ion-card>
               <ion-card-header>
-                <!-- <ion-toolbar> -->
+                
                 <ion-item>
                   <ion-card-title>{{ i.ordertype }}: {{ i.ordernum }}</ion-card-title>
                   <ion-checkbox slot="end" v-if="i.statorder === 3"></ion-checkbox>
                 </ion-item>
-                <!-- </ion-toolbar> -->
-                <!-- <ion-card-subtitle>{{i.price}} THB</ion-card-subtitle> -->
+
               </ion-card-header>
               <ion-card-content>
                 <ion-item lines="none" v-for="n in i.menu" :key="n.name">

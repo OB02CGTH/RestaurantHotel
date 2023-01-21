@@ -53,7 +53,7 @@
               </ion-card-content>
 
               <ion-button v-if="i.statorder === 1" expand="block" color="success">พร้อมเสิร์ฟ</ion-button>
-              <ion-button v-if="i.statorder === 3" expand="block" color="warning">แก้ไขออเดอร์</ion-button>
+              <!-- <ion-button v-if="i.statorder === 3" expand="block" color="warning">แก้ไขออเดอร์</ion-button> -->
               
               <!-- <div v-if="i.statorder === 3">
                 <ion-grid>
