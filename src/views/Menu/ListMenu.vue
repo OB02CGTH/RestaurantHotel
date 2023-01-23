@@ -38,16 +38,18 @@
 
         <ion-card-content class="ion-text-center">
           <ion-item lines="none" v-for="i in ordermenu.menu" :key="i.name" :routerLink="'/folder/' + i.name">
-            <ion-label slot="start">x{{ i.quantity }}{{ i.name }}</ion-label>
+            <ion-label slot="start" text-wrap>
+              x{{ i.quantity }}{{ i.name }} <br> 
+              <ion-text v-for="O, indexo in i.option" :key="indexo" color="medium">{{ O }} &nbsp;</ion-text> <br> 
+              <ion-text v-if="i.note" >{{ i.note }}</ion-text>
+            </ion-label>
             <ion-label slot="end">{{ i.price * i.quantity }}</ion-label>
           </ion-item>
-          <ion-text>รวม {{ sumprice(ordermenu.menu) }} บาท</ion-text>
+          <ion-text>
+            <h1>รวม {{ sumprice(ordermenu.menu) }} บาท</h1>
+          </ion-text>
         </ion-card-content>
       </ion-card>
-      
-      <ion-item>
-        <ion-input placeholder="เพิ่มหมายเหตุออเดอร์ "></ion-input>
-      </ion-item>
 
     </ion-content>
 
@@ -103,7 +105,7 @@ export default defineComponent({
     IonSelect,
     IonSelectOption,
     IonText,
-    IonInput,
+    // IonInput,
     IonFooter,
   },
   data() {
@@ -112,9 +114,9 @@ export default defineComponent({
         ordertype: 'โต๊ะ',
         ordernum: 'od01',
         menu: [
-          { name: 'ราดหน้า', price: 70, quantity: 1, },
-          { name: 'ข้าวผัดอเมริกัน', price: 130, quantity: 1, },
-          { name: 'สุกี้', price: 70, quantity: 2, },
+          { name: 'ราดหน้า', price: 70, quantity: 1, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: null},
+          { name: 'ข้าวผัดอเมริกัน', price: 130, quantity: 1, option: ['ตัวเลือก3', 'ตัวเลือก4', 'ตัวเลือก5'], note: '???' },
+          { name: 'สุกี้', price: 70, quantity: 2, option: ['ตัวเลือก6', 'ตัวเลือก7', 'ตัวเลือก8', 'ตัวเลือก9'], note: null },
         ],
         // url: '/folder/Menu1',
       },

@@ -29,7 +29,7 @@
           <ion-col :sizeXs="12" :sizeMd="6" v-for="i in filteredOrder" :key="i.ordernum">
             <ion-card>
               <ion-card-header>
-                
+
                 <ion-item>
                   <ion-card-title>{{ i.ordertype }}: {{ i.ordernum }}</ion-card-title>
                   <ion-checkbox slot="end" v-if="i.statorder === 3"></ion-checkbox>
@@ -38,10 +38,21 @@
               </ion-card-header>
               <ion-card-content>
                 <ion-item lines="none" v-for="n in i.menu" :key="n.name">
-                  <ion-label slot="start">x{{ n.quantity }}{{ n.name }}</ion-label>
+                  <ion-label slot="start" text-wrap>
+                    x{{ n.quantity }}{{ n.name }} <br>
+                    <ion-text v-for="O, indexo in n.option" :key="indexo" color="medium">{{ O }} &nbsp;</ion-text> <br>
+                    <ion-text v-if="n.note">{{ n.note }}</ion-text>
+                  </ion-label>
                   <ion-label slot="end">{{ n.price * n.quantity }}</ion-label>
                 </ion-item>
-                <ion-label>รวม {{ sumprice(i.menu) }} บาท</ion-label>
+
+                <ion-text v-if="i.noteorder" slot="start">
+                  <p>หมายเหตุออเดอร์: {{ i.noteorder }}</p>
+                </ion-text>
+
+                <ion-text>
+                  <h1>รวม {{ sumprice(i.menu) }} บาท</h1>
+                </ion-text>
               </ion-card-content>
               <ion-button v-if="i.statorder === 2" expand="block" color="secondary">นำเสิร์ฟ</ion-button>
               <div v-if="i.statorder === 3">
@@ -78,7 +89,7 @@
 import { ref, defineComponent } from 'vue';
 import { RouteLocationRaw, useRoute } from 'vue-router';
 import {
-  IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonCol, IonGrid, IonRow, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonLabel, IonSegment, IonSegmentButton, IonItem, IonButton, IonCheckbox, IonFooter,
+  IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonCol, IonGrid, IonRow, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonLabel, IonSegment, IonSegmentButton, IonItem, IonButton, IonCheckbox, IonFooter, IonText,
 } from '@ionic/vue';
 import { Item } from '@ionic/core/dist/types/components/item/item';
 import { pricetag } from 'ionicons/icons';
@@ -108,6 +119,7 @@ export default defineComponent({
     IonButton,
     IonCheckbox,
     IonFooter,
+    IonText,
   },
   data() {
     return {
@@ -116,9 +128,9 @@ export default defineComponent({
           ordertype: 'โต๊ะ',
           ordernum: 'A01',
           menu: [
-            { name: 'ราดหน้า', price: 70, quantity: 1, },
-            { name: 'ข้าวผัดอเมริกัน', price: 130, quantity: 1, },
-            { name: 'สุกี้', price: 70, quantity: 2, },
+            { name: 'ราดหน้า', price: 70, quantity: 1, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: '???' },
+            { name: 'ข้าวผัดอเมริกัน', price: 130, quantity: 1, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: null },
+            { name: 'สุกี้', price: 70, quantity: 2, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: null },
           ],
           statorder: 1,
           // url: '/folder/Menu1',
@@ -127,8 +139,8 @@ export default defineComponent({
           ordertype: 'โต๊ะ',
           ordernum: 'A02',
           menu: [
-            { name: 'ผัดไทยห่อไข่', price: 79, quantity: 1, },
-            { name: 'ข้าวอบสับปะรด', price: 120, quantity: 1, },
+            { name: 'ผัดไทยห่อไข่', price: 79, quantity: 1, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: null },
+            { name: 'ข้าวอบสับปะรด', price: 120, quantity: 1,},
           ],
           statorder: 2,
           // url: '/folder/Menu1',
@@ -137,9 +149,9 @@ export default defineComponent({
           ordertype: 'ห้อง',
           ordernum: '222',
           menu: [
-            { name: 'ข้าวต้ม', price: 60, quantity: 1, },
-            { name: 'ข้าวผัดอเมริกัน', price: 130, quantity: 1, },
-            { name: 'ผัดไทยห่อไข่', price: 79, quantity: 1, },
+            { name: 'ข้าวต้ม', price: 60, quantity: 1, option: ['ตัวเลือก1', 'ตัวเลือก2', 'ตัวเลือก3'], note: null },
+            { name: 'ข้าวผัดอเมริกัน', price: 130, quantity: 1, option: ['ตัวเลือก1', 'ตัวเลือก2', 'ตัวเลือก3', 'ตัวเลือก4',], note: null },
+            { name: 'ผัดไทยห่อไข่', price: 79, quantity: 1, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: null },
           ],
           statorder: 3,
           // url: '/folder/Menu1',
@@ -148,9 +160,9 @@ export default defineComponent({
           ordertype: 'ห้อง',
           ordernum: '205',
           menu: [
-            { name: 'ข้าวต้ม', price: 60, quantity: 1, },
-            { name: 'สุกี้', price: 70, quantity: 2, },
-            { name: 'ผัดไทยห่อไข่', price: 79, quantity: 1, },
+            { name: 'ข้าวต้ม', price: 60, quantity: 1, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: '???' },
+            { name: 'สุกี้', price: 70, quantity: 2, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: null },
+            { name: 'ผัดไทยห่อไข่', price: 79, quantity: 1, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: null },
           ],
           statorder: 3,
           // url: '/folder/Menu1',

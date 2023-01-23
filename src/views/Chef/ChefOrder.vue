@@ -42,31 +42,34 @@
               </ion-card-header>
 
               <ion-card-content>
-                <ion-item lines="none" v-for="(n, indexn) in i.menu" :key="indexn">
-                  <ion-label v-if="n.statmenu != 3" slot="start">x{{ n.quantity }}{{ n.name }}</ion-label>
-                  <ion-label v-else slot="start" color="danger">x{{ n.quantity }}{{ n.name }}</ion-label>
-                  <ion-label v-if="n.statmenu != 3" slot="end">{{ n.price * n.quantity }}</ion-label>
-                  <ion-label v-else slot="end" color="danger">{{ n.price * n.quantity }}</ion-label>
-                  <ion-button v-if="toggleValue && i.statorder === 1" @click="menusuc(i, n)" slot="end" fill="outline">เสร็จ</ion-button>
-                </ion-item>
-                <ion-label>รวม {{ sumprice(i.menu) }} บาท</ion-label>
+                <div v-for="(n, indexn) in i.menu" :key="indexn">
+                  <ion-item v-if="n.statmenu != 3" lines="none" >
+                    <ion-label slot="start" text-wrap>
+                      x{{ n.quantity }}{{ n.name }} <br>
+                      <ion-text v-for="O, indexo in n.option" :key="indexo" color="medium">{{ O }} &nbsp;</ion-text> <br>
+                      <ion-text v-if="n.note">{{ n.note }}</ion-text>
+                    </ion-label>
+                    <ion-label slot="end">{{ n.price * n.quantity }}</ion-label>
+                  </ion-item>
+
+                  <ion-item v-else lines="none" >
+                    <ion-label slot="start" color="danger" text-wrap>
+                      x{{ n.quantity }}{{ n.name }} <br>
+                      <ion-text v-for="O, indexo in n.option" :key="indexo" color="medium">{{ O }} &nbsp;</ion-text> <br>
+                      <ion-text v-if="n.note">{{ n.note }}</ion-text>
+                    </ion-label>
+                    <ion-label slot="end" color="danger">{{ n.price * n.quantity }}</ion-label>
+                  </ion-item>
+
+                  <ion-button v-if="toggleValue && i.statorder === 1" @click="menusuc(indexi, indexn)" slot="end" fill="outline">เสร็จ</ion-button>
+                </div>
+                <ion-text>
+                  <h1>รวม {{ sumprice(i.menu) }} บาท</h1>
+                </ion-text>
               </ion-card-content>
 
               <ion-button v-if="i.statorder === 1" expand="block" color="success">พร้อมเสิร์ฟ</ion-button>
               <!-- <ion-button v-if="i.statorder === 3" expand="block" color="warning">แก้ไขออเดอร์</ion-button> -->
-              
-              <!-- <div v-if="i.statorder === 3">
-                <ion-grid>
-                  <ion-row>
-                    <ion-col :sizeXs="4">
-                      <ion-button expand="block" color="secondary" routerLink="/folder/MenuPage">สั่งเพิ่ม</ion-button>
-                    </ion-col>
-                    <ion-col :sizeXs="8">
-                      <ion-button expand="block" color="success">ชำระ</ion-button>
-                    </ion-col>
-                  </ion-row>
-                </ion-grid>
-              </div> -->
 
             </ion-card>
           </ion-col>
@@ -74,14 +77,6 @@
       </ion-grid>
 
     </ion-content>
-<!-- 
-    <ion-footer v-if="filteredOrder[0].statorder === 3">
-      <ion-toolbar>
-        <ion-button v-show="isChecked = false" :disabled="true" expand="block" color="primary">ชำระหลายบิล</ion-button>
-        <ion-button v-show="isChecked = true" expand="block" color="primary">ชำระหลายบิล</ion-button>
-      </ion-toolbar>
-    </ion-footer> -->
-
   </ion-page>
 </template>
 
@@ -92,7 +87,6 @@ import { RouteLocationRaw, useRoute } from 'vue-router';
 import {
   IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonCol, IonGrid, IonRow, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonLabel, IonSegment, IonSegmentButton, IonItem, IonButton, IonCheckbox, IonFooter, IonText, IonToggle,
 } from '@ionic/vue';
-import { Item } from '@ionic/core/dist/types/components/item/item';
 import { pricetag } from 'ionicons/icons';
 
 export default defineComponent({
@@ -120,7 +114,7 @@ export default defineComponent({
     IonButton,
     // IonCheckbox,
     // IonFooter,
-    // IonText,
+    IonText,
     IonToggle,
   },
   data() {
@@ -130,9 +124,9 @@ export default defineComponent({
           ordertype: 'โต๊ะ',
           ordernum: 'A01',
           menu: [
-            { name: 'ราดหน้า', price: 70, quantity: 1, statmenu: 1, },
-            { name: 'ข้าวผัดอเมริกัน', price: 130, quantity: 1, statmenu: 1, },
-            { name: 'สุกี้', price: 70, quantity: 2, statmenu: 1, },
+            { name: 'ราดหน้า', price: 70, quantity: 1, statmenu: 1, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: '???' },
+            { name: 'ข้าวผัดอเมริกัน', price: 130, quantity: 1, statmenu: 1, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: null },
+            { name: 'สุกี้', price: 70, quantity: 2, statmenu: 1, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: null },
           ],
           statorder: 1,
           // url: '/folder/Menu1',
@@ -141,9 +135,9 @@ export default defineComponent({
           ordertype: 'ห้อง',
           ordernum: '205',
           menu: [
-            { name: 'ข้าวต้ม', price: 60, quantity: 1, statmenu: 1, },
-            { name: 'สุกี้', price: 70, quantity: 2, statmenu: 1, },
-            { name: 'ผัดไทยห่อไข่', price: 79, quantity: 1, statmenu: 1, },
+            { name: 'ข้าวต้ม', price: 60, quantity: 1, statmenu: 1, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: null  },
+            { name: 'สุกี้', price: 70, quantity: 2, statmenu: 1,  option: ['ตัวเลือก1', 'ตัวเลือก2',], note: null  },
+            { name: 'ผัดไทยห่อไข่', price: 79, quantity: 1, statmenu: 1, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: '???'  },
           ],
           statorder: 1,
           // url: '/folder/Menu1',
@@ -152,8 +146,8 @@ export default defineComponent({
           ordertype: 'โต๊ะ',
           ordernum: 'A02',
           menu: [
-            { name: 'ผัดไทยห่อไข่', price: 79, quantity: 1, statmenu: 2, },
-            { name: 'ข้าวอบสับปะรด', price: 120, quantity: 1, statmenu: 2, },
+            { name: 'ผัดไทยห่อไข่', price: 79, quantity: 1, statmenu: 2, option: ['ตัวเลือก1', 'ตัวเลือก2', 'ตัวเลือก3'], note: null },
+            { name: 'ข้าวอบสับปะรด', price: 120, quantity: 1, statmenu: 2, option: ['ตัวเลือก1', 'ตัวเลือก2', 'ตัวเลือก3', 'ตัวเลือก4',], note: null },
           ],
           statorder: 2,
           // url: '/folder/Menu1',
@@ -162,9 +156,9 @@ export default defineComponent({
           ordertype: 'ห้อง',
           ordernum: '222',
           menu: [
-            { name: 'ข้าวต้ม', price: 60, quantity: 1, statmenu: 1, },
-            { name: 'ข้าวผัดอเมริกัน', price: 130, quantity: 1, statmenu: 3, },
-            { name: 'ผัดไทยห่อไข่', price: 79, quantity: 1, statmenu: 1, },
+            { name: 'ข้าวต้ม', price: 60, quantity: 1, statmenu: 1, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: '???' },
+            { name: 'ข้าวผัดอเมริกัน', price: 130, quantity: 1, statmenu: 3, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: null },
+            { name: 'ผัดไทยห่อไข่', price: 79, quantity: 1, statmenu: 1, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: null },
           ],
           statorder: 3,
           // url: '/folder/Menu1',
@@ -175,7 +169,7 @@ export default defineComponent({
         { name: 'รอเสิร์ฟ', statorder: 2, },
         { name: 'รอแก้ไข', statorder: 3, },
       ],
-      filteredOrder: {},
+      filteredOrder: [{menu: [ {statmenu: 0,}] }],
       toggleValue: false,
     }
   },
@@ -195,11 +189,10 @@ export default defineComponent({
       }
       return sum;
     },
-    // menusuc(i,n) {
-    //   this.ordermenu[i].menu[n].statmenu = 2
-    //   console.log(i,n)
-    //   console.log(this.ordermenu[i].menu[n].statmenu)
-    // }
+    menusuc(indexi: never, indexn: number) {
+      console.log(indexi, indexn)
+      this.filteredOrder[indexi].menu[indexn].statmenu = 2
+    }
   },
   beforeMount() {
     this.filterOrder(1)
