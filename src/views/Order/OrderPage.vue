@@ -140,7 +140,7 @@ export default defineComponent({
           ordernum: 'A02',
           menu: [
             { name: 'ผัดไทยห่อไข่', price: 79, quantity: 1, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: null },
-            { name: 'ข้าวอบสับปะรด', price: 120, quantity: 1,},
+            { name: 'ข้าวอบสับปะรด', price: 120, quantity: 1, },
           ],
           statorder: 2,
           // url: '/folder/Menu1',

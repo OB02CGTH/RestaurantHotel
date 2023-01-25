@@ -50,6 +50,7 @@
                       <ion-text v-if="n.note">{{ n.note }}</ion-text>
                     </ion-label>
                     <ion-label slot="end">{{ n.price * n.quantity }}</ion-label>
+                    <ion-button v-if="toggleValue && i.statorder === 1" @click="menusuc(indexi, indexn)" slot="end" fill="outline">เสร็จ</ion-button>
                   </ion-item>
 
                   <ion-item v-else lines="none" >
@@ -59,9 +60,9 @@
                       <ion-text v-if="n.note">{{ n.note }}</ion-text>
                     </ion-label>
                     <ion-label slot="end" color="danger">{{ n.price * n.quantity }}</ion-label>
+                    <ion-button v-if="toggleValue && i.statorder === 1" @click="menusuc(indexi, indexn)" slot="end" fill="outline">เสร็จ</ion-button>
                   </ion-item>
 
-                  <ion-button v-if="toggleValue && i.statorder === 1" @click="menusuc(indexi, indexn)" slot="end" fill="outline">เสร็จ</ion-button>
                 </div>
                 <ion-text>
                   <h1>รวม {{ sumprice(i.menu) }} บาท</h1>
