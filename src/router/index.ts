@@ -26,18 +26,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/folder/cheforder',
     component: () => import ('../views/Chef/ChefOrder.vue')
   },
-    {
-    path: '/folder/reserveTable',
-    component: () => import ('../views/reserveTable/searchTable.vue')
-  },
-  {
-    path: '/folder/detailsTable',
-    component: () => import ('../views/reserveTable/DetailsTable.vue')
-  },
-  {
-    path: '/folder/summaryTable',
-    component: () => import ('../views/reserveTable/SummaryTable.vue')
-  },
+ 
 ]
 
 const router = createRouter({
