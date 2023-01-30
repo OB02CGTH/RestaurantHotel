@@ -104,8 +104,7 @@
     data() {
     return {
       
-      language: 'en',
-      buttonText: 'Submit',
+      
     
       ordermenu: [
         {
