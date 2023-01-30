@@ -246,7 +246,7 @@ export default defineComponent({
       const listmenudata2 = JSON.stringify(this.listmenudata);
       console.log("filterMenu xx listmenudata " + listmenudata2);
       // this.filteredMenu = listmenudata2.filter(item => item.categorykey === iddata)
-      this.filteredMenu = this.listmenudata.filter((item: { categorykey: string; }) => item.categorykey === iddata)
+      // this.filteredMenu = this.listmenudata.filter((item: { categorykey: string; }) => item.categorykey === iddata)
       console.log("filterMenu 5 filteredMenu " + this.filteredMenu)
     },
   },
