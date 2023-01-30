@@ -1,7 +1,10 @@
-import { createApp } from 'vue'
+import { createApp, VueElement } from 'vue'
 import App from './App.vue'
 import router from './router';
 
+import {library} from '@fortawesome/fontawesome-svg-core'
+import{faCoffee}from '@fortawesome/free-solid-svg-icons'
+library.add(faCoffee);
 import { IonicVue } from '@ionic/vue';
 
 /* Core CSS required for Ionic components to work properly */

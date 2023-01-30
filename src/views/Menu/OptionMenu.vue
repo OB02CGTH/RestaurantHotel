@@ -29,7 +29,7 @@
             <h2>ตัวเลือกอาหาร</h2>
           </ion-label>
 
-          <ion-item v-for="i in optionmenu" :key="i.nameoption">
+          <ion-item v-for="i in choicetabie" :key="i.nameoption">
             <ion-list>
               <ion-list-header>
                 <ion-item lines="none">
@@ -117,7 +117,7 @@ export default defineComponent({
   },
   data(){
     return {
-      optionmenu: [
+      choicetabie: [
         {
           nameoption: 'ตัวเลือก 1',
           request: 0,   //จำเป็นต้องเลือก
