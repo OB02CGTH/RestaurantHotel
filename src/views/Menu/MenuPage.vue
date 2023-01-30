@@ -23,7 +23,7 @@
         <ion-segment-button value="all" @click="allMenu()">
           <ion-label>ทั้งหมด</ion-label>
         </ion-segment-button>
-        <ion-segment-button v-for="i in categorymenudata" :key="i" :value="i.name" @click="filterMenu(i.Key)">
+        <ion-segment-button v-for="i in categorymenudata" :key="i.Key" :value="i.Key" @click="filterMenu(i.Key)">
           <ion-label>{{ i.name }}</ion-label>
         </ion-segment-button>
       </ion-segment>
@@ -41,7 +41,7 @@
           </ion-col>
         </ion-row>
       </ion-grid>
-      
+
     </ion-content>
 
     <ion-fab slot="fixed" vertical="bottom" horizontal="end">
@@ -60,12 +60,11 @@ import { RouteLocationRaw, useRoute } from 'vue-router';
 import {
   IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonCol, IonGrid, IonRow, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonSearchbar, IonLabel, IonSegment, IonSegmentButton, IonFab, IonFabButton,
 } from '@ionic/vue';
-import { fastFood, } from 'ionicons/icons';
+import { fastFood, time, } from 'ionicons/icons';
 import axios from 'axios';
-import firebase from 'firebase/app';
-import 'firebase/firestore';
 
 const dataurl = "https://restaurant-e109e-default-rtdb.asia-southeast1.firebasedatabase.app/"
+// const datamenu: MyData[] = [];
 
 export default defineComponent({
   components: {
@@ -91,7 +90,6 @@ export default defineComponent({
     IonFab,
     IonFabButton,
   },
-
   data() {
     return {
       listmenu: [
@@ -195,8 +193,9 @@ export default defineComponent({
         },
       ],
       filteredMenu: {},
-      listmenudata: {},
       categorymenudata: {},
+      listmenudata: {},
+      // listmenudata2: {},
     }
   },
 
@@ -205,37 +204,67 @@ export default defineComponent({
       fastFood,
     }
   },
-  
-    // this.db = firebase.firestore();
 
   methods: {
-    async getDataFromDatabase() {
+    async getCategoryFromDatabase() {
       try {
         const response = await axios.get(`${dataurl}categorymenu.json`);
-        this.categorymenudata = response.data;
-        console.log(JSON.stringify(this.categorymenudata))
+        this.categorymenudata = response.data
       } catch (error) {
         console.error(error);
       }
+      console.log("getCategoryFromDatabase categorymenudata " + JSON.stringify(this.categorymenudata))
     },
-    toroute(rou: RouteLocationRaw): void {
-      this.$router.push(rou)
+    async getMenuFromDatabase() {
+      try {
+        const response = await axios.get(`${dataurl}listmenu.json`);
+        console.log("x ",JSON.stringify(response.data));
+        this.listmenudata = Object.values(response.data);
+        console.log("xx ",JSON.stringify(this.listmenudata));
+        console.log("xxx ",JSON.stringify(this.listmenu));
+      } catch (error) {
+        console.error(error);
+      }
+      console.log("getMenuFromDatabase listmenudata " + JSON.stringify(this.listmenudata))
+      this.allMenu();
     },
+
     allMenu() {
-      this.filteredMenu = this.listmenu
+      // this.getMenuFromDatabase()
+      this.filteredMenu = this.listmenudata
+      console.log("allMemu listmenudata " + JSON.stringify(this.listmenudata))
       // console.log(JSON.stringify(this.filteredMenu))
+      // console.log("???")
     },
     filterMenu(iddata: string) {
-      console.log(iddata)
-      this.filteredMenu = this.listmenu.filter(item => item.Key === iddata)
+      console.log("filterMenu 1 categorymenudata " + JSON.stringify(this.categorymenudata))
+      console.log("iddata 2 iddata " + iddata)
+      console.log("filterMenu 3 listmenudata " + JSON.stringify(this.listmenudata))
+      console.log("filterMenu 4 filteredMenu " + JSON.stringify(this.filteredMenu))
+      // const listmenudata2 = Object.entries(JSON.stringify(this.listmenudata));
+      // const listmenudata2 = Object.keys(this.listmenudata).map(key => listmenudata);
+      const listmenudata2 = JSON.stringify(this.listmenudata);
+      console.log("filterMenu xx listmenudata " + listmenudata2);
+      // this.filteredMenu = listmenudata2.filter(item => item.categorykey === iddata)
+      this.filteredMenu = this.listmenudata.filter((item: { categorykey: string; }) => item.categorykey === iddata)
+      console.log("filterMenu 5 filteredMenu " + this.filteredMenu)
     },
   },
+
   created() {
-    this.getDataFromDatabase();
+    this.getCategoryFromDatabase();
+    this.getMenuFromDatabase();
   },
-  beforeMount() {
-    this.allMenu();
-  },
+
+  // beforeMount() {
+  //   this.allMenu();
+  //   console.log("allMemu listmenudata " + JSON.stringify(this.listmenudata))
+  // },
+
+  // mounted() {
+  //   this.allMenu();
+  //   console.log("allMemu listmenudata " + JSON.stringify(this.listmenudata))
+  // },
 });
 </script>
 
