@@ -26,7 +26,30 @@ const routes: Array<RouteRecordRaw> = [
     path: '/folder/cheforder',
     component: () => import ('../views/Chef/ChefOrder.vue')
   },
- 
+  {
+    path: '/folder/reserveTable',
+    component: () => import ('../views/reserveTable/searchTable.vue')
+  },
+  {
+    path: '/folder/detailsTable',
+    component: () => import ('../views/reserveTable/DetailsTable.vue')
+  },
+  {
+    path: '/folder/summaryTable',
+    component: () => import ('../views/reserveTable/SummaryTable.vue')
+  },
+  {
+    path: '/folder/manage',
+    component: () => import ('../views/manage/MenuPagemanage.vue')
+  },
+  {
+    path: '/folder/manageEditmenu',
+    component: () => import ('../views/manage/ManageEditmenu.vue')
+  },
+  {
+    path: '/folder/manageaddcategory',
+    component: () => import ('../views/manage/ManageAddcategory.vue')
+  },
 ]
 
 const router = createRouter({
