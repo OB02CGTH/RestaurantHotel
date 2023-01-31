@@ -193,10 +193,8 @@ export default defineComponent({
         },
       ],
       filteredMenu: [],
-      categorymenudata: {},
-      listmenudata: {},
-      listmenudataarray: [],
-      // listmenudata2: {},
+      categorymenudata: [],
+      listmenudata: [],
     }
   },
 
@@ -210,19 +208,19 @@ export default defineComponent({
     async getCategoryFromDatabase() {
       try {
         const response = await axios.get(`${dataurl}categorymenu.json`);
-        this.categorymenudata = response.data
+        this.categorymenudata = Object.values(response.data);
       } catch (error) {
         console.error(error);
       }
-      console.log("getCategoryFromDatabase categorymenudata " + JSON.stringify(this.categorymenudata))
+      // console.log("getCategoryFromDatabase categorymenudata " + JSON.stringify(this.categorymenudata))
     },
     async getMenuFromDatabase() {
       try {
         const response = await axios.get(`${dataurl}listmenu.json`);
-        console.log("x",JSON.stringify(response.data));
-        this.listmenudataarray = Object.values(response.data);
-        console.log("xx",this.listmenudataarray);
-        
+        console.log("x", JSON.stringify(response.data));
+        this.listmenudata = Object.values(response.data);
+        console.log("xx", this.listmenudata);
+
         // this.listmenudata = Object.entries(this.listmenudata);
         // console.log("xxx",JSON.stringify(this.listmenudata));
         // console.log("xxxx",JSON.stringify(this.listmenu));
@@ -235,22 +233,11 @@ export default defineComponent({
 
     allMenu() {
       // this.getMenuFromDatabase()
-      this.filteredMenu = this.listmenudataarray
-      console.log("allMemu listmenudata " + JSON.stringify(this.listmenudata))
+      this.filteredMenu = this.listmenudata
       // console.log(JSON.stringify(this.filteredMenu))
-      // console.log("???")
     },
     filterMenu(iddata: string) {
-      // console.log("filterMenu 1 categorymenudata " + JSON.stringify(this.categorymenudata))
-      // console.log("iddata 2 iddata " + iddata)
-      // console.log("filterMenu 3 listmenudata " + JSON.stringify(this.listmenudata))
-      // console.log("filterMenu 4 filteredMenu " + this.filteredMenu)
-      // const listmenudata2 = Object.entries(JSON.stringify(this.listmenudata));
-      // const listmenudata2 = Object.keys(this.listmenudata).map(key => listmenudata);
-      // const listmenudata2 = JSON.stringify(this.listmenudata);
-      // console.log("filterMenu xx listmenudata " + listmenudata2);
-      // this.filteredMenu = listmenudata2.filter(item => item.categorykey === iddata)
-      this.filteredMenu = this.listmenudataarray.filter((item: { categorykey: string; }) => item.categorykey === iddata)
+      this.filteredMenu = this.listmenudata.filter((item: { categorykey: string; }) => item.categorykey === iddata)
       // console.log("filterMenu 5 filteredMenu " + this.filteredMenu)
     },
   },

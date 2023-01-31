@@ -19,19 +19,19 @@
       <!-- <ion-searchbar placeholder="ค้นหาเมนู"></ion-searchbar> -->
 
       <ion-segment :scrollable="true" :value="categorymenu[0].name">
-        <ion-segment-button v-for="i in categorymenu" :key="i.name" :value="i.name" @click="filterOrder(i.statorder)">
+        <ion-segment-button v-for="i in categorymenu" :key="i.statorder" :value="i.name" @click="filterOrder(i.statorder)">
           <ion-label>{{ i.name }}</ion-label>
         </ion-segment-button>
       </ion-segment>
 
       <ion-grid>
         <ion-row>
-          <ion-col :sizeXs="12" :sizeMd="6" v-for="i in filteredOrder" :key="i.ordernum">
+          <ion-col :sizeXs="12" :sizeMd="6" v-for="i in filteredOrder" :key="i.order_id">
             <ion-card>
               <ion-card-header>
 
                 <ion-item>
-                  <ion-card-title>{{ i.ordertype }}: {{ i.ordernum }}</ion-card-title>
+                  <ion-card-title>{{ i.ordertype }}: {{ i.order_id }}</ion-card-title>
                   <ion-checkbox slot="end" v-if="i.statorder === 3"></ion-checkbox>
                 </ion-item>
 
@@ -40,14 +40,15 @@
                 <ion-item lines="none" v-for="n in i.menu" :key="n.name">
                   <ion-label slot="start" text-wrap>
                     x{{ n.quantity }}{{ n.name }} <br>
-                    <ion-text v-for="O, indexo in n.option" :key="indexo" color="medium">{{ O }} &nbsp;</ion-text> <br>
-                    <ion-text v-if="n.note">{{ n.note }}</ion-text>
+                    <ion-item lines="none" text-wrap>
+                      <ion-text v-for="op, indexo in n.option" :key="indexo" color="medium">{{ op.name }} &nbsp;</ion-text> <br>
+                    </ion-item>
                   </ion-label>
                   <ion-label slot="end">{{ n.price * n.quantity }}</ion-label>
                 </ion-item>
-
-                <ion-text v-if="i.noteorder" slot="start">
-                  <p>หมายเหตุออเดอร์: {{ i.noteorder }}</p>
+                
+                <ion-text v-if="i.note" slot="start">
+                  <p>หมายเหตุออเดอร์: {{ i.note }}</p>
                 </ion-text>
 
                 <ion-text>
@@ -91,8 +92,9 @@ import { RouteLocationRaw, useRoute } from 'vue-router';
 import {
   IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonCol, IonGrid, IonRow, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonLabel, IonSegment, IonSegmentButton, IonItem, IonButton, IonCheckbox, IonFooter, IonText,
 } from '@ionic/vue';
-import { Item } from '@ionic/core/dist/types/components/item/item';
-import { pricetag } from 'ionicons/icons';
+import axios from 'axios';
+
+const dataurl = "https://restaurant-e109e-default-rtdb.asia-southeast1.firebasedatabase.app/"
 
 export default defineComponent({
   components: {
@@ -173,16 +175,28 @@ export default defineComponent({
         { name: 'รอนำเสิร์ฟ', statorder: 2, },
         { name: 'รอชำระ', statorder: 3, },
       ],
-      filteredOrder: {},
+      filteredOrder: [],
+      listorderdata: [],
     }
   },
   methods: {
+    async getCategoryFromDatabase() {
+      try {
+        const response = await axios.get(`${dataurl}order.json`);
+        this.listorderdata = Object.values(response.data);
+        console.log("x",this.listorderdata);
+      } catch (error) {
+        console.error(error);
+      }
+      this.filterOrder(1);
+    },
     // toroute(rou: RouteLocationRaw) {
     //   this.$router.push(rou)
     // },
     filterOrder(iddata: number) {
       console.log(iddata)
-      this.filteredOrder = this.ordermenu.filter(item => item.statorder === iddata)
+      this.filteredOrder = this.listorderdata.filter((item: { statorder: number; }) => item.statorder === iddata)
+      console.log("xx",this.filteredOrder);
     },
     sumprice(menu: { name: string; price: number; quantity: number; }[]) {
       let sum = 0;
@@ -193,9 +207,12 @@ export default defineComponent({
       return sum;
     },
   },
-  beforeMount() {
-    this.filterOrder(1)
+  created() {
+    this.getCategoryFromDatabase();
   },
+  // beforeMount() {
+  //   this.filterOrder(1)
+  // },
 });
 </script>
 
