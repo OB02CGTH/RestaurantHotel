@@ -23,7 +23,7 @@
         <ion-segment-button value="all" @click="allMenu()">
           <ion-label>ทั้งหมด</ion-label>
         </ion-segment-button>
-        <ion-segment-button v-for="i in categorymenudata" :key="i.Key" :value="i.Key" @click="filterMenu(i.Key)">
+        <ion-segment-button v-for="i in categorymenu" :key="i.name" :value="i.name" @click="filterMenu(i.category)">
           <ion-label>{{ i.name }}</ion-label>
         </ion-segment-button>
       </ion-segment>
@@ -41,7 +41,7 @@
           </ion-col>
         </ion-row>
       </ion-grid>
-
+      
     </ion-content>
 
     <ion-fab slot="fixed" vertical="bottom" horizontal="end">
@@ -60,11 +60,8 @@ import { RouteLocationRaw, useRoute } from 'vue-router';
 import {
   IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonCol, IonGrid, IonRow, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonSearchbar, IonLabel, IonSegment, IonSegmentButton, IonFab, IonFabButton,
 } from '@ionic/vue';
-import { fastFood, time, } from 'ionicons/icons';
-import axios from 'axios';
-
-const dataurl = "https://restaurant-e109e-default-rtdb.asia-southeast1.firebasedatabase.app/"
-// const datamenu: MyData[] = [];
+import { fastFood, } from 'ionicons/icons';
+// import { Select } from '@ionic/core/dist/types/components/select/select';
 
 export default defineComponent({
   components: {
@@ -97,73 +94,73 @@ export default defineComponent({
           name: 'ข้าวเปล่า',
           price: '10',
           url: '/folder/ข้าวเปล่า',
-          Key: 'M01',
+          category: 1,
         },
         {
           name: 'ราดหน้า',
           price: '70',
           url: '/folder/ราดหน้า',
-          Key: 'M01',
+          category: 1,
         },
         {
           name: 'ข้าวราดผักพริกหยวก',
           price: '70',
           url: '/folder/ข้าวราดผักพริกหยวก',
-          Key: 'M02',
+          category: 2,
         },
         {
           name: 'ข้าวผัดอเมริกัน',
           price: '130',
           url: '/folder/ข้าวผัดอเมริกัน',
-          Key: 'M02',
+          category: 2,
         },
         {
           name: 'สุกี้',
           price: '70',
           url: '/folder/สุกี้',
-          Key: 'M03',
+          category: 3,
         },
         {
           name: 'ข้าวราดพะแนง',
           price: '70',
           url: '/folder/ข้าวราดพะแนง',
-          Key: 'M03',
+          category: 3,
         },
         {
           name: 'ข้าวต้ม',
           price: '60',
           url: '/folder/ข้าวต้ม',
-          Key: 'M04',
+          category: 4,
         },
         {
           name: 'ข้าวราดผัดผักรวมมิตร',
           price: '70',
           url: '/folder/ข้าวราดผัดผักรวมมิตร',
-          Key: 'M04',
+          category: 4,
         },
         {
           name: 'ข้าวราดผักคะน้าหมูกรอบ',
           price: '89',
           url: '/folder/ข้าวราดผักคะน้าหมูกรอบ',
-          Key: 'M04',
+          category: 5,
         },
         {
           name: 'ข้าวราดผักคะน้าปลาเค็ม',
           price: '75',
           url: '/folder/ข้าวราดผักคะน้าปลาเค็ม',
-          Key: 'M05',
+          category: 5,
         },
         {
           name: 'ผัดไทยห่อไข่',
           price: '79',
           url: '/folder/ผัดไทยห่อไข่',
-          Key: 'M05',
+          category: 6,
         },
         {
           name: 'ข้าวอบสับปะรด',
           price: '120',
           url: '/folder/ข้าวอบสับปะรด',
-          Key: 'M05',
+          category: 6,
         },
       ],
       categorymenu: [
@@ -192,9 +189,7 @@ export default defineComponent({
           category: 6,
         },
       ],
-      filteredMenu: [],
-      categorymenudata: [],
-      listmenudata: [],
+      filteredMenu: {}
     }
   },
 
@@ -205,56 +200,24 @@ export default defineComponent({
   },
 
   methods: {
-    async getCategoryFromDatabase() {
-      try {
-        const response = await axios.get(`${dataurl}categorymenu.json`);
-        this.categorymenudata = Object.values(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-      // console.log("getCategoryFromDatabase categorymenudata " + JSON.stringify(this.categorymenudata))
+// A function that is used to navigate to a different page.
+    toroute(rou: RouteLocationRaw): void {
+      this.$router.push(rou)
     },
-    async getMenuFromDatabase() {
-      try {
-        const response = await axios.get(`${dataurl}listmenu.json`);
-        console.log("x", JSON.stringify(response.data));
-        this.listmenudata = Object.values(response.data);
-        console.log("xx", this.listmenudata);
-
-        // this.listmenudata = Object.entries(this.listmenudata);
-        // console.log("xxx",JSON.stringify(this.listmenudata));
-        // console.log("xxxx",JSON.stringify(this.listmenu));
-      } catch (error) {
-        console.error(error);
-      }
-      // console.log("getMenuFromDatabase listmenudata " + JSON.stringify(this.listmenudata))
-      this.allMenu();
-    },
-
     allMenu() {
-      // this.getMenuFromDatabase()
-      this.filteredMenu = this.listmenudata
-      // console.log(JSON.stringify(this.filteredMenu))
+      this.filteredMenu = this.listmenu
     },
-    filterMenu(iddata: string) {
-      this.filteredMenu = this.listmenudata.filter((item: { categorykey: string; }) => item.categorykey === iddata)
-      // console.log("filterMenu 5 filteredMenu " + this.filteredMenu)
+    filterMenu(iddata: number) {
+      console.log(iddata)
+      this.filteredMenu = this.listmenu.filter(item => item.category === iddata)
     },
   },
 
-  created() {
-    this.getCategoryFromDatabase();
-    this.getMenuFromDatabase();
+  beforeMount() {
+    this.allMenu()
   },
-
-  // beforeMount() {
-  //   this.allMenu();
-  //   console.log("allMemu listmenudata " + JSON.stringify(this.listmenudata))
-  // },
-
-  // mounted() {
-  //   this.allMenu();
-  //   console.log("allMemu listmenudata " + JSON.stringify(this.listmenudata))
+  // created(){
+  //   this.filterMenu(1)
   // },
 });
 </script>
