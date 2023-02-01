@@ -17,35 +17,35 @@
       </ion-header>
 
       <ion-searchbar placeholder="ค้นหาเมนู"></ion-searchbar>
-      <ion-list>
-        
-        <ion-list>
-    
-  </ion-list>
-    <ion-button expand="block" color="success">
-      <ion-select   @ionChange="goToPage" v-model="selectedOption" interface="action-sheet" placeholder="จัดการร้าน" >
-        <ion-select-option value="option1" >เพิ่มเมนู</ion-select-option>
-        <ion-select-option value="option2">จัดการหมวดหม่</ion-select-option>
-        <ion-select-option value="option3">รายละเอียดเพิ่มเติม</ion-select-option>
-      </ion-select>
+
+      
+      <ion-button expand="block" color="success"   >
+      <ion-button   color="success"  interface="action-sheet" placeholder="จัดการร้าน " v-for="a in options" :key="a.link"  :link="a.link" @click="navigateToPage(a.link)"> {{ a.text }}
+      </ion-button>
+      </ion-button> 
+
+
+
+    <ion-button expand="block" color="success"   >
+      <ion-select    interface="action-sheet" placeholder="จัดการร้าน"  >
+        <ion-select-option @click="navigateToPage(a.link)" v-for="a in options" :key="a.text"  :link="a.link" :routerLink="`/folder/${a.link}`"> 
+           {{ a.text }}
+          </ion-select-option>
+      </ion-select> 
     </ion-button>
-  </ion-list>
   <ion-item>
       <!-- <ion-label>Action Sheet Interface</ion-label> -->
-   
-    
-    </ion-item>
-
-    
-    
+    </ion-item>  
     <!-- A segment that is scrollable. It has two buttons, one for all menu and one for each category. -->
       <ion-segment :scrollable="true" value="all">
         <ion-segment-button value="all" @click="allMenu()">
           <ion-label>ทั้งหมด</ion-label>
         </ion-segment-button>
-        <ion-segment-button v-for="i in categorymenu" :key="i.name" :value="i.name" @click="filterMenu(i.category)">
-          <ion-label>{{ i.name }}</ion-label>
+
+        <ion-segment-button v-for="i in categorymenu" :key="i.name" :value="i.name" @click="filterMenu(i.category)">{{ i.name }}
+          
         </ion-segment-button>
+        
       </ion-segment>
 
       <ion-grid>
@@ -58,8 +58,8 @@
                 <ion-card-subtitle>{{ i.price }} THB</ion-card-subtitle>
               </ion-card-header>
               <ion-item >
-           
-        <ion-button  fill="clear" color="danger" routerLink="/folder/ManageEditmenu">เเก้ไข</ion-button>
+                
+        <ion-button  fill="clear" color="danger" >เเก้ไข</ion-button>
         <ion-toggle v-model="toggleValue" slot="end"></ion-toggle>
       </ion-item>
             </ion-card>
@@ -69,11 +69,7 @@
       
     </ion-content>
 
-    <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-      <ion-fab-button routerLink="/folder/ListMenu">
-        <ion-icon :icon="fastFood"></ion-icon>
-      </ion-fab-button>
-    </ion-fab>
+    
 
   </ion-page>
 </template>
@@ -110,13 +106,21 @@ export default defineComponent({
     IonLabel,
     IonSegment,
     IonSegmentButton,
-    IonFab,
-    IonFabButton,
+    // IonFab,
+    // IonFabButton,
   },
   data() {
     return {
       
-      selectedOption: '',
+ 
+      options: [
+        { link: 'managelistmenu', 
+        text: 'เพิ่มเมนู' },
+        { link: 'managelistcategory',
+         text: 'จัดการหมวดหม่' },
+        { link: 'managelistdetails',
+         text: 'รายละเอียดเพิ่มเติม' }
+      ],
 
       
       listmenu: [
@@ -233,21 +237,11 @@ export default defineComponent({
   methods: {
 // A function that is used to navigate to a different page.
 
-  goToPage() {
-      switch (this.selectedOption) {
-        case 'option1':
-          this.$router.push({ path: '/folder/manageEditmenu' });
-          break;
-        case 'option2':
-          this.$router.push({ path: '/folder/ManageAddcategory' });
-          break;
-        case 'option3':
-          this.$router.push({ path: '/folder/ManageEditmenu3' });
-          break;
-        default:
-          break; }
+
+navigateToPage(link) {
+  this.$router.push(link)
     },
-  
+
 
     
 toroute(rou: RouteLocationRaw): void {

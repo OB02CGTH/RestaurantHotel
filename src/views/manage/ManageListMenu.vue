@@ -17,7 +17,46 @@
         </ion-header>
   
         <ion-card>
-          <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+
+
+
+            <h2>หมวดหมู่</h2>
+            <ion-list>
+                <ion-title size="large">หมวดหมู่</ion-title>
+  </ion-list>
+
+
+
+
+            <ion-list>
+    <ion-item>
+        
+        <ion-list>
+    <ion-item>
+      <ion-select  placeholder="เลือกหมวดหมู่">
+        <IonSelectOption value="apples">อาหารข้าวเดียว</IonSelectOption>
+        <IonSelectOption value="oranges">ยํา</IonSelectOption>
+        <IonSelectOption value="bananas">นํ้า</IonSelectOption>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+  
+    </ion-item> 
+    <ion-card>
+    <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+   
+
+
+  </ion-card>
+  <ion-item>
+    <ion-label >ใส่ชื่อเมนูอาหาร</ion-label>
+    <ion-input placeholder="ชื่อเมนู"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label >ใส่ราคาเมนูอหาร</ion-label>
+    <ion-input placeholder="ราคา"></ion-input>
+  </ion-item>
+  </ion-list>
           <ion-card-header>
             <ion-label color="dark">
               <h1>{{ $route.params.id }}</h1>
@@ -26,7 +65,7 @@
   
           <ion-card-content>
             <ion-label color="dark">
-              <h2>เพิ่มเมนู</h2>
+              <h2>เพิ่มรายละเอียด</h2>
             </ion-label>
   
             <ion-item v-for="i in choicetabie" :key="i.nameoption">
@@ -70,22 +109,31 @@
               <ion-icon :icon="addCircle"></ion-icon>
             </ion-item> -->
   
-            <ion-button expand="block" color="success" routerLink="/folder/MenuPagemanage">
-              <ion-icon slot="start" :icon="addCircle"></ion-icon>
-              เพิ่มเมนู
-              <ion-label>: [ราคา]</ion-label>
-            </ion-button>
+          
   
           </ion-card-content>
+          
         </ion-card>
-      </ion-content>
+        <ion-button expand="block" fill="clear" color="danger" routerLink="/folder/manage">
+              <ion-icon ></ion-icon>
+          ย้อนกลับ
+            </ion-button> 
+        
+        <ion-button expand="block" color="success" routerLink="/folder/manage">
+              <ion-icon slot="start" :icon="addCircle"></ion-icon>
+              เพิ่มเมนู
+            
+            </ion-button>
+      </ion-content>  
+      
+           
     </ion-page>
   </template>
   
   <script lang="ts">
   import { ref, defineComponent } from 'vue';
   // import { RouteLocationRaw, useRoute } from 'vue-router';
-  import { IonButton, IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonItem, IonItemGroup, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonLabel, IonCheckbox, IonList, IonRadio, IonRadioGroup, IonListHeader, IonText, IonInput, IonIcon, } from '@ionic/vue';
+  import {  IonSelect, IonSelectOption ,IonButton, IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonItem, IonItemGroup, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonLabel, IonCheckbox, IonList, IonRadio, IonRadioGroup, IonListHeader, IonText, IonInput, IonIcon, } from '@ionic/vue';
   import { star, addCircle, removeCircle, } from 'ionicons/icons';
   
   export default defineComponent({
@@ -112,8 +160,8 @@
       IonListHeader,
       IonText,
       IonInput,
-      IonIcon
-      
+      IonIcon,
+       IonSelect, IonSelectOption
     },
     data(){
       return {

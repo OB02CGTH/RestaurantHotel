@@ -8,56 +8,83 @@
           <ion-back-button></ion-back-button>
           <ion-menu-button color="primary"></ion-menu-button>
         </ion-buttons>
-        <ion-title>รายการในตะกร้า</ion-title>
+        <ion-title>จัดการหมวดหมู่</ion-title>
       </ion-toolbar>
     </ion-header>
 
     <ion-content :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title size="large">รายการในตะกร้า</ion-title>
+          <ion-title size="large">หมวดหมู่</ion-title>
         </ion-toolbar>
       </ion-header>
 
-      <ion-list>
+      <!-- <ion-list>
         <ion-item>
-          <ion-select interface="action-sheet" placeholder="เลือกโต๊ะของออเดอร์นี้">
+          <ion-select interface="action-sheet" placeholder="หมวดหมู่">
             <ion-select-option v-for="i in listtable" :key="i.name" :value="i.name">{{ i.name }}</ion-select-option>
           </ion-select>
         </ion-item>
-      </ion-list>
+      </ion-list> -->
 
 
       <ion-card>
         <ion-card-header>
           <ion-item lines="none">
-            <ion-card-title>รายการอาหารในตะกร้า</ion-card-title>
+            <ion-card-title>อาหารข้าวเดียว</ion-card-title>
             <ion-button slot="end" fill="clear" routerLink="/folder/MenuPage">
-                เพิ่มรายการอาหาร
+                เเก้ไข
+            </ion-button>
+            <ion-button slot="end" fill="clear" routerLink="/folder/ManageListCategory">
+                ลบ
             </ion-button>
           </ion-item>
         </ion-card-header>
 
-        <ion-card-content class="ion-text-center">
-          <ion-item lines="none" v-for="i in ordermenu.menu" :key="i.name" :routerLink="'/folder/' + i.name">
-            <ion-label slot="start">x{{ i.quantity }}{{ i.name }}</ion-label>
-            <ion-label slot="end">{{ i.price * i.quantity }}</ion-label>
-          </ion-item>
-          <ion-text>รวม {{ sumprice(ordermenu.menu) }} บาท</ion-text>
-        </ion-card-content>
+       
       </ion-card>
-      
-      <ion-item>
-        <ion-input placeholder="เพิ่มหมายเหตุออเดอร์ "></ion-input>
-      </ion-item>
+      <ion-card>
+        <ion-card-header>
+          <ion-item lines="none">
+            <ion-card-title>ยํา</ion-card-title>
+            <ion-button slot="end" fill="clear" routerLink="/folder/manage">
+                เเก้ไข
+            </ion-button>
+            <ion-button slot="end" fill="clear" routerLink="/folder/ManageListCategory">
+                ลบ
+            </ion-button>
+          </ion-item>
+        </ion-card-header>
+
+       
+      </ion-card>
+      <ion-card>
+        <ion-card-header>
+          <ion-item lines="none">
+            <ion-card-title>กับข้าว</ion-card-title>
+            <ion-button slot="end" fill="clear" routerLink="/folder/manage">
+                เเก้ไข
+            </ion-button>
+            <ion-button slot="end" fill="clear" routerLink="/folder/ManageListCategory">
+                ลบ
+            </ion-button>
+          </ion-item>
+        </ion-card-header>
+
+       
+      </ion-card>
 
     </ion-content>
 
     <ion-footer>
       <ion-toolbar>
-        <ion-button expand="block" color="success" routerLink="/folder/Order">
+        <ion-button expand="block" fill="clear" color="danger" routerLink="/folder/manage">
+              <ion-icon ></ion-icon>
+          ย้อนกลับ
+            </ion-button> 
+        <ion-button expand="block" color="success" routerLink="/folder/ManageAddCategory">
           <ion-text>
-            สั่งอาหาร
+            เพิ่มหมวดหมู่
           </ion-text>
         </ion-button>
       </ion-toolbar>
@@ -96,16 +123,16 @@ export default defineComponent({
     IonCardHeader,
     IonCardTitle,
     // IonCardSubtitle,
-    IonCardContent,
+    // IonCardContent,
     // IonSearchbar,
-    IonLabel,
-    IonList,
+    // IonLabel,
+    // IonList,
     IonItem,
     IonButton,
-    IonSelect,
-    IonSelectOption,
+    // IonSelect,
+    // IonSelectOption,
     IonText,
-    IonInput,
+    // IonInput,
     IonFooter,
   },
   data() {

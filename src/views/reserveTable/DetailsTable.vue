@@ -20,22 +20,31 @@
   
      
 
-    
-  
-  <ion-item>
-    <ion-label position="floating">วันที่-เวลา</ion-label>
-    <ion-input placeholder="Enter text"></ion-input>
-  </ion-item>
-  <ion-item fill="solid">
-    <ion-label position="floating">ถึง-เวลา</ion-label>
-    <ion-input placeholder="Enter text"></ion-input>
-  </ion-item>
+   <ion-accordion-group>
+            <ion-accordion value="start">
+              <ion-item slot="header">
+                <ion-label >วันที่-เวลา</ion-label>
+                <ion-note slot="end"></ion-note>
+              </ion-item>
+              <ion-datetime slot="content" presentation="date-time" onIonChange={this.onStartChange}  minute-values="0,15,30,45"></ion-datetime></ion-accordion>
+            <ion-accordion value="end">
+
+
+
+              <ion-item slot="header">
+                <ion-label>ถึง-เวลา</ion-label>
+                <ion-note slot="end"></ion-note>
+              </ion-item>
+              <ion-datetime slot="content" presentation="date-time" onIonChange={this.onEndChange} minute-values="0,15,30,45"></ion-datetime> </ion-accordion>
+
+         
   <ion-item>
     <ion-label position="floating">ชื่อ-สกุล</ion-label>
     <ion-input placeholder="กรุณากรอกชื่อ-สกุล"></ion-input>
   </ion-item>
+  
   <ion-item>
-      <ion-label position="floating">จํานวน</ion-label>
+      <ion-label position="floating">จํานวนคน</ion-label>
       <ion-input type="number" placeholder="0"></ion-input>
     </ion-item>
 
@@ -49,7 +58,9 @@
       <ion-label position="floating">เบอร์ติดต่อ</ion-label>
       <ion-input type="tel" placeholder="888-888-8888"></ion-input>
     </ion-item>
- 
+   
+     </ion-accordion-group>     
+      
   </ion-content>
   
         

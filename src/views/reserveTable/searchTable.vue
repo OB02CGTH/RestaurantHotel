@@ -22,18 +22,20 @@
       </ion-segment>
      
 
- <!-- <ion-searchbar  v-if="i.statorder === 1" placeholder="ค้นหาโต็ะ" ></ion-searchbar> -->
+ <ion-searchbar  placeholder="ค้นหาโต็ะ" ></ion-searchbar>
       <div>
       
-  <ion-modal :keep-contents-mounted="true">  
-    <ion-datetime id="datetime"></ion-datetime>
-  </ion-modal>
+
  
  <!-- <img v-bind:lang="language" src="https://icons.iconarchive.com/icons/paomedia/small-n-flat/128/calendar-icon.png" class="image-preview2"> -->
-  <ion-datetime-button datetime="datetime"> </ion-datetime-button>
-   <ion-button color="success" routerLink="/folder/detailsTable" >จองเพิ่ม</ion-button> 
-      <ion-button color="success" >ลบ</ion-button>
-  
+ 
+    
+   <ion-button expand="block" color="success" routerLink="/folder/detailsTable" >จองเพิ่ม</ion-button> 
+   
+       <ion-item>
+      <!-- <ion-label>Action Sheet Interface</ion-label> -->
+    </ion-item>     
+           
   
        
   </div> 
@@ -144,7 +146,7 @@ export default defineComponent({
     // IonFooter,
     // IonText,
     // IonToggle,
-    IonDatetime, IonDatetimeButton, IonModal,
+    // IonDatetime, IonDatetimeButton, IonModal,
 
   },
   
@@ -219,7 +221,7 @@ export default defineComponent({
       
       ],
       categorymenu: [
-        { name: 'กำลังเตรียม', statorder: 1, },
+        { name: 'การจอง', statorder: 1, },
         { name: 'ประวัติการจอง', statorder: 2, },
        
       ],

@@ -24,15 +24,15 @@
   
       <ion-item>
     <ion-label >วันที่-เวลา</ion-label>
-    <ion-input placeholder="Enter text"></ion-input>
+    <ion-input placeholder="25/1/2566"></ion-input>
   </ion-item>
   <ion-item fill="solid">
     <ion-label >ถึง-เวลา</ion-label>
-    <ion-input placeholder="Enter text"></ion-input>
+    <ion-input placeholder="25/1/2566"></ion-input>
   </ion-item>
   <ion-item>
     <ion-label >ชื่อ-สกุล</ion-label>
-    <ion-input placeholder="กรุณากรอกชื่อ-สกุล"></ion-input>
+    <ion-input placeholder="xxx"></ion-input>
   </ion-item>
   <ion-item>
       <ion-label >จํานวน</ion-label>
@@ -69,7 +69,7 @@
   
       </ion-content>
       
-      <ion-button expand="block" @click="presentAlert" color="success"  routerLink="/folder/reserveTable">
+      <ion-button expand="block" @click="presentAlert" color="success"  >
               <p>{{ handlerMessage }}</p>
   <p>{{ roleMessage }}</p>
              จอง
