@@ -38,17 +38,36 @@ const routes: Array<RouteRecordRaw> = [
     path: '/folder/summaryTable',
     component: () => import ('../views/reserveTable/SummaryTable.vue')
   },
+
+
+
   {
     path: '/folder/manage',
-    component: () => import ('../views/manage/MenuPagemanage.vue')
+    component: () => import ('../views/manage/MenuPageManage.vue')
   },
   {
-    path: '/folder/manageEditmenu',
-    component: () => import ('../views/manage/ManageEditmenu.vue')
+    path: '/folder/mnageeditmenu',
+    component: () => import ('../views/manage/ManageEditMenu.vue')
+  },
+  {
+    path: '/folder/managelistcategory',
+    component: () => import ('../views/manage/ManageListCategory.vue')
   },
   {
     path: '/folder/manageaddcategory',
-    component: () => import ('../views/manage/ManageAddcategory.vue')
+    component: () => import ('../views/manage/ManageAddCategory.vue')
+  },
+  {
+    path: '/folder/managelistmenu',
+    component: () => import ('../views/manage/ManageListMenu.vue')
+  },
+  {
+    path: '/folder/managelistdetails',
+    component: () => import ('../views/manage/ManageListDetails.vue')
+  },
+  {
+    path: '/folder/manageadddetails',
+    component: () => import ('../views/manage/ManageAddDetails.vue')
   },
 ]
 
