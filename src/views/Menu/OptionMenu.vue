@@ -5,66 +5,92 @@
         <ion-buttons slot="start">
           <ion-menu-button color="primary"></ion-menu-button>
         </ion-buttons>
-        <ion-title>สั่งอาหาร</ion-title>
+        <ion-title>ตัวเลือกอาหาร</ion-title>
       </ion-toolbar>
     </ion-header>
 
     <ion-content :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title size="large">สั่งอาหาร</ion-title>
+          <ion-title size="large">ตัวเลือกอาหาร</ion-title>
         </ion-toolbar>
       </ion-header>
 
-      <ion-searchbar placeholder="ค้นหาเมนู"></ion-searchbar>
+      <ion-card>
+        <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+        <ion-card-header>
+          <ion-label color="dark">
+            <h1>{{ $route.params.id }}</h1>
+          </ion-label>
+        </ion-card-header>
 
-      <!-- A segment that is scrollable. It has two buttons, one for all menu and one for each category. -->
-      <ion-segment :scrollable="true" value="all">
-        <ion-segment-button value="all" @click="allMenu()">
-          <ion-label>ทั้งหมด</ion-label>
-        </ion-segment-button>
-        <ion-segment-button v-for="i in categorymenu" :key="i.name" :value="i.name" @click="filterMenu(i.category)">
-          <ion-label>{{ i.name }}</ion-label>
-        </ion-segment-button>
-      </ion-segment>
+        <ion-card-content>
+          <ion-label color="dark">
+            <h2>ตัวเลือกอาหาร</h2>
+          </ion-label>
 
-      <ion-grid>
-        <ion-row>
-          <ion-col :sizeXs="6" :sizeMd="2.4" v-for="i in filteredMenu" :key="i.name" :routerLink="i.url">
-            <ion-card>
-              <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
-              <ion-card-header>
-                <ion-card-title>{{ i.name }}</ion-card-title>
-                <ion-card-subtitle>{{ i.price }} THB</ion-card-subtitle>
-              </ion-card-header>
-            </ion-card>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-      
+          <ion-item v-for="i in choicetabie" :key="i.nameoption">
+            <ion-list>
+              <ion-list-header>
+                <ion-item lines="none">
+                  <ion-text>
+                    {{ i.nameoption }}
+                  </ion-text>
+                  <ion-text v-if="i.request === 1" slot="end" color="medium">*จำเป็นต้องเลือก</ion-text>
+                  <ion-text v-if="i.requestmax > 0" slot="end" color="medium">*เลือกได้สูงสุด {{ i.requestmax }} ชิ้น</ion-text>
+                </ion-item>
+              </ion-list-header>
+
+              <ion-radio-group v-if="i.checktype === 1" >
+                <ion-item v-for="n in i.suboption" :key="n.namesub" lines="none">
+                  <ion-radio slot="start"></ion-radio>
+                  <ion-text><h3>{{ n.namesub }}</h3></ion-text>
+                  <ion-text slot="end"><h3>+{{ n.price }}</h3></ion-text>
+                </ion-item>
+              </ion-radio-group>
+
+              <div v-if="i.checktype === 2">
+                <ion-item  v-for="n in i.suboption" :key="n.namesub" lines="none">
+                  <ion-checkbox slot="start"></ion-checkbox>
+                  <ion-text><h3>{{ n.namesub }}</h3></ion-text>
+                  <ion-text slot="end"><h3>+{{ n.price }}</h3></ion-text>
+                </ion-item>
+              </div>
+              
+            </ion-list>
+          </ion-item>
+
+          <ion-item>
+            <ion-input placeholder="เพิ่มหมายเหตุเมนูนี้ "></ion-input>
+          </ion-item>
+          
+          <!-- <ion-item class="ion-align-items-center ion-justify-content-center">
+            <ion-icon :icon="removeCircle"></ion-icon>
+            <ion-text>1</ion-text>
+            <ion-icon :icon="addCircle"></ion-icon>
+          </ion-item> -->
+
+          <ion-button expand="block" color="success" routerLink="/folder/MenuPage">
+            <ion-icon slot="start" :icon="addCircle"></ion-icon>
+            เพิ่ม
+            <ion-label>: [ราคา]</ion-label>
+          </ion-button>
+
+        </ion-card-content>
+      </ion-card>
     </ion-content>
-
-    <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-      <ion-fab-button routerLink="/folder/ListMenu">
-        <ion-icon :icon="fastFood"></ion-icon>
-      </ion-fab-button>
-    </ion-fab>
-
   </ion-page>
 </template>
 
 <script lang="ts">
-// import { Item } from '@ionic/core/dist/types/components/item/item';
 import { ref, defineComponent } from 'vue';
 // import { RouteLocationRaw, useRoute } from 'vue-router';
 import { IonButton, IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonItem, IonItemGroup, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonLabel, IonCheckbox, IonList, IonRadio, IonRadioGroup, IonListHeader, IonText, IonInput, IonIcon, } from '@ionic/vue';
 import { star, addCircle, removeCircle, } from 'ionicons/icons';
-import axios from 'axios';
-
-const dataurl = "https://restaurant-e109e-default-rtdb.asia-southeast1.firebasedatabase.app/"
 
 export default defineComponent({
   components: {
+    IonButton,
     IonButtons,
     IonContent,
     IonHeader,
@@ -72,162 +98,64 @@ export default defineComponent({
     IonPage,
     IonTitle,
     IonToolbar,
-    IonCol,
-    IonGrid,
-    IonRow,
     IonCard,
+    IonCardContent,
     IonCardHeader,
-    IonCardSubtitle,
-    IonCardTitle,
-    // IonCardContent,
-    IonSearchbar,
+    // IonCardSubtitle, 
+    // IonCardTitle,
     IonLabel,
-    IonSegment,
-    IonSegmentButton,
-    IonFab,
-    IonFabButton,
+    IonCheckbox,
+    IonItem,
+    IonList,
+    IonRadio,
+    IonRadioGroup,
+    IonListHeader,
+    IonText,
+    IonInput,
+    IonIcon
+    
   },
-  data() {
+  data(){
     return {
-      listmenu: [
+      choicetabie: [
         {
-          name: 'ข้าวเปล่า',
-          price: '10',
-          url: '/folder/ข้าวเปล่า',
-          category: 1,
+          nameoption: 'ตัวเลือก 1',
+          request: 0,   //จำเป็นต้องเลือก
+          requestmax: 3,
+          checktype: 2, //Type CheckBox
+          suboption: [
+            {namesub: 'ตัวเลือกย่อย 1', price: 0},
+            {namesub: 'ตัวเลือกย่อย 2', price: 5},
+            {namesub: 'ตัวเลือกย่อย 3', price: 10},
+          ],
         },
         {
-          name: 'ราดหน้า',
-          price: '70',
-          url: '/folder/ราดหน้า',
-          category: 1,
+          nameoption: 'ตัวเลือก 2',
+          request: 1,   //จำเป็นต้องเลือก
+          requestmax: 0,
+          checktype: 1, //Type Radio
+          suboption: [
+            {namesub: 'ตัวเลือกย่อย 1', price: 0},
+            {namesub: 'ตัวเลือกย่อย 2', price: 0},
+            {namesub: 'ตัวเลือกย่อย 3', price: 0},
+          ],
         },
-        {
-          name: 'ข้าวราดผักพริกหยวก',
-          price: '70',
-          url: '/folder/ข้าวราดผักพริกหยวก',
-          category: 2,
-        },
-        {
-          name: 'ข้าวผัดอเมริกัน',
-          price: '130',
-          url: '/folder/ข้าวผัดอเมริกัน',
-          category: 2,
-        },
-        {
-          name: 'สุกี้',
-          price: '70',
-          url: '/folder/สุกี้',
-          category: 3,
-        },
-        {
-          name: 'ข้าวราดพะแนง',
-          price: '70',
-          url: '/folder/ข้าวราดพะแนง',
-          category: 3,
-        },
-        {
-          name: 'ข้าวต้ม',
-          price: '60',
-          url: '/folder/ข้าวต้ม',
-          category: 4,
-        },
-        {
-          name: 'ข้าวราดผัดผักรวมมิตร',
-          price: '70',
-          url: '/folder/ข้าวราดผัดผักรวมมิตร',
-          category: 4,
-        },
-        {
-          name: 'ข้าวราดผักคะน้าหมูกรอบ',
-          price: '89',
-          url: '/folder/ข้าวราดผักคะน้าหมูกรอบ',
-          category: 5,
-        },
-        {
-          name: 'ข้าวราดผักคะน้าปลาเค็ม',
-          price: '75',
-          url: '/folder/ข้าวราดผักคะน้าปลาเค็ม',
-          category: 5,
-        },
-        {
-          name: 'ผัดไทยห่อไข่',
-          price: '79',
-          url: '/folder/ผัดไทยห่อไข่',
-          category: 6,
-        },
-        {
-          name: 'ข้าวอบสับปะรด',
-          price: '120',
-          url: '/folder/ข้าวอบสับปะรด',
-          category: 6,
-        },
-      ],
-      categorymenu: [
-        {
-          name: 'อาหารจานเดียว',
-          category: 1,
-        },
-        {
-          name: 'ยำ',
-          category: 2,
-        },
-        {
-          name: 'กับข้าว',
-          category: 3,
-        },
-        {
-          name: 'ต้ม',
-          category: 4,
-        },
-        {
-          name: 'ทอด',
-          category: 5,
-        },
-        {
-          name: 'เครื่องดื่ม',
-          category: 6,
-        },
-      ],
-      optiondata: [],
+      ]
     }
   },
-
   setup() {
     return {
-      fastFood,
+      star,
+      addCircle,
+      removeCircle,
     }
   },
 
-  methods: {
-    async getMenuFromDatabase() {
-      try {
-        const menuroute = this.$route.params.id;
-        console.log(menuroute);
-        const response = await axios.get(`${dataurl}listmenu.json`);
-        // ,{params:{name: menuroute}});
-        this.optiondata = Object.values(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-      console.log("x",this.optiondata)
-    },
-    // async getOptionFromDatabase() {
-    //   try {
-    //     const response = await axios.get(`${dataurl}optionmenu.json`);
-    //     this.optiondata = Object.values(response.data);
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-  },
   // methods:{
   //   toroute(rou: RouteLocationRaw) {
   //     this.$router.push(rou)
   //   }
   // }
-  created() {
-      this.getMenuFromDatabase();
-  },
 })
 </script>
 
@@ -241,16 +169,34 @@ export default defineComponent({
   transform: translateY(-50%);
 }
 
-ion-col {
-  /* background-color: #3c4c4a; */
-  /* border: solid 0.5px #fff; */
-  border-radius: 5px;
-  color: #fff;
-  text-align: center;
+#container strong {
+  font-size: 20px;
+  line-height: 26px;
 }
 
-ion-card-header.ios {
+#container p {
+  font-size: 16px;
+  line-height: 22px;
+  color: #8c8c8c;
+  margin: 0;
+}
+
+#container a {
+  text-decoration: none;
+}
+
+ion-card-header {
   display: flex;
   flex-flow: column-reverse;
+}
+
+ion-item-group {
+  padding: 10px;
+}
+
+img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
 }
 </style>

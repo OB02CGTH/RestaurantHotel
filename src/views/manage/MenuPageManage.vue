@@ -238,7 +238,7 @@ export default defineComponent({
 // A function that is used to navigate to a different page.
 
 
-navigateToPage(link) {
+navigateToPage(link: RouteLocationRaw) {
   this.$router.push(link)
     },
 
