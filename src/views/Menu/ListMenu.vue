@@ -31,25 +31,23 @@
           <ion-item lines="none">
             <ion-card-title>รายการอาหารในตะกร้า</ion-card-title>
             <ion-button slot="end" fill="clear" routerLink="/folder/MenuPage">
-              เพิ่มรายการอาหาร
+                เพิ่มรายการอาหาร
             </ion-button>
           </ion-item>
         </ion-card-header>
 
         <ion-card-content class="ion-text-center">
           <ion-item lines="none" v-for="i in ordermenu.menu" :key="i.name" :routerLink="'/folder/' + i.name">
-            <ion-label slot="start" text-wrap>
-              x{{ i.quantity }}{{ i.name }} <br>
-              <ion-text v-for="O, indexo in i.option" :key="indexo" color="medium">{{ O }} &nbsp;</ion-text> <br>
-              <ion-text v-if="i.note">{{ i.note }}</ion-text>
-            </ion-label>
+            <ion-label slot="start">x{{ i.quantity }}{{ i.name }}</ion-label>
             <ion-label slot="end">{{ i.price * i.quantity }}</ion-label>
           </ion-item>
-          <ion-text>
-            <h1>รวม {{ sumprice(ordermenu.menu) }} บาท</h1>
-          </ion-text>
+          <ion-text>รวม {{ sumprice(ordermenu.menu) }} บาท</ion-text>
         </ion-card-content>
       </ion-card>
+      
+      <ion-item>
+        <ion-input placeholder="เพิ่มหมายเหตุออเดอร์ "></ion-input>
+      </ion-item>
 
     </ion-content>
 
@@ -71,8 +69,8 @@
 import { ref, defineComponent } from 'vue';
 import { RouteLocationRaw, useRoute } from 'vue-router';
 import {
-  IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonItem, IonButton, IonLabel, IonList, IonText, IonInput, IonFooter,
-  IonCol, IonGrid, IonRow, IonCard,
+  IonButtons,IonContent,IonHeader, IonMenuButton, IonPage, IonTitle,IonToolbar, IonItem, IonButton, IonLabel, IonList, IonText, IonInput, IonFooter,
+  IonCol, IonGrid, IonRow, IonCard, 
   IonCardContent, IonCardHeader, IonCardTitle,
   IonSegment, IonSegmentButton,
   IonSelect, IonSelectOption,
@@ -105,7 +103,7 @@ export default defineComponent({
     IonSelect,
     IonSelectOption,
     IonText,
-    // IonInput,
+    IonInput,
     IonFooter,
   },
   data() {
@@ -114,9 +112,9 @@ export default defineComponent({
         ordertype: 'โต๊ะ',
         ordernum: 'od01',
         menu: [
-          { name: 'ราดหน้า', price: 70, quantity: 1, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: null },
-          { name: 'ข้าวผัดอเมริกัน', price: 130, quantity: 1, option: ['ตัวเลือก3', 'ตัวเลือก4', 'ตัวเลือก5'], note: '???' },
-          { name: 'สุกี้', price: 70, quantity: 2, option: ['ตัวเลือก6', 'ตัวเลือก7', 'ตัวเลือก8', 'ตัวเลือก9'], note: null },
+          { name: 'ราดหน้า', price: 70, quantity: 1, },
+          { name: 'ข้าวผัดอเมริกัน', price: 130, quantity: 1, },
+          { name: 'สุกี้', price: 70, quantity: 2, },
         ],
         // url: '/folder/Menu1',
       },
@@ -132,12 +130,12 @@ export default defineComponent({
   },
   methods: {
     sumprice(menu: {
-      name: string; price: number; quantity: number;
+    name: string; price: number; quantity: number;
     }[]) {
       let sum = 0;
       for (const i in menu) {
         const menuobject = menu[i];
-        sum += menuobject.price * menuobject.quantity
+        sum += menuobject.price*menuobject.quantity
       }
       return sum;
     },
