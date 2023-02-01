@@ -87,6 +87,9 @@ import { ref, defineComponent } from 'vue';
 // import { RouteLocationRaw, useRoute } from 'vue-router';
 import { IonButton, IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonItem, IonItemGroup, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonLabel, IonCheckbox, IonList, IonRadio, IonRadioGroup, IonListHeader, IonText, IonInput, IonIcon, } from '@ionic/vue';
 import { star, addCircle, removeCircle, } from 'ionicons/icons';
+import axios from 'axios';
+
+const dataurl = "https://restaurant-e109e-default-rtdb.asia-southeast1.firebasedatabase.app/"
 
 export default defineComponent({
   components: {
@@ -140,7 +143,8 @@ export default defineComponent({
             {namesub: 'ตัวเลือกย่อย 3', price: 0},
           ],
         },
-      ]
+      ],
+      optiondata: [],
     }
   },
   setup() {
@@ -151,11 +155,35 @@ export default defineComponent({
     }
   },
 
+  methods: {
+    async getMenuFromDatabase() {
+      try {
+        const menuroute = this.$route.params.id;
+        console.log(menuroute);
+        const response = await axios.get(`${dataurl}listmenu.json`);
+        // ,{params:{name: menuroute}});
+        this.optiondata = Object.values(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+      console.log("x",this.optiondata)
+    },
+    // async getOptionFromDatabase() {
+    //   try {
+    //     const response = await axios.get(`${dataurl}optionmenu.json`);
+    //     this.optiondata = Object.values(response.data);
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+  },
   // methods:{
   //   toroute(rou: RouteLocationRaw) {
   //     this.$router.push(rou)
   //   }
   // }
+  created() {
+      this.getMenuFromDatabase();
+  },
 })
 </script>
 
