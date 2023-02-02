@@ -15,76 +15,62 @@
       <ion-content :fullscreen="true">
         <ion-header collapse="condense">
           <ion-toolbar>
-            <ion-title size="large">รายละเอียด</ion-title>
+            <ion-title size="large">เพิ่มรายละเอียดใหม่</ion-title>
           </ion-toolbar>
         </ion-header>
   
-        <!-- <ion-list>
-          <ion-item>
-            <ion-select interface="action-sheet" placeholder="หมวดหมู่">
-              <ion-select-option v-for="i in listtable" :key="i.name" :value="i.name">{{ i.name }}</ion-select-option>
-            </ion-select>
-          </ion-item>
-        </ion-list> -->
+   
   
   
         <ion-card>
           <ion-card-header>
             <ion-item lines="none">
-              <ion-card-title>ประเภท</ion-card-title>
-              <ion-button slot="end" fill="clear" routerLink="/folder/manageeditdetails">
-                  เเก้ไข
-              </ion-button>
-              <ion-button slot="end" fill="clear" routerLink="/folder/managelistdetails">
-                  ลบ
-              </ion-button>
-            </ion-item>
-          </ion-card-header>
-  
-         
+              <ion-item>
+          ชื่อ  <ion-input position="stacked"  :clear-input="true" placeholder="นำ้" value=""></ion-input>
+    </ion-item>
+    </ion-item>
+      </ion-card-header>
         </ion-card>
-        <ion-card>
-          <ion-card-header>
-            <ion-item lines="none">
-              <ion-card-title>นํ้า</ion-card-title>
-              <ion-button slot="end" fill="clear" routerLink="/folder/manageeditdetails">
-                  เเก้ไข
-              </ion-button>
-              <ion-button slot="end" fill="clear" routerLink="/folder/managelistdetails">
-                  ลบ
-              </ion-button>
-            </ion-item>
-          </ion-card-header>
+
+    
+        <ion-toolbar>
+          <ion-title size="large">รายละเอียด</ion-title>
+        </ion-toolbar>
+        <ion-item >
+    <ion-label >ชื่อรายละเอียด</ion-label>
+    <ion-input></ion-input>
+    <ion-label >ราคา</ion-label>
+    <ion-input ></ion-input>
+  <ion-button size="small" color="danger">เเก้ไข</ion-button>
   
-         
-        </ion-card>
-        <ion-card>
-          <ion-card-header>
-            <ion-item lines="none">
-              <ion-card-title>เส้น</ion-card-title>
-              <ion-button slot="end" fill="clear" routerLink="/folder/manageeditdetails">
-                  เเก้ไข
-              </ion-button>
-              <ion-button slot="end" fill="clear" routerLink="/folder/managelistdetails ">
-                  ลบ
-              </ion-button>
-            </ion-item>
-          </ion-card-header>
-  
-         
-        </ion-card>
-  
-      </ion-content>
-  
+  </ion-item>
+  <ion-item >
+    <ion-label >ชื่อรายละเอียด</ion-label>
+    <ion-input></ion-input>
+    <ion-label >ราคา</ion-label>
+    <ion-input ></ion-input>
+  <ion-button size="small" color="danger">เเก้ไข</ion-button> </ion-item>
+  <ion-item >
+    <ion-label >ชื่อรายละเอียด</ion-label>
+    <ion-input></ion-input>
+    <ion-label >ราคา</ion-label>
+    <ion-input ></ion-input>
+  <ion-button size="small" color="danger">เเก้ไข</ion-button> </ion-item>
+  <ion-item >
+    <ion-label >ชื่อรายละเอียด</ion-label>
+    <ion-input></ion-input>
+    <ion-label >ราคา</ion-label>
+    <ion-input ></ion-input>
+  <ion-button size="small" color="danger">เเก้ไข</ion-button> </ion-item>
+    </ion-content>
+
+
+
       <ion-footer>
         <ion-toolbar>
-          <ion-button expand="block" fill="clear" color="danger" routerLink="/folder/manage">
-              <ion-icon ></ion-icon>
-          ย้อนกลับ
-            </ion-button> 
-          <ion-button expand="block" color="success" routerLink="/folder/manageadddetails">
+          <ion-button expand="block" color="success" routerLink="/folder/managelistdetails">
             <ion-text>
-              เพิ่มรายละเอียด
+              ยืนยน
             </ion-text>
           </ion-button>
         </ion-toolbar>
@@ -121,7 +107,7 @@
       // IonRow,
       IonCard,
       IonCardHeader,
-      IonCardTitle,
+    //   IonCardTitle,
       // IonCardSubtitle,
       // IonCardContent,
       // IonSearchbar,
@@ -137,23 +123,23 @@
     },
     data() {
       return {
-        ordermenu: {
-          ordertype: 'โต๊ะ',
-          ordernum: 'od01',
-          menu: [
-            { name: 'ราดหน้า', price: 70, quantity: 1, },
-            { name: 'ข้าวผัดอเมริกัน', price: 130, quantity: 1, },
-            { name: 'สุกี้', price: 70, quantity: 2, },
-          ],
-          // url: '/folder/Menu1',
-        },
-        listtable: [
-          { name: 'โต๊ะ: A01' },
-          { name: 'โต๊ะ: A02' },
-          { name: 'โต๊ะ: A03' },
-          { name: 'โต๊ะ: B01' },
-          { name: 'โต๊ะ: B02' },
-        ],
+        // ordermenu: {
+        //   ordertype: 'โต๊ะ',
+        //   ordernum: 'od01',
+        //   menu: [
+        //     { name: 'ราดหน้า', price: 70, quantity: 1, },
+        //     { name: 'ข้าวผัดอเมริกัน', price: 130, quantity: 1, },
+        //     { name: 'สุกี้', price: 70, quantity: 2, },
+        //   ],
+        //   // url: '/folder/Menu1',
+        // },
+        // listtable: [
+        //   { name: 'โต๊ะ: A01' },
+        //   { name: 'โต๊ะ: A02' },
+        //   { name: 'โต๊ะ: A03' },
+        //   { name: 'โต๊ะ: B01' },
+        //   { name: 'โต๊ะ: B02' },
+        // ],
         // filteredOrder: {}
       }
     },

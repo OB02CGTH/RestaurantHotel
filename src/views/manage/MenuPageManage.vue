@@ -19,23 +19,23 @@
       <ion-searchbar placeholder="ค้นหาเมนู"></ion-searchbar>
 
       
-      <ion-button expand="block" color="success"   >
-      <ion-button   color="success"  interface="action-sheet" placeholder="จัดการร้าน " v-for="a in options" :key="a.link"  :link="a.link" @click="navigateToPage(a.link)"> {{ a.text }}
-      </ion-button>
-      </ion-button> 
+     
 
 
-
-    <ion-button expand="block" color="success"   >
+    <!-- <ion-button expand="block" color="success"   >
       <ion-select    interface="action-sheet" placeholder="จัดการร้าน"  >
         <ion-select-option @click="navigateToPage(a.link)" v-for="a in options" :key="a.text"  :link="a.link" :routerLink="`/folder/${a.link}`"> 
            {{ a.text }}
           </ion-select-option>
       </ion-select> 
-    </ion-button>
+    </ion-button> -->
   <ion-item>
       <!-- <ion-label>Action Sheet Interface</ion-label> -->
-    </ion-item>  
+    </ion-item>   <ion-button expand="block" color="success"   >
+      <ion-button   color="success"  interface="action-sheet" placeholder="จัดการร้าน " v-for="a in options" :key="a.link"  :link="a.link" @click="navigateToPage(a.link)"> {{ a.text }}
+      </ion-button>
+      </ion-button> 
+
     <!-- A segment that is scrollable. It has two buttons, one for all menu and one for each category. -->
       <ion-segment :scrollable="true" value="all">
         <ion-segment-button value="all" @click="allMenu()">
