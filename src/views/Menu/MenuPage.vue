@@ -23,14 +23,14 @@
         <ion-segment-button value="all" @click="allMenu()">
           <ion-label>ทั้งหมด</ion-label>
         </ion-segment-button>
-        <ion-segment-button v-for="i in categorymenu" :key="i.name" :value="i.name" @click="filterMenu(i.category)">
+        <ion-segment-button v-for="i in categorymenudata" :key="i.Key" :value="i.Key" @click="filterMenu(i.Key)">
           <ion-label>{{ i.name }}</ion-label>
         </ion-segment-button>
       </ion-segment>
 
       <ion-grid>
         <ion-row>
-          <ion-col :sizeXs="6" :sizeMd="2.4" v-for="i in filteredMenu" :key="i.name" :routerLink="/folder/+i.name">
+          <ion-col :sizeXs="6" :sizeMd="2.4" v-for="i in filteredMenu" :key="i.name" :routerLink="i.url">
             <ion-card>
               <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
               <ion-card-header>
@@ -41,7 +41,7 @@
           </ion-col>
         </ion-row>
       </ion-grid>
-      
+
     </ion-content>
 
     <ion-fab slot="fixed" vertical="bottom" horizontal="end">
@@ -60,8 +60,11 @@ import { RouteLocationRaw, useRoute } from 'vue-router';
 import {
   IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonCol, IonGrid, IonRow, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonSearchbar, IonLabel, IonSegment, IonSegmentButton, IonFab, IonFabButton,
 } from '@ionic/vue';
-import { fastFood, } from 'ionicons/icons';
-// import { Select } from '@ionic/core/dist/types/components/select/select';
+import { fastFood, time, } from 'ionicons/icons';
+import axios from 'axios';
+
+const dataurl = "https://restaurant-e109e-default-rtdb.asia-southeast1.firebasedatabase.app/"
+// const datamenu: MyData[] = [];
 
 export default defineComponent({
   components: {
@@ -94,73 +97,73 @@ export default defineComponent({
           name: 'ข้าวเปล่า',
           price: '10',
           url: '/folder/ข้าวเปล่า',
-          category: 1,
+          Key: 'M01',
         },
         {
           name: 'ราดหน้า',
           price: '70',
           url: '/folder/ราดหน้า',
-          category: 1,
+          Key: 'M01',
         },
         {
           name: 'ข้าวราดผักพริกหยวก',
           price: '70',
           url: '/folder/ข้าวราดผักพริกหยวก',
-          category: 2,
+          Key: 'M02',
         },
         {
           name: 'ข้าวผัดอเมริกัน',
           price: '130',
           url: '/folder/ข้าวผัดอเมริกัน',
-          category: 2,
+          Key: 'M02',
         },
         {
           name: 'สุกี้',
           price: '70',
           url: '/folder/สุกี้',
-          category: 3,
+          Key: 'M03',
         },
         {
           name: 'ข้าวราดพะแนง',
           price: '70',
           url: '/folder/ข้าวราดพะแนง',
-          category: 3,
+          Key: 'M03',
         },
         {
           name: 'ข้าวต้ม',
           price: '60',
           url: '/folder/ข้าวต้ม',
-          category: 4,
+          Key: 'M04',
         },
         {
           name: 'ข้าวราดผัดผักรวมมิตร',
           price: '70',
           url: '/folder/ข้าวราดผัดผักรวมมิตร',
-          category: 4,
+          Key: 'M04',
         },
         {
           name: 'ข้าวราดผักคะน้าหมูกรอบ',
           price: '89',
           url: '/folder/ข้าวราดผักคะน้าหมูกรอบ',
-          category: 5,
+          Key: 'M04',
         },
         {
           name: 'ข้าวราดผักคะน้าปลาเค็ม',
           price: '75',
           url: '/folder/ข้าวราดผักคะน้าปลาเค็ม',
-          category: 5,
+          Key: 'M05',
         },
         {
           name: 'ผัดไทยห่อไข่',
           price: '79',
           url: '/folder/ผัดไทยห่อไข่',
-          category: 6,
+          Key: 'M05',
         },
         {
           name: 'ข้าวอบสับปะรด',
           price: '120',
           url: '/folder/ข้าวอบสับปะรด',
-          category: 6,
+          Key: 'M05',
         },
       ],
       categorymenu: [
@@ -189,7 +192,11 @@ export default defineComponent({
           category: 6,
         },
       ],
-      filteredMenu: {}
+      filteredMenu: [],
+      categorymenudata: {},
+      listmenudata: {},
+      listmenudataarray: [],
+      // listmenudata2: {},
     }
   },
 
@@ -200,24 +207,67 @@ export default defineComponent({
   },
 
   methods: {
-// A function that is used to navigate to a different page.
-    toroute(rou: RouteLocationRaw): void {
-      this.$router.push(rou)
+    async getCategoryFromDatabase() {
+      try {
+        const response = await axios.get(`${dataurl}categorymenu.json`);
+        this.categorymenudata = response.data
+      } catch (error) {
+        console.error(error);
+      }
+      console.log("getCategoryFromDatabase categorymenudata " + JSON.stringify(this.categorymenudata))
     },
+    async getMenuFromDatabase() {
+      try {
+        const response = await axios.get(`${dataurl}listmenu.json`);
+        console.log("x",JSON.stringify(response.data));
+        this.listmenudataarray = Object.values(response.data);
+        console.log("xx",this.listmenudataarray);
+        
+        // this.listmenudata = Object.entries(this.listmenudata);
+        // console.log("xxx",JSON.stringify(this.listmenudata));
+        // console.log("xxxx",JSON.stringify(this.listmenu));
+      } catch (error) {
+        console.error(error);
+      }
+      // console.log("getMenuFromDatabase listmenudata " + JSON.stringify(this.listmenudata))
+      this.allMenu();
+    },
+
     allMenu() {
-      this.filteredMenu = this.listmenu
+      // this.getMenuFromDatabase()
+      this.filteredMenu = this.listmenudataarray
+      console.log("allMemu listmenudata " + JSON.stringify(this.listmenudata))
+      // console.log(JSON.stringify(this.filteredMenu))
+      // console.log("???")
     },
-    filterMenu(iddata: number) {
-      console.log(iddata)
-      this.filteredMenu = this.listmenu.filter(item => item.category === iddata)
+    filterMenu(iddata: string) {
+      // console.log("filterMenu 1 categorymenudata " + JSON.stringify(this.categorymenudata))
+      // console.log("iddata 2 iddata " + iddata)
+      // console.log("filterMenu 3 listmenudata " + JSON.stringify(this.listmenudata))
+      // console.log("filterMenu 4 filteredMenu " + this.filteredMenu)
+      // const listmenudata2 = Object.entries(JSON.stringify(this.listmenudata));
+      // const listmenudata2 = Object.keys(this.listmenudata).map(key => listmenudata);
+      // const listmenudata2 = JSON.stringify(this.listmenudata);
+      // console.log("filterMenu xx listmenudata " + listmenudata2);
+      // this.filteredMenu = listmenudata2.filter(item => item.categorykey === iddata)
+      this.filteredMenu = this.listmenudataarray.filter((item: { categorykey: string; }) => item.categorykey === iddata)
+      // console.log("filterMenu 5 filteredMenu " + this.filteredMenu)
     },
   },
 
-  beforeMount() {
-    this.allMenu()
+  created() {
+    this.getCategoryFromDatabase();
+    this.getMenuFromDatabase();
   },
-  // created(){
-  //   this.filterMenu(1)
+
+  // beforeMount() {
+  //   this.allMenu();
+  //   console.log("allMemu listmenudata " + JSON.stringify(this.listmenudata))
+  // },
+
+  // mounted() {
+  //   this.allMenu();
+  //   console.log("allMemu listmenudata " + JSON.stringify(this.listmenudata))
   // },
 });
 </script>

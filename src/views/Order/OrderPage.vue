@@ -75,12 +75,12 @@
 
     </ion-content>
 
-    <!-- <ion-footer v-if="filteredOrder[0].statorder === 3">
+    <ion-footer v-if="filteredOrder[0].statorder === 3">
       <ion-toolbar>
         <ion-button v-show="isChecked = false" :disabled="true" expand="block" color="primary">ชำระหลายบิล</ion-button>
         <ion-button v-show="isChecked = true" expand="block" color="primary">ชำระหลายบิล</ion-button>
       </ion-toolbar>
-    </ion-footer> -->
+    </ion-footer>
 
   </ion-page>
 </template>
@@ -120,7 +120,7 @@ export default defineComponent({
     IonItem,
     IonButton,
     IonCheckbox,
-    // IonFooter,
+    IonFooter,
     IonText,
   },
   data() {
@@ -194,11 +194,9 @@ export default defineComponent({
     //   this.$router.push(rou)
     // },
     filterOrder(iddata: number) {
-      console.log("xx",iddata);
-      console.log("xxx",this.listorderdata);
-      console.log("xxxx",this.filteredOrder);
+      console.log(iddata)
       this.filteredOrder = this.listorderdata.filter((item: { statorder: number; }) => item.statorder === iddata)
-      console.log("xxxxx",this.filteredOrder);
+      console.log("xx",this.filteredOrder);
     },
     sumprice(menu: { name: string; price: number; quantity: number; }[]) {
       let sum = 0;
