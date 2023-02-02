@@ -86,7 +86,10 @@
 import { ref, defineComponent } from 'vue';
 // import { RouteLocationRaw, useRoute } from 'vue-router';
 import { IonButton, IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonItem, IonItemGroup, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonLabel, IonCheckbox, IonList, IonRadio, IonRadioGroup, IonListHeader, IonText, IonInput, IonIcon, } from '@ionic/vue';
-import { star, addCircle, removeCircle, } from 'ionicons/icons';
+import { star, addCircle, removeCircle, constructOutline, } from 'ionicons/icons';
+import axios from 'axios';
+
+const dataurl = "https://restaurant-e109e-default-rtdb.asia-southeast1.firebasedatabase.app/"
 
 export default defineComponent({
   components: {
@@ -140,7 +143,9 @@ export default defineComponent({
             {namesub: 'ตัวเลือกย่อย 3', price: 0},
           ],
         },
-      ]
+      ],
+      menudata: [],
+      filteredmenu: [],
     }
   },
   setup() {
@@ -150,12 +155,40 @@ export default defineComponent({
       removeCircle,
     }
   },
-
-  // methods:{
+  methods:{
+    async getMenuFromDatabase() {
+      try {
+        const response = await axios.get(`${dataurl}listmenu.json`);
+        console.log("x getMenuFromDatabase",JSON.stringify(response.data));
+        this.menudata = Object.values(response.data);
+        console.log("xx getMenuFromDatabase",this.menudata);
+        this.filtermenu();
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getOptionFromDatabase() {
+      try {
+        const response = await axios.get(`${dataurl}listmenu.json`);
+        console.log("x getMenuFromDatabase",JSON.stringify(response.data));
+        this.menudata = Object.values(response.data);
+        console.log("xx getMenuFromDatabase",this.menudata);
+        this.filtermenu();
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    filtermenu() {
+      this.filteredmenu = this.menudata.filter((item: {name: string;}) => item.name == this.$route.params.id)
+      console.log("filter", this.filteredmenu)
+    }
   //   toroute(rou: RouteLocationRaw) {
   //     this.$router.push(rou)
   //   }
-  // }
+  },
+  created() {
+    this.getMenuFromDatabase();
+  }
 })
 </script>
 

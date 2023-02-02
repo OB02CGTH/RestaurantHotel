@@ -30,7 +30,7 @@
 
       <ion-grid>
         <ion-row>
-          <ion-col :sizeXs="6" :sizeMd="2.4" v-for="i in filteredMenu" :key="i.name" :routerLink="i.url">
+          <ion-col :sizeXs="6" :sizeMd="2.4" v-for="i in filteredMenu" :key="i.name" :routerLink="i.name">
             <ion-card>
               <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
               <ion-card-header>

@@ -131,6 +131,7 @@ export default defineComponent({
     }
   },
   methods: {
+    
     sumprice(menu: {
       name: string; price: number; quantity: number;
     }[]) {
