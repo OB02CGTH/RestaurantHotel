@@ -32,10 +32,10 @@
           <ion-card-header>
             <ion-item lines="none">
               <ion-card-title>ประเภท</ion-card-title>
-              <ion-button slot="end" fill="clear" routerLink="/folder/ManageAddDetails">
+              <ion-button slot="end" fill="clear" routerLink="/folder/manageeditdetails">
                   เเก้ไข
               </ion-button>
-              <ion-button slot="end" fill="clear" routerLink="/folder/ManageListDetails">
+              <ion-button slot="end" fill="clear" routerLink="/folder/managelistdetails">
                   ลบ
               </ion-button>
             </ion-item>
@@ -47,10 +47,10 @@
           <ion-card-header>
             <ion-item lines="none">
               <ion-card-title>นํ้า</ion-card-title>
-              <ion-button slot="end" fill="clear" routerLink="/folder/ManageAddDetails">
+              <ion-button slot="end" fill="clear" routerLink="/folder/manageeditdetails">
                   เเก้ไข
               </ion-button>
-              <ion-button slot="end" fill="clear" routerLink="/folder/ManageListDetails">
+              <ion-button slot="end" fill="clear" routerLink="/folder/managelistdetails">
                   ลบ
               </ion-button>
             </ion-item>
@@ -62,10 +62,10 @@
           <ion-card-header>
             <ion-item lines="none">
               <ion-card-title>เส้น</ion-card-title>
-              <ion-button slot="end" fill="clear" routerLink="/folder/ManageAddDetails">
+              <ion-button slot="end" fill="clear" routerLink="/folder/manageeditdetails">
                   เเก้ไข
               </ion-button>
-              <ion-button slot="end" fill="clear" routerLink="/folder/ManageListDetails ">
+              <ion-button slot="end" fill="clear" routerLink="/folder/managelistdetails ">
                   ลบ
               </ion-button>
             </ion-item>
@@ -82,7 +82,7 @@
               <ion-icon ></ion-icon>
           ย้อนกลับ
             </ion-button> 
-          <ion-button expand="block" color="success" routerLink="/folder/ManageAddDetails">
+          <ion-button expand="block" color="success" routerLink="/folder/manageadddetails">
             <ion-text>
               เพิ่มรายละเอียด
             </ion-text>
