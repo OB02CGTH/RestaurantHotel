@@ -19,13 +19,7 @@
           </ion-toolbar>
         </ion-header>
   
-        <!-- <ion-list>
-          <ion-item>
-            <ion-select interface="action-sheet" placeholder="หมวดหมู่">
-              <ion-select-option v-for="i in listtable" :key="i.name" :value="i.name">{{ i.name }}</ion-select-option>
-            </ion-select>
-          </ion-item>
-        </ion-list> -->
+   
   
   
         <ion-card>
@@ -34,37 +28,29 @@
               <ion-item>
           ชื่อ  <ion-input position="stacked"  :clear-input="true" placeholder="กรุณากรอกชื่อรายละเอียด" value=""></ion-input>
     </ion-item>
-
-            </ion-item>
-          </ion-card-header>
-  
-         
-     
-  
-         
+    </ion-item>
+      </ion-card-header>
         </ion-card>
-  
+
     
-      <ion-header collapse="condense">
         <ion-toolbar>
           <ion-title size="large">รายละเอียด</ion-title>
         </ion-toolbar>
-        
-        <ion-item counter="true">
-
-
+        <ion-item >
     <ion-label >ชื่อรายละเอียด</ion-label>
     <ion-input></ion-input>
     <ion-label >ราคา</ion-label>
     <ion-input ></ion-input>
   <ion-button size="small" color="success">เพิ่ม</ion-button>
-      
-
   </ion-item>
-      </ion-header>  </ion-content>
+       
+    </ion-content>
+
+
+
       <ion-footer>
         <ion-toolbar>
-          <ion-button expand="block" color="success" routerLink="/folder/ManageListDetails">
+          <ion-button expand="block" color="success" routerLink="/folder/managelistdetails">
             <ion-text>
               เพิ่มรายละเอียด
             </ion-text>
