@@ -24,7 +24,10 @@
           </ion-select>
         </ion-item>
       </ion-list>
-
+<ion-item>
+      <ion-label>เลขห้อง</ion-label>
+      <ion-input type="number" placeholder="000"></ion-input>
+    </ion-item>
 
       <ion-card>
         <ion-card-header>
