@@ -45,7 +45,7 @@
     </ion-content>
 
     <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-      <ion-fab-button routerLink="/folder/ListMenu">
+      <ion-fab-button routerLink="/ListMenu">
         <ion-icon :icon="fastFood"></ion-icon>
       </ion-fab-button>
     </ion-fab>

@@ -25,7 +25,6 @@
         </ion-item>
       </ion-list>
 
-
       <ion-card>
         <ion-card-header>
           <ion-item lines="none">
@@ -131,7 +130,7 @@ export default defineComponent({
     }
   },
   methods: {
-    
+
     sumprice(menu: {
       name: string; price: number; quantity: number;
     }[]) {
