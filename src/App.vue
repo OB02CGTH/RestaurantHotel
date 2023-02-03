@@ -61,12 +61,14 @@ import {
   // trashSharp,
   // warningOutline,
   // warningSharp,
-  fastFoodOutline,
+ fastFoodOutline,
   readerOutline,
   bagHandleOutline,
   homeOutline,
   alarmOutline,
-  receiptOutline
+  receiptOutline,
+  settings,
+  storefront,
 } from 'ionicons/icons';
 
 const selectedIndex = ref(0);
