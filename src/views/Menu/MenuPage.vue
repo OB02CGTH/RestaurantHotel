@@ -30,14 +30,22 @@
 
       <ion-grid>
         <ion-row>
-          <ion-col :sizeXs="6" :sizeMd="2.4" v-for="i in filteredMenu" :key="i.name" :routerLink="i.name">
-            <ion-card>
-              <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
-              <ion-card-header>
-                <ion-card-title>{{ i.name }}</ion-card-title>
-                <ion-card-subtitle>{{ i.price }} THB</ion-card-subtitle>
-              </ion-card-header>
-            </ion-card>
+          <!-- <ion-col :sizeXs="6" :sizeMd="2.4" v-for="i in filteredMenu" :key="i.name" :routerLink="i.name">
+          <ion-col :sizeXs="6" :sizeMd="2.4" v-for="i in filteredMenu" :key="i.name" :routerLink="i.name"> -->
+          <ion-col :sizeXs="6" :sizeMd="2.4" v-for="i in filteredMenu" :key="i.name">
+            <router-link :to="{
+              name: 'option', params: {
+                name: i.name, category: i.categorykey
+              }
+            }">
+              <ion-card>
+                <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+                <ion-card-header>
+                  <ion-card-title>{{ i.name }}</ion-card-title>
+                  <ion-card-subtitle>{{ i.price }} THB</ion-card-subtitle>
+                </ion-card-header>
+              </ion-card>
+            </router-link>
           </ion-col>
         </ion-row>
       </ion-grid>

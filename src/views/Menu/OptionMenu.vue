@@ -20,7 +20,8 @@
         <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
         <ion-card-header>
           <ion-label color="dark">
-            <h1>{{ $route.params.id }}</h1>
+            <h1>{{ $route.params.name }}</h1>
+            <!-- <h1>{{ $route.params.category }}</h1> -->
           </ion-label>
         </ion-card-header>
 
@@ -154,7 +155,9 @@ export default defineComponent({
         },
       ],
       menudata: [],
+      categorydata: [],
       filteredmenu: [],
+      filteredoption: [],
     }
   },
   setup() {
@@ -165,38 +168,46 @@ export default defineComponent({
     }
   },
   methods: {
-    async getMenuFromDatabase() {
-      try {
-        const response = await axios.get(`${dataurl}listmenu.json`);
-        console.log("x getMenuFromDatabase", JSON.stringify(response.data));
-        this.menudata = Object.values(response.data);
-        console.log("xx getMenuFromDatabase", this.menudata);
-        this.filtermenu();
-      } catch (error) {
-        console.error(error);
-      }
-    },
+    // async getMenuFromDatabase() {
+    //   try {
+    //     const response = await axios.get(`${dataurl}listmenu.json`);
+    //     console.log("x getMenuFromDatabase", JSON.stringify(response.data));
+    //     this.menudata = Object.values(response.data);
+    //     console.log("xx getMenuFromDatabase", this.menudata);
+    //     this.filtermenu();
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // },
     async getOptionFromDatabase() {
       try {
-        const response = await axios.get(`${dataurl}listmenu.json`);
-        console.log("x getMenuFromDatabase", JSON.stringify(response.data));
-        this.menudata = Object.values(response.data);
-        console.log("xx getMenuFromDatabase", this.menudata);
-        this.filtermenu();
+        const response = await axios.get(`${dataurl}categorymenu.json`);
+        console.log("x getOptionFromDatabase", JSON.stringify(response.data));
+        this.categorydata = Object.values(response.data);
+        console.log("xx getOptionFromDatabase", this.categorydata);
+        // this.filteroption();
       } catch (error) {
         console.error(error);
       }
     },
-    filtermenu() {
-      this.filteredmenu = this.menudata.filter((item: { name: string; }) => item.name == this.$route.params.id)
-      console.log("filter", this.filteredmenu)
+
+    // filtermenu() {
+    //   this.filteredmenu = this.menudata.filter((item: { name: string; }) => item.name == this.$route.params.id)
+    //   console.log("filter", this.filteredmenu)
+    // },
+    filteroption(){
+      this.filteredoption = this.categorydata.filter((item: { Key: string; }) => item.Key == this.$route.params.category);
+      console.log("filteroption", this.filteredoption)
     }
+
     //   toroute(rou: RouteLocationRaw) {
     //     this.$router.push(rou)
     //   }
   },
   created() {
-    this.getMenuFromDatabase();
+    this.getOptionFromDatabase();
+    console.log(this.$route.params.name);
+    console.log(this.$route.params.category);
   }
 })
 </script>
