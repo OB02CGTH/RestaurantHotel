@@ -73,56 +73,56 @@ const selectedIndex = ref(0);
 const appPages = [
   {
     title: 'สั่งอาหาร',
-    url: '/folder/MenuPage',
+    url: '/MenuPage',
     iosIcon: fastFoodOutline,
     mdIcon: fastFoodOutline,
   },
   {
     title: 'ออเดอร์ปัจจุบัน',
-    url: '/folder/Order',
+    url: '/Order',
     iosIcon: receiptOutline,
     mdIcon: receiptOutline,
   },
   {
     title: 'เดลิเวอรี',
-    url: '/folder/Favorites',
+    url: '/Favorites',
     iosIcon: bagHandleOutline,
     mdIcon: bagHandleOutline,
   },
   {
     title: 'ออเดอร์ห้องพัก',
-    url: '/folder/Archived',
+    url: '/Archived',
     iosIcon: homeOutline,
     mdIcon: homeOutline,
   },
   {
     title: 'ออเดอร์เชฟ',
-    url: '/folder/cheforder',
+    url: '/cheforder',
     iosIcon: readerOutline,
     mdIcon: readerOutline,
   },
   {
     title: 'จองโต๊ะ',
-    url: '/folder/reserveTable',
+    url: '/reserveTable',
     iosIcon: alarmOutline,
     mdIcon: alarmOutline,
   },
   {
     title: 'จัดการร้าน',
-    url: '/folder/manage',
+    url: '/manage',
     iosIcon: alarmOutline,
     mdIcon: alarmOutline,
   },
   {
     title: 'ตั้งค่า',
-    url: '/folder/???',
+    url: '/???',
     iosIcon: alarmOutline,
     mdIcon: alarmOutline,
   },
 ];
 // const labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
 
-const path = window.location.pathname.split('folder/')[1];
+const path = window.location.pathname.split('/')[1];
 if (path !== undefined) {
   selectedIndex.value = appPages.findIndex((page) => page.title.toLowerCase() === path.toLowerCase());
 }

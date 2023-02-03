@@ -219,10 +219,10 @@ export default defineComponent({
     async getMenuFromDatabase() {
       try {
         const response = await axios.get(`${dataurl}listmenu.json`);
-        console.log("x getMenuFromDatabase",JSON.stringify(response.data));
+        console.log("x getMenuFromDatabase", JSON.stringify(response.data));
         this.listmenudataarray = Object.values(response.data);
-        console.log("xx getMenuFromDatabase",this.listmenudataarray);
-        
+        console.log("xx getMenuFromDatabase", this.listmenudataarray);
+
         // this.listmenudata = Object.entries(this.listmenudata);
         // console.log("xxx",JSON.stringify(this.listmenudata));
         // console.log("xxxx",JSON.stringify(this.listmenu));
@@ -251,7 +251,7 @@ export default defineComponent({
       // console.log("filterMenu xx listmenudata " + listmenudata2);
       // this.filteredMenu = listmenudata2.filter(item => item.categorykey === iddata)
       this.filteredMenu = this.listmenudataarray.filter((item: { categorykey: string; }) => item.categorykey === iddata)
-      console.log("filteredMenu filteredMenu",this.filteredMenu);
+      console.log("filteredMenu filteredMenu", this.filteredMenu);
       // console.log("filterMenu 5 filteredMenu " + this.filteredMenu)
     },
   },

@@ -4,69 +4,66 @@ import { RouteRecordRaw } from 'vue-router';
 const routes: Array<RouteRecordRaw> = [
   {
     path: '',
-    redirect: '/folder/MenuPage'
+    redirect: '/MenuPage'
   },
   {
-    path: '/folder/:id',
+    path: '/:id',
     component: () => import ('../views/Menu/OptionMenu.vue')
   },
   {
-    path: '/folder/MenuPage',
+    path: '/MenuPage',
     component: () => import ('../views/Menu/MenuPage.vue')
   },
   {
-    path: '/folder/ListMenu',
+    path: '/ListMenu',
     component: () => import ('../views/Menu/ListMenu.vue')
   },
   {
-    path: '/folder/Order',
+    path: '/Order',
     component: () => import ('../views/Order/OrderPage.vue')
   },
   {
-    path: '/folder/cheforder',
+    path: '/cheforder',
     component: () => import ('../views/Chef/ChefOrder.vue')
   },
   {
-    path: '/folder/reserveTable',
+    path: '/reserveTable',
     component: () => import ('../views/reserveTable/searchTable.vue')
   },
   {
-    path: '/folder/detailsTable',
+    path: '/detailsTable',
     component: () => import ('../views/reserveTable/DetailsTable.vue')
   },
   {
-    path: '/folder/summaryTable',
+    path: '/summaryTable',
     component: () => import ('../views/reserveTable/SummaryTable.vue')
   },
-
-
-
   {
-    path: '/folder/manage',
+    path: '/manage',
     component: () => import ('../views/manage/MenuPageManage.vue')
   },
   {
-    path: '/folder/mnageeditmenu',
+    path: '/mnageeditmenu',
     component: () => import ('../views/manage/ManageEditMenu.vue')
   },
   {
-    path: '/folder/managelistcategory',
+    path: '/managelistcategory',
     component: () => import ('../views/manage/ManageListCategory.vue')
   },
   {
-    path: '/folder/manageaddcategory',
+    path: '/manageaddcategory',
     component: () => import ('../views/manage/ManageAddCategory.vue')
   },
   {
-    path: '/folder/managelistmenu',
+    path: '/managelistmenu',
     component: () => import ('../views/manage/ManageListMenu.vue')
   },
   {
-    path: '/folder/managelistdetails',
+    path: '/managelistdetails',
     component: () => import ('../views/manage/ManageListDetails.vue')
   },
   {
-    path: '/folder/manageadddetails',
+    path: '/manageadddetails',
     component: () => import ('../views/manage/ManageAddDetails.vue')
   },
 ]

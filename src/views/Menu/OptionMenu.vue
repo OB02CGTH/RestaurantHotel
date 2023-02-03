@@ -37,33 +37,42 @@
                     {{ i.nameoption }}
                   </ion-text>
                   <ion-text v-if="i.request === 1" slot="end" color="medium">*จำเป็นต้องเลือก</ion-text>
-                  <ion-text v-if="i.requestmax > 0" slot="end" color="medium">*เลือกได้สูงสุด {{ i.requestmax }} ชิ้น</ion-text>
+                  <ion-text v-if="i.requestmax > 0" slot="end" color="medium">*เลือกได้สูงสุด {{ i.requestmax }}
+                    ชิ้น</ion-text>
                 </ion-item>
               </ion-list-header>
 
-              <ion-radio-group v-if="i.checktype === 1" >
+              <ion-radio-group v-if="i.checktype === 1">
                 <ion-item v-for="n in i.suboption" :key="n.namesub" lines="none">
                   <ion-radio slot="start"></ion-radio>
-                  <ion-text><h3>{{ n.namesub }}</h3></ion-text>
-                  <ion-text slot="end"><h3>+{{ n.price }}</h3></ion-text>
+                  <ion-text>
+                    <h3>{{ n.namesub }}</h3>
+                  </ion-text>
+                  <ion-text slot="end">
+                    <h3>+{{ n.price }}</h3>
+                  </ion-text>
                 </ion-item>
               </ion-radio-group>
 
               <div v-if="i.checktype === 2">
-                <ion-item  v-for="n in i.suboption" :key="n.namesub" lines="none">
+                <ion-item v-for="n in i.suboption" :key="n.namesub" lines="none">
                   <ion-checkbox slot="start"></ion-checkbox>
-                  <ion-text><h3>{{ n.namesub }}</h3></ion-text>
-                  <ion-text slot="end"><h3>+{{ n.price }}</h3></ion-text>
+                  <ion-text>
+                    <h3>{{ n.namesub }}</h3>
+                  </ion-text>
+                  <ion-text slot="end">
+                    <h3>+{{ n.price }}</h3>
+                  </ion-text>
                 </ion-item>
               </div>
-              
+
             </ion-list>
           </ion-item>
 
           <ion-item>
             <ion-input placeholder="เพิ่มหมายเหตุเมนูนี้ "></ion-input>
           </ion-item>
-          
+
           <!-- <ion-item class="ion-align-items-center ion-justify-content-center">
             <ion-icon :icon="removeCircle"></ion-icon>
             <ion-text>1</ion-text>
@@ -116,9 +125,9 @@ export default defineComponent({
     IonText,
     IonInput,
     IonIcon
-    
+
   },
-  data(){
+  data() {
     return {
       choicetabie: [
         {
@@ -127,9 +136,9 @@ export default defineComponent({
           requestmax: 3,
           checktype: 2, //Type CheckBox
           suboption: [
-            {namesub: 'ตัวเลือกย่อย 1', price: 0},
-            {namesub: 'ตัวเลือกย่อย 2', price: 5},
-            {namesub: 'ตัวเลือกย่อย 3', price: 10},
+            { namesub: 'ตัวเลือกย่อย 1', price: 0 },
+            { namesub: 'ตัวเลือกย่อย 2', price: 5 },
+            { namesub: 'ตัวเลือกย่อย 3', price: 10 },
           ],
         },
         {
@@ -138,9 +147,9 @@ export default defineComponent({
           requestmax: 0,
           checktype: 1, //Type Radio
           suboption: [
-            {namesub: 'ตัวเลือกย่อย 1', price: 0},
-            {namesub: 'ตัวเลือกย่อย 2', price: 0},
-            {namesub: 'ตัวเลือกย่อย 3', price: 0},
+            { namesub: 'ตัวเลือกย่อย 1', price: 0 },
+            { namesub: 'ตัวเลือกย่อย 2', price: 0 },
+            { namesub: 'ตัวเลือกย่อย 3', price: 0 },
           ],
         },
       ],
@@ -155,13 +164,13 @@ export default defineComponent({
       removeCircle,
     }
   },
-  methods:{
+  methods: {
     async getMenuFromDatabase() {
       try {
         const response = await axios.get(`${dataurl}listmenu.json`);
-        console.log("x getMenuFromDatabase",JSON.stringify(response.data));
+        console.log("x getMenuFromDatabase", JSON.stringify(response.data));
         this.menudata = Object.values(response.data);
-        console.log("xx getMenuFromDatabase",this.menudata);
+        console.log("xx getMenuFromDatabase", this.menudata);
         this.filtermenu();
       } catch (error) {
         console.error(error);
@@ -170,21 +179,21 @@ export default defineComponent({
     async getOptionFromDatabase() {
       try {
         const response = await axios.get(`${dataurl}listmenu.json`);
-        console.log("x getMenuFromDatabase",JSON.stringify(response.data));
+        console.log("x getMenuFromDatabase", JSON.stringify(response.data));
         this.menudata = Object.values(response.data);
-        console.log("xx getMenuFromDatabase",this.menudata);
+        console.log("xx getMenuFromDatabase", this.menudata);
         this.filtermenu();
       } catch (error) {
         console.error(error);
       }
     },
     filtermenu() {
-      this.filteredmenu = this.menudata.filter((item: {name: string;}) => item.name == this.$route.params.id)
+      this.filteredmenu = this.menudata.filter((item: { name: string; }) => item.name == this.$route.params.id)
       console.log("filter", this.filteredmenu)
     }
-  //   toroute(rou: RouteLocationRaw) {
-  //     this.$router.push(rou)
-  //   }
+    //   toroute(rou: RouteLocationRaw) {
+    //     this.$router.push(rou)
+    //   }
   },
   created() {
     this.getMenuFromDatabase();

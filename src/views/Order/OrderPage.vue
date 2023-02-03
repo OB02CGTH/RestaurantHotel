@@ -19,7 +19,8 @@
       <!-- <ion-searchbar placeholder="ค้นหาเมนู"></ion-searchbar> -->
 
       <ion-segment :scrollable="true" :value="categorymenu[0].name">
-        <ion-segment-button v-for="i in categorymenu" :key="i.statorder" :value="i.name" @click="filterOrder(i.statorder)">
+        <ion-segment-button v-for="i in categorymenu" :key="i.statorder" :value="i.name"
+          @click="filterOrder(i.statorder)">
           <ion-label>{{ i.name }}</ion-label>
         </ion-segment-button>
       </ion-segment>
@@ -41,12 +42,13 @@
                   <ion-label slot="start" text-wrap>
                     x{{ n.quantity }}{{ n.name }} <br>
                     <ion-item lines="none" text-wrap>
-                      <ion-text v-for="op, indexo in n.option" :key="indexo" color="medium">{{ op.name }} &nbsp;</ion-text> <br>
+                      <ion-text v-for="op, indexo in n.option" :key="indexo" color="medium">{{ op.name }}
+                        &nbsp;</ion-text> <br>
                     </ion-item>
                   </ion-label>
                   <ion-label slot="end">{{ n.price * n.quantity }}</ion-label>
                 </ion-item>
-                
+
                 <ion-text v-if="i.note" slot="start">
                   <p>หมายเหตุออเดอร์: {{ i.note }}</p>
                 </ion-text>
@@ -184,7 +186,7 @@ export default defineComponent({
       try {
         const response = await axios.get(`${dataurl}order.json`);
         this.listorderdata = Object.values(response.data);
-        console.log("x",this.listorderdata);
+        console.log("x", this.listorderdata);
       } catch (error) {
         console.error(error);
       }
@@ -196,7 +198,7 @@ export default defineComponent({
     filterOrder(iddata: number) {
       console.log(iddata)
       this.filteredOrder = this.listorderdata.filter((item: { statorder: number; }) => item.statorder === iddata)
-      console.log("xx",this.filteredOrder);
+      console.log("xx", this.filteredOrder);
     },
     sumprice(menu: { name: string; price: number; quantity: number; }[]) {
       let sum = 0;
