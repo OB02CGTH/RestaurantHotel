@@ -78,20 +78,20 @@ const appPages = [
     mdIcon: fastFoodOutline,
   },
   {
-    title: 'ออเดอร์ปัจจุบัน',
+    title: 'ออเดอร์ที่ร้าน',
     url: '/folder/Order',
     iosIcon: receiptOutline,
     mdIcon: receiptOutline,
   },
   {
-    title: 'เดลิเวอรี',
-    url: '/folder/Favorites',
+    title: 'ออเดอร์เดลิเวอรี',
+    url: '/folder/delivery',
     iosIcon: bagHandleOutline,
     mdIcon: bagHandleOutline,
   },
   {
     title: 'ออเดอร์ห้องพัก',
-    url: '/folder/Archived',
+    url: '/folder/room',
     iosIcon: homeOutline,
     mdIcon: homeOutline,
   },
@@ -110,9 +110,10 @@ const appPages = [
   {
     title: 'จัดการร้าน',
     url: '/folder/manage',
-    iosIcon: alarmOutline,
-    mdIcon: alarmOutline,
+    iosIcon: storefront,
+    mdIcon: storefront,
   },
+  
   {
     title: 'ตั้งค่า',
     url: '/folder/???',
