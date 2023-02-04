@@ -30,12 +30,12 @@
 
       <ion-grid>
         <ion-row>
-          <!-- <ion-col :sizeXs="6" :sizeMd="2.4" v-for="i in filteredMenu" :key="i.name" :routerLink="i.name">
-          <ion-col :sizeXs="6" :sizeMd="2.4" v-for="i in filteredMenu" :key="i.name" :routerLink="i.name"> -->
+          <!-- <ion-col :sizeXs="6" :sizeMd="2.4" v-for="i in filteredMenu" :key="i.name" :routerLink="i.name"> -->
+          <!-- <ion-col :sizeXs="6" :sizeMd="2.4" v-for="i in filteredMenu" :key="i.name" :routerLink="i.name"> -->
           <ion-col :sizeXs="6" :sizeMd="2.4" v-for="i in filteredMenu" :key="i.name">
             <router-link :to="{
               name: 'option', params: {
-                name: i.name, category: i.categorykey
+                id: i.Key, name: i.name, category: i.categorykey
               }
             }">
               <ion-card>
@@ -258,8 +258,9 @@ export default defineComponent({
       // const listmenudata2 = JSON.stringify(this.listmenudata);
       // console.log("filterMenu xx listmenudata " + listmenudata2);
       // this.filteredMenu = listmenudata2.filter(item => item.categorykey === iddata)
-      this.filteredMenu = this.listmenudataarray.filter((item: { categorykey: string; }) => item.categorykey === iddata)
       console.log("filteredMenu filteredMenu", this.filteredMenu);
+      this.filteredMenu = this.listmenudataarray.filter((item: { categorykey: string; }) => item.categorykey === iddata)
+      console.log("filteredMenu2 filteredMenu", this.filteredMenu);
       // console.log("filterMenu 5 filteredMenu " + this.filteredMenu)
     },
   },

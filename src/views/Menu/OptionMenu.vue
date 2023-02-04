@@ -185,7 +185,7 @@ export default defineComponent({
         console.log("x getOptionFromDatabase", JSON.stringify(response.data));
         this.categorydata = Object.values(response.data);
         console.log("xx getOptionFromDatabase", this.categorydata);
-        // this.filteroption();
+        this.filteroption();
       } catch (error) {
         console.error(error);
       }
@@ -206,6 +206,7 @@ export default defineComponent({
   },
   created() {
     this.getOptionFromDatabase();
+    console.log(this.$route.params.id);
     console.log(this.$route.params.name);
     console.log(this.$route.params.category);
   }
