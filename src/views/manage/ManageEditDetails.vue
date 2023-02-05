@@ -31,37 +31,53 @@
     </ion-item>
       </ion-card-header>
         </ion-card>
-
-    
         <ion-toolbar>
           <ion-title size="large">รายละเอียด</ion-title>
         </ion-toolbar>
-        <ion-item >
+     
+  <ion-list>
+    <!-- The reorder gesture is disabled by default, enable it to drag and drop items -->
+    <ion-reorder-group :disabled="false" @ionItemReorder="handleReorder($event)">
+      <ion-item >
     <ion-label >ชื่อรายละเอียด</ion-label>
     <ion-input></ion-input>
     <ion-label >ราคา</ion-label>
     <ion-input ></ion-input>
-  <ion-button size="small" color="danger">เเก้ไข</ion-button>
-  
+  <ion-button size="small" color="danger">ลบ</ion-button>
+  <ion-reorder slot="end"></ion-reorder>
   </ion-item>
+
+
   <ion-item >
     <ion-label >ชื่อรายละเอียด</ion-label>
     <ion-input></ion-input>
     <ion-label >ราคา</ion-label>
     <ion-input ></ion-input>
-  <ion-button size="small" color="danger">เเก้ไข</ion-button> </ion-item>
+  <ion-button size="small" color="danger">ลบ</ion-button>
+    <ion-reorder slot="end"></ion-reorder>
+ </ion-item>
+
   <ion-item >
     <ion-label >ชื่อรายละเอียด</ion-label>
     <ion-input></ion-input>
     <ion-label >ราคา</ion-label>
     <ion-input ></ion-input>
-  <ion-button size="small" color="danger">เเก้ไข</ion-button> </ion-item>
+  <ion-button size="small" color="danger">ลบ </ion-button> 
+      <ion-reorder slot="end"></ion-reorder>
+ 
+</ion-item>
+
   <ion-item >
     <ion-label >ชื่อรายละเอียด</ion-label>
     <ion-input></ion-input>
     <ion-label >ราคา</ion-label>
     <ion-input ></ion-input>
-  <ion-button size="small" color="danger">เเก้ไข</ion-button> </ion-item>
+  <ion-button size="small" color="danger">ลบ</ion-button>
+ <ion-reorder slot="end"></ion-reorder>
+</ion-item>
+ 
+</ion-reorder-group>
+  </ion-list>
     </ion-content>
 
 
