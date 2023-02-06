@@ -19,8 +19,8 @@
         <ion-card>
 
 
-
-            <h2>หมวดหมู่</h2>
+<ion-icon name="add-circle-outline"></ion-icon>
+        
             <ion-list>
                 <ion-title size="large">หมวดหมู่</ion-title>
   </ion-list>
@@ -35,7 +35,7 @@
     <ion-item>
       <ion-select  placeholder="เลือกหมวดหมู่">
         <IonSelectOption value="apples">อาหารข้าวเดียว</IonSelectOption>
-        <IonSelectOption value="oranges">ยํา</IonSelectOption>
+        <IonSelectOption value="oranges">ก๋วยเตี๋ยว</IonSelectOption>
         <IonSelectOption value="bananas">นํ้า</IonSelectOption>
       </ion-select>
     </ion-item>
@@ -62,12 +62,19 @@
               <h1>{{ $route.params.id }}</h1>
             </ion-label>
           </ion-card-header>
-  
+         
           <ion-card-content>
             <ion-label color="dark">
               <h2>เพิ่มรายละเอียด</h2>
             </ion-label>
-  
+             <ion-item>
+ 
+        <ion-select placeholder="รายละเอียด" :multiple="true">
+        <ion-select-option value="oranges">เส้น</ion-select-option>
+        <ion-select-option value="bananas">นํ้า</ion-select-option>
+        <ion-select-option value="bananas1">พิเศษ</ion-select-option>
+      </ion-select>
+    </ion-item>
             <ion-item v-for="i in choicetabie" :key="i.nameoption">
               <ion-list>
                 <ion-list-header>
@@ -75,8 +82,10 @@
                     <ion-text>
                       {{ i.nameoption }}
                     </ion-text>
-                    <ion-text v-if="i.request === 1" slot="end" color="medium">*จำเป็นต้องเลือก</ion-text>
-                    <ion-text v-if="i.requestmax > 0" slot="end" color="medium">*เลือกได้สูงสุด {{ i.requestmax }} ชิ้น</ion-text>
+                    <ion-text v-if="i.request === 2" slot="end" color="medium">*ไม่ต้องเป็น</ion-text>
+                    <ion-text v-if="i.request === 1" slot="end" color="medium">*ต้องเลือก1ชิ้น</ion-text>
+                    <ion-text v-if="i.requestmax > 0" slot="end" color="medium">*เลือกได้{{ i.requestmax }}ชิ้น</ion-text>
+                    <ion-button size="small" slot="end"  color="danger">ลบ</ion-button>
                   </ion-item>
                 </ion-list-header>
   
@@ -85,6 +94,7 @@
                     <ion-radio slot="start"></ion-radio>
                     <ion-text><h3>{{ n.namesub }}</h3></ion-text>
                     <ion-text slot="end"><h3>+{{ n.price }}</h3></ion-text>
+                    <ion-button size="small" slot="end"  color="danger">ลบ</ion-button>
                   </ion-item>
                 </ion-radio-group>
   
@@ -93,15 +103,24 @@
                     <ion-checkbox slot="start"></ion-checkbox>
                     <ion-text><h3>{{ n.namesub }}</h3></ion-text>
                     <ion-text slot="end"><h3>+{{ n.price }}</h3></ion-text>
+                    <ion-button size="small" slot="end"  color="danger">ลบ</ion-button>
                   </ion-item>
                 </div>
                 
+                <div v-if="i.checktype === 3">
+                  <ion-item  v-for="n in i.suboption" :key="n.namesub" lines="none">
+                    <ion-checkbox slot="start"></ion-checkbox>
+                    <ion-text><h3>{{ n.namesub }}</h3></ion-text>
+                    <ion-text slot="end"><h3>+{{ n.price }}</h3></ion-text>
+                    <ion-button size="small" slot="end"  color="danger">ลบ</ion-button>
+                  </ion-item>
+                </div>
               </ion-list>
             </ion-item>
   
-            <ion-item>
+            <!-- <ion-item>
               <ion-input placeholder="เพิ่มหมายเหตุเมนูนี้ "></ion-input>
-            </ion-item>
+            </ion-item> -->
             
             <!-- <ion-item class="ion-align-items-center ion-justify-content-center">
               <ion-icon :icon="removeCircle"></ion-icon>
@@ -167,7 +186,7 @@
       return {
         choicetabie: [
           {
-            nameoption: 'ตัวเลือก 1',
+            nameoption: 'เส้น',
             request: 0,   //จำเป็นต้องเลือก
             requestmax: 3,
             checktype: 2, //Type CheckBox
@@ -178,10 +197,21 @@
             ],
           },
           {
-            nameoption: 'ตัวเลือก 2',
+            nameoption: 'นํ้า',
             request: 1,   //จำเป็นต้องเลือก
             requestmax: 0,
             checktype: 1, //Type Radio
+            suboption: [
+              {namesub: 'ตัวเลือกย่อย 1', price: 0},
+              {namesub: 'ตัวเลือกย่อย 2', price: 0},
+              {namesub: 'ตัวเลือกย่อย 3', price: 0},
+            ],
+          },
+          {
+            nameoption: 'พิเศษ',
+            request: 2,   //จำเป็นต้องเลือก
+            requestmax: 0,
+            checktype: 2, //Type Radio
             suboption: [
               {namesub: 'ตัวเลือกย่อย 1', price: 0},
               {namesub: 'ตัวเลือกย่อย 2', price: 0},

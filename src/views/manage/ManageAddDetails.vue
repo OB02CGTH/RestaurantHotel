@@ -26,7 +26,7 @@
           <ion-card-header>
             <ion-item lines="none">
               <ion-item>
-          ชื่อ  <ion-input position="stacked"  :clear-input="true" placeholder="กรุณากรอกชื่อรายละเอียด" value=""></ion-input>
+          ชื่อ  <ion-input position="stacked"  :clear-input="true" placeholder="" value=""></ion-input>
     </ion-item>
     </ion-item>
       </ion-card-header>
@@ -36,14 +36,35 @@
         <ion-toolbar>
           <ion-title size="large">รายละเอียด</ion-title>
         </ion-toolbar>
+          <ion-list>
+    <!-- The reorder gesture is disabled by default, enable it to drag and drop items -->
+ 
         <ion-item >
     <ion-label >ชื่อรายละเอียด</ion-label>
     <ion-input></ion-input>
     <ion-label >ราคา</ion-label>
     <ion-input ></ion-input>
   <ion-button size="small" color="success">เพิ่ม</ion-button>
+   <ion-reorder slot="end"></ion-reorder>
+  </ion-item>   <ion-reorder-group :disabled="false" @ionItemReorder="handleReorder($event)">
+  <ion-item >
+    <ion-label >ชื่อรายละเอียด</ion-label>
+    <ion-input></ion-input>
+    <ion-label >ราคา</ion-label>
+    <ion-input ></ion-input>
+  <ion-button size="small" color="danger">ลบ</ion-button>
+   <ion-reorder slot="end"></ion-reorder>
   </ion-item>
-       
+  <ion-item >
+    <ion-label >ชื่อรายละเอียด</ion-label>
+    <ion-input></ion-input>
+    <ion-label >ราคา</ion-label>
+    <ion-input ></ion-input>
+  <ion-button size="small" color="danger">ลบ</ion-button>
+   <ion-reorder slot="end"></ion-reorder>
+  </ion-item>
+</ion-reorder-group>
+  </ion-list>
     </ion-content>
 
 

@@ -32,7 +32,7 @@
         <ion-card-header>
           <ion-item lines="none">
             <ion-card-title>อาหารข้าวเดียว</ion-card-title>
-            <ion-button slot="end" fill="clear" routerLink="/folder/MenuPage">
+            <ion-button slot="end" fill="clear" routerLink="/folder/managemenuincategory">
                 เเก้ไข
             </ion-button>
             <ion-button slot="end" fill="clear" routerLink="/folder/ManageListCategory">
@@ -47,7 +47,7 @@
         <ion-card-header>
           <ion-item lines="none">
             <ion-card-title>ยํา</ion-card-title>
-            <ion-button slot="end" fill="clear" routerLink="/folder/manage">
+            <ion-button slot="end" fill="clear" routerLink="/folder/managemenuincategory">
                 เเก้ไข
             </ion-button>
             <ion-button slot="end" fill="clear" routerLink="/folder/ManageListCategory">
@@ -62,7 +62,7 @@
         <ion-card-header>
           <ion-item lines="none">
             <ion-card-title>กับข้าว</ion-card-title>
-            <ion-button slot="end" fill="clear" routerLink="/folder/manage">
+            <ion-button slot="end" fill="clear" routerLink="/folder/managemenuincategory">
                 เเก้ไข
             </ion-button>
             <ion-button slot="end" fill="clear" routerLink="/folder/ManageListCategory">
@@ -78,7 +78,7 @@
 
     <ion-footer>
       <ion-toolbar>
-        <ion-button expand="block" fill="clear" color="danger" routerLink="/folder/manage">
+        <ion-button expand="block" fill="clear" color="danger" routerLink="/folder/managemenuincategory">
               <ion-icon ></ion-icon>
           ย้อนกลับ
             </ion-button> 
