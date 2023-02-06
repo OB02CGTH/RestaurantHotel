@@ -33,7 +33,7 @@
           <!-- <ion-col :sizeXs="6" :sizeMd="2.4" v-for="i in filteredMenu" :key="i.name" :routerLink="i.name"> -->
           <!-- <ion-col :sizeXs="6" :sizeMd="2.4" v-for="i in filteredMenu" :key="i.name" :routerLink="i.name"> -->
           <ion-col :sizeXs="6" :sizeMd="2.4" v-for="i in filteredMenu" :key="i.name">
-            <router-link :to="{
+            <router-link style="text-decoration: none;" :text-decoration="none" :to="{
               name: 'option', params: {
                 id: i.Key, name: i.name, category: i.categorykey
               }
@@ -66,7 +66,7 @@
 import { ref, defineComponent } from 'vue';
 import { RouteLocationRaw, useRoute } from 'vue-router';
 import {
-  IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonCol, IonGrid, IonRow, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonSearchbar, IonLabel, IonSegment, IonSegmentButton, IonFab, IonFabButton,
+  IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonCol, IonGrid, IonRow, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonSearchbar, IonLabel, IonSegment, IonSegmentButton, IonFab, IonFabButton, IonButton
 } from '@ionic/vue';
 import { fastFood, time, } from 'ionicons/icons';
 import axios from 'axios';
@@ -97,6 +97,7 @@ export default defineComponent({
     IonSegmentButton,
     IonFab,
     IonFabButton,
+    // IonButton,
   },
   data() {
     return {
@@ -249,15 +250,6 @@ export default defineComponent({
       // console.log("???")
     },
     filterMenu(iddata: string) {
-      // console.log("filterMenu 1 categorymenudata " + JSON.stringify(this.categorymenudata))
-      // console.log("iddata 2 iddata " + iddata)
-      // console.log("filterMenu 3 listmenudata " + JSON.stringify(this.listmenudata))
-      // console.log("filterMenu 4 filteredMenu " + this.filteredMenu)
-      // const listmenudata2 = Object.entries(JSON.stringify(this.listmenudata));
-      // const listmenudata2 = Object.keys(this.listmenudata).map(key => listmenudata);
-      // const listmenudata2 = JSON.stringify(this.listmenudata);
-      // console.log("filterMenu xx listmenudata " + listmenudata2);
-      // this.filteredMenu = listmenudata2.filter(item => item.categorykey === iddata)
       console.log("filteredMenu filteredMenu", this.filteredMenu);
       this.filteredMenu = this.listmenudataarray.filter((item: { categorykey: string; }) => item.categorykey === iddata)
       console.log("filteredMenu2 filteredMenu", this.filteredMenu);

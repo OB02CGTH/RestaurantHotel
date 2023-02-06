@@ -21,7 +21,7 @@
         <ion-card-header>
           <ion-label color="dark">
             <h1>{{ $route.params.name }}</h1>
-            <!-- <h1>{{ $route.params.category }}</h1> -->
+            <h1>{{ $route.params.category }}</h1>
           </ion-label>
         </ion-card-header>
 
@@ -30,45 +30,46 @@
             <h2>ตัวเลือกอาหาร</h2>
           </ion-label>
 
-          <ion-item v-for="i in choicetabie" :key="i.nameoption">
-            <ion-list>
-              <ion-list-header>
-                <ion-item lines="none">
-                  <ion-text>
-                    {{ i.nameoption }}
-                  </ion-text>
-                  <ion-text v-if="i.request === 1" slot="end" color="medium">*จำเป็นต้องเลือก</ion-text>
-                  <ion-text v-if="i.requestmax > 0" slot="end" color="medium">*เลือกได้สูงสุด {{ i.requestmax }}
-                    ชิ้น</ion-text>
-                </ion-item>
-              </ion-list-header>
+          <div v-for="i in choicetabie.suboption" :key="i">
+            <ion-item>
+              <ion-list>
+                <ion-list-header>
+                  <ion-item lines="none">
+                    <ion-text>
+                      {{ i.nameoption }}
+                    </ion-text>
+                    <ion-text v-if="i.request === 1" slot="end" color="medium">*จำเป็นต้องเลือก</ion-text>
+                    <ion-text v-if="i.requestmax > 0" slot="end" color="medium">*เลือกได้สูงสุด {{ i.requestmax }}
+                      ชิ้น</ion-text>
+                  </ion-item>
+                </ion-list-header>
 
-              <ion-radio-group v-if="i.checktype === 1">
-                <ion-item v-for="n in i.suboption" :key="n.namesub" lines="none">
-                  <ion-radio slot="start"></ion-radio>
-                  <ion-text>
-                    <h3>{{ n.namesub }}</h3>
-                  </ion-text>
-                  <ion-text slot="end">
-                    <h3>+{{ n.price }}</h3>
-                  </ion-text>
-                </ion-item>
-              </ion-radio-group>
+                <ion-radio-group v-if="i.checktype === 1">
+                  <ion-item v-for="n in i.suboption" :key="n.namesub" lines="none">
+                    <ion-radio slot="start"></ion-radio>
+                    <ion-text>
+                      <h3>{{ n.namesub }}</h3>
+                    </ion-text>
+                    <ion-text slot="end">
+                      <h3>+{{ n.price }}</h3>
+                    </ion-text>
+                  </ion-item>
+                </ion-radio-group>
 
-              <div v-if="i.checktype === 2">
-                <ion-item v-for="n in i.suboption" :key="n.namesub" lines="none">
-                  <ion-checkbox slot="start"></ion-checkbox>
-                  <ion-text>
-                    <h3>{{ n.namesub }}</h3>
-                  </ion-text>
-                  <ion-text slot="end">
-                    <h3>+{{ n.price }}</h3>
-                  </ion-text>
-                </ion-item>
-              </div>
-
-            </ion-list>
-          </ion-item>
+                <div v-if="i.checktype === 2">
+                  <ion-item v-for="n in i.suboption" :key="n.namesub" lines="none">
+                    <ion-checkbox slot="start"></ion-checkbox>
+                    <ion-text>
+                      <h3>{{ n.namesub }}</h3>
+                    </ion-text>
+                    <ion-text slot="end">
+                      <h3>+{{ n.price }}</h3>
+                    </ion-text>
+                  </ion-item>
+                </div>
+              </ion-list>
+            </ion-item>
+          </div>
 
           <ion-item>
             <ion-input placeholder="เพิ่มหมายเหตุเมนูนี้ "></ion-input>
@@ -98,6 +99,7 @@ import { ref, defineComponent } from 'vue';
 import { IonButton, IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonItem, IonItemGroup, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonLabel, IonCheckbox, IonList, IonRadio, IonRadioGroup, IonListHeader, IonText, IonInput, IonIcon, } from '@ionic/vue';
 import { star, addCircle, removeCircle, constructOutline, } from 'ionicons/icons';
 import axios from 'axios';
+import { Method } from '@babel/types';
 
 const dataurl = "https://restaurant-e109e-default-rtdb.asia-southeast1.firebasedatabase.app/"
 
@@ -154,8 +156,8 @@ export default defineComponent({
           ],
         },
       ],
-      menudata: [],
       categorydata: [],
+      optiondata: [],
       filteredmenu: [],
       filteredoption: [],
     }
@@ -179,32 +181,66 @@ export default defineComponent({
     //     console.error(error);
     //   }
     // },
-    async getOptionFromDatabase() {
+    async getCategoryFromDatabase() {
       try {
         const response = await axios.get(`${dataurl}categorymenu.json`);
-        console.log("x getOptionFromDatabase", JSON.stringify(response.data));
         this.categorydata = Object.values(response.data);
-        console.log("xx getOptionFromDatabase", this.categorydata);
-        this.filteroption();
+        // console.log("I getCategoryFromDatabase", this.categorydata);
+        // this.filteroption();
+        this.categorydata = this.categorydata.filter((item: { Key: string; }) => item.Key == this.$route.params.category);
+        console.log("-I I filteredoption", this.categorydata);
+        this.categorydata.forEach((listoption: { Optionmenu: object }) => {
+          this.filteredoption = this.optiondata.filter((item: { optionmenu: any }) => item.optionmenu.includes(listoption.Optionmenu))
+          // item.optionmenu === optionf.Optionmenu)
+          // console.log("category", optionf.Optionmenu)
+          console.log("option", this.filteredoption)
+          // this.getOptionFromDatabase();
+        })
+        // this.categorydata = Object.values(this.categorydata[2])
+        console.log("I II filteredoption", this.filteredoption);
+        console.log("I II choicetabie", this.choicetabie);
+        // this.getOptionFromDatabase();
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getOptionFromDatabase() {
+      try {
+        const response = await axios.get(`${dataurl}optionmenu.json`);
+        // console.log("I getOptionFromDatabase", JSON.stringify(response.data));
+        this.optiondata = Object.values(response.data);
+        console.log("II I getOptionFromDatabase", this.optiondata);
       } catch (error) {
         console.error(error);
       }
     },
 
+    // filteroption() {
+    //   this.filteredoption = this.optiondata.filter((item: { optionmenu: object }) => item.optionmenu === this.categorydata)
+    // },
+
+    // filteroption() {
+
+    //   this.filteredoption = this.optiondata.filter((item: { optionmenu: object }) => (this.categorydata.name))
+    // },
+
+    // filteroption() {
+    //   this.filteredoption = this.filteredoption.filter((item: { Key: string; }) => item.id == this.$route.params.category);
+    //   console.log("II filteredoption", this.filteredoption);
+    // },
+
     // filtermenu() {
     //   this.filteredmenu = this.menudata.filter((item: { name: string; }) => item.name == this.$route.params.id)
     //   console.log("filter", this.filteredmenu)
     // },
-    filteroption(){
-      this.filteredoption = this.categorydata.filter((item: { Key: string; }) => item.Key == this.$route.params.category);
-      console.log("filteroption", this.filteredoption)
-    }
+
 
     //   toroute(rou: RouteLocationRaw) {
     //     this.$router.push(rou)
     //   }
   },
   created() {
+    this.getCategoryFromDatabase();
     this.getOptionFromDatabase();
     console.log(this.$route.params.id);
     console.log(this.$route.params.name);

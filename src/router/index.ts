@@ -7,10 +7,15 @@ const routes: Array<RouteRecordRaw> = [
     redirect: '/MenuPage'
   },
   {
-    path: '/:id/:name',
+    path: '/:id/:name/:category',
     component: () => import ('../views/Menu/OptionMenu.vue'),
     name: 'option'
   },
+  // {
+  //   path: '/:id/:name/:category',
+  //   component: () => import ('../views/reserveTable/searchTable.vue'),
+  //   name: 'menu'
+  // },
   {
     path: '/MenuPage',
     component: () => import ('../views/Menu/MenuPage.vue')
