@@ -101,7 +101,7 @@ import { star, addCircle, removeCircle, constructOutline, } from 'ionicons/icons
 import axios from 'axios';
 import { Method } from '@babel/types';
 
-const dataurl = "https://restaurant-e109e-default-rtdb.asia-southeast1.firebasedatabase.app/"
+const dataurl = "https://restaurant-e109e-default-rtdb.asia-southeast1.firebasedatabase.app/";
 
 export default defineComponent({
   components: {
@@ -170,36 +170,11 @@ export default defineComponent({
     }
   },
   methods: {
-    // async getMenuFromDatabase() {
-    //   try {
-    //     const response = await axios.get(`${dataurl}listmenu.json`);
-    //     console.log("x getMenuFromDatabase", JSON.stringify(response.data));
-    //     this.menudata = Object.values(response.data);
-    //     console.log("xx getMenuFromDatabase", this.menudata);
-    //     this.filtermenu();
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-    // },
     async getCategoryFromDatabase() {
       try {
-        const response = await axios.get(`${dataurl}categorymenu.json`);
+        const response = await axios.get(`${dataurl}categorymenu/${this.$route.params.category}/Optionmenu.json`);
         this.categorydata = Object.values(response.data);
-        // console.log("I getCategoryFromDatabase", this.categorydata);
-        // this.filteroption();
-        this.categorydata = this.categorydata.filter((item: { Key: string; }) => item.Key == this.$route.params.category);
-        console.log("-I I filteredoption", this.categorydata);
-        this.categorydata.forEach((listoption: { Optionmenu: object }) => {
-          this.filteredoption = this.optiondata.filter((item: { optionmenu: any }) => item.optionmenu.includes(listoption.Optionmenu))
-          // item.optionmenu === optionf.Optionmenu)
-          // console.log("category", optionf.Optionmenu)
-          console.log("option", this.filteredoption)
-          // this.getOptionFromDatabase();
-        })
-        // this.categorydata = Object.values(this.categorydata[2])
-        console.log("I II filteredoption", this.filteredoption);
-        console.log("I II choicetabie", this.choicetabie);
-        // this.getOptionFromDatabase();
+        console.log("I I OptionMenu", this.categorydata);
       } catch (error) {
         console.error(error);
       }
@@ -209,15 +184,15 @@ export default defineComponent({
         const response = await axios.get(`${dataurl}optionmenu.json`);
         // console.log("I getOptionFromDatabase", JSON.stringify(response.data));
         this.optiondata = Object.values(response.data);
-        console.log("II I getOptionFromDatabase", this.optiondata);
+        console.log("II I AllOption", this.optiondata);
       } catch (error) {
         console.error(error);
       }
     },
 
-    // filteroption() {
-    //   this.filteredoption = this.optiondata.filter((item: { optionmenu: object }) => item.optionmenu === this.categorydata)
-    // },
+    filteroption() {
+      this.filteredoption = this.optiondata.filter((item: { id: any }) => item.id === this.categorydata)
+    },
 
     // filteroption() {
 
@@ -245,6 +220,9 @@ export default defineComponent({
     console.log(this.$route.params.id);
     console.log(this.$route.params.name);
     console.log(this.$route.params.category);
+  },
+  onBeforeMount() {
+    this.filteredoption
   }
 })
 </script>

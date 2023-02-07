@@ -33,7 +33,7 @@
           <!-- <ion-col :sizeXs="6" :sizeMd="2.4" v-for="i in filteredMenu" :key="i.name" :routerLink="i.name"> -->
           <!-- <ion-col :sizeXs="6" :sizeMd="2.4" v-for="i in filteredMenu" :key="i.name" :routerLink="i.name"> -->
           <ion-col :sizeXs="6" :sizeMd="2.4" v-for="i in filteredMenu" :key="i.name">
-            <router-link style="text-decoration: none;" :text-decoration="none" :to="{
+            <router-link style="text-decoration: none;" :to="{
               name: 'option', params: {
                 id: i.Key, name: i.name, category: i.categorykey
               }
