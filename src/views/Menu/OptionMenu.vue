@@ -182,7 +182,6 @@ export default defineComponent({
     async getOptionFromDatabase() {
       try {
         const response = await axios.get(`${dataurl}optionmenu.json`);
-        // console.log("I getOptionFromDatabase", JSON.stringify(response.data));
         this.optiondata = Object.values(response.data);
         console.log("II I AllOption", this.optiondata);
       } catch (error) {
@@ -190,8 +189,19 @@ export default defineComponent({
       }
     },
 
-    filteroption() {
-      this.filteredoption = this.optiondata.filter((item: { id: any }) => item.id === this.categorydata)
+    async filteroption() {
+      await this.getCategoryFromDatabase();
+      await this.getOptionFromDatabase();
+      const category = this.categorydata.map((item: { id: string }) => item.id);
+      this.filteredoption = this.optiondata.filter((item: { id: string }) => category.includes(item.id))
+      console.log("filteredoption", this.filteredoption)
+      // this.filteredoption = filteredoption2;
+      // this.categorydata.map().reduce
+
+      // for (let i =0; i < this.categorydata.length; i++){
+      //   this.filteredoption.push()
+      //   this.optiondata.filter((item: { id: any }) => item.id === this.categorydata[i])
+      // }
     },
 
     // filteroption() {
@@ -215,15 +225,11 @@ export default defineComponent({
     //   }
   },
   created() {
-    this.getCategoryFromDatabase();
-    this.getOptionFromDatabase();
+    this.filteroption()
     console.log(this.$route.params.id);
     console.log(this.$route.params.name);
     console.log(this.$route.params.category);
   },
-  onBeforeMount() {
-    this.filteredoption
-  }
 })
 </script>
 
