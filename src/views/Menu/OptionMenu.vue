@@ -84,7 +84,7 @@
           <ion-button expand="block" color="success" @click="createOrder()" routerLink="/folder/MenuPage">
             <ion-icon slot="start" :icon="addCircle"></ion-icon>
             เพิ่ม
-            <ion-label>: [ราคา]</ion-label>
+            <ion-label v-model="menudata.price">: {{menudata.price}}</ion-label>
           </ion-button>
 
         </ion-card-content>
@@ -97,7 +97,7 @@
 import { ref, defineComponent } from 'vue';
 // import { RouteLocationRaw, useRoute } from 'vue-router';
 import { IonButton, IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonItem, IonItemGroup, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonLabel, IonCheckbox, IonList, IonRadio, IonRadioGroup, IonListHeader, IonText, IonInput, IonIcon, } from '@ionic/vue';
-import { star, addCircle, removeCircle, constructOutline, shapesSharp, } from 'ionicons/icons';
+import { star, addCircle, removeCircle, constructOutline, shapesSharp, compassOutline, } from 'ionicons/icons';
 import axios from 'axios';
 import { Method } from '@babel/types';
 
@@ -158,23 +158,38 @@ export default defineComponent({
       ],
       categorydata: [],
       optiondata: [],
-      filteredmenu: [],
       filteredoption: [],
-      neworder: {
-        menu_id: Date.now(),
-        menu: [
-          {
-            name: "", price: 0, quantity: 0, option: [
-              { id: "", name: "", price: "" }
-            ]
+      menudata: [],
+      order: {
+        menu: {
+          menu_id: this.$route.params.id,
+          menu_name: this.$route.params.name,
+          price: "",
+          quantiry: "",
+          menu_option: {
           },
-        ],
-        // menu: [
-        // ],
+
+        },
         note: null,
         ordertype: "โต๊ะ",
         statorder: 1
       },
+      optionselect: [],
+      // neworder: {
+      //   menu_id: Date.now(),
+      //   menu: [
+      //     {
+      //       menu_id: "", name: this.filteredoption.name, price: 0, quantity: 0, option: [
+      //         { id: "", name: "", price: "" }
+      //       ]
+      //     },
+      //   ],
+      //   // menu: [
+      //   // ],
+      //   note: null,
+      //   ordertype: "โต๊ะ",
+      //   statorder: 1
+      // },
     }
   },
   setup() {
@@ -190,10 +205,11 @@ export default defineComponent({
     async filteroption() {
       await this.getCategoryFromDatabase();
       await this.getOptionFromDatabase();
+      await this.getMenuFromDatabase();
       const category = this.categorydata.map((item: { id: string }) => item.id);
       this.filteredoption = this.optiondata.filter((item: { id: string }) => category.includes(item.id))
       console.log("filteredoption", this.filteredoption)
-      console.log(this.neworder.menu_id);
+      // console.log(this.neworder.menu_id);
     },
 
     //get id option in category
@@ -218,9 +234,32 @@ export default defineComponent({
       }
     },
 
+    async getMenuFromDatabase() {
+      try {
+        const response = await axios.get(`${dataurl}listmenu.json`);
+        this.menudata = Object.values(response.data);
+        this.menudata = this.menudata.filter((item: { Key: string }) => item.Key === this.$route.params.id);
+        console.log("III I Menu", this.menudata);
+        this.menudata = this.menudata[0];
+        console.log("III II Menu", this.menudata);
+        // this.order.menu.price = this.menudata
+        // console.log("III II Menu", this.menudata.price);
+
+
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
     createOrder() {
       // axios.post(`${dataurl}/order/`,{
       //   menu: {
+      //     menu_id: this.$route.params.id,
+      //     menu_name: this.$route.params.name,
+      //     menu_option:[
+      //       this.optionselect
+      //     ],
+      //     price: this.menudata.price,
 
       //   },
       //   note: null,
@@ -231,7 +270,7 @@ export default defineComponent({
   },
 
   created() {
-    this.filteroption()
+    this.filteroption();
     console.log(this.$route.params.id);
     console.log(this.$route.params.name);
     console.log(this.$route.params.category);
