@@ -28,16 +28,11 @@
               </ion-item>
               <ion-datetime slot="content" presentation="date-time" onIonChange={this.onStartChange}  minute-values="0,15,30,45"></ion-datetime></ion-accordion>
             <ion-accordion value="end">
-
-
-
               <ion-item slot="header">
                 <ion-label>ถึง-เวลา</ion-label>
                 <ion-note slot="end"></ion-note>
               </ion-item>
               <ion-datetime slot="content" presentation="date-time" onIonChange={this.onEndChange} minute-values="0,15,30,45"></ion-datetime> </ion-accordion>
-
-         
   <ion-item>
     <ion-label position="floating">ชื่อ-สกุล</ion-label>
     <ion-input placeholder="กรุณากรอกชื่อ-สกุล"></ion-input>
@@ -58,27 +53,23 @@
       <ion-label position="floating">เบอร์ติดต่อ</ion-label>
       <ion-input type="tel" placeholder="888-888-8888"></ion-input>
     </ion-item>
-   
      </ion-accordion-group>     
-      
-  </ion-content>
-  
-        
-              <ion-button fill="clear" color="danger" routerLink="/folder/reserveTable">
-              <ion-icon ></ion-icon>
+              <ion-button fill="clear" expand="block"  color="danger" routerLink="/folder/reserveTable">
+              <ion-icon></ion-icon>
           ย้อนกลับ
             </ion-button> 
       
       <ion-button expand="block" color="success" routerLink="/folder/summarytable">
               <ion-icon slot="start" :icon="addCircle"></ion-icon>
              จอง
-            </ion-button> 
+            </ion-button> </ion-content>
+  
     </ion-page>
   </template>
   <script lang="ts">
   import {  defineComponent } from 'vue';
   import { RouteLocationRaw } from 'vue-router';
-  import { IonNote,IonButton, IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonItem, IonCard, IonCardContent, IonCardHeader, IonLabel, IonCheckbox, IonList, IonRadio, IonRadioGroup, IonListHeader, IonText, IonInput, IonIcon, } from '@ionic/vue';
+  import { IonDatetime ,IonNote,IonButton, IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonItem, IonCard, IonCardContent, IonCardHeader, IonLabel, IonCheckbox, IonList, IonRadio, IonRadioGroup, IonListHeader, IonText, IonInput, IonIcon, } from '@ionic/vue';
   import { star, addCircle,  removeCircle, } from 'ionicons/icons';
   
   export default defineComponent({
@@ -86,6 +77,7 @@
       IonButton,
       IonButtons,
       IonContent,
+      IonDatetime,
       IonHeader,
       IonMenuButton,
       IonPage,
