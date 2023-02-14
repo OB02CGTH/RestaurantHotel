@@ -44,9 +44,9 @@
                   </ion-item>
                 </ion-list-header>
 
-                <ion-radio-group v-if="i.typecheck === 1">
+                <ion-radio-group v-if="i.typecheck === 1" @ionChange="radioChanged">
                   <ion-item v-for="n in i.suboption" :key="n.name" lines="none">
-                    <ion-radio slot="start"></ion-radio>
+                    <ion-radio slot="start" :value="n.name"></ion-radio>
                     <ion-text>
                       <h3>{{ n.name }}</h3>
                     </ion-text>
@@ -58,7 +58,7 @@
 
                 <div v-if="i.typecheck === 2">
                   <ion-item v-for="n in i.suboption" :key="n.name" lines="none">
-                    <ion-checkbox slot="start"></ion-checkbox>
+                    <ion-checkbox slot="start" :value="n.name" @ionChange="checkboxChanged($event)"></ion-checkbox>
                     <ion-text>
                       <h3>{{ n.name }}</h3>
                     </ion-text>
@@ -81,10 +81,10 @@
             <ion-icon :icon="addCircle"></ion-icon>
           </ion-item> -->
 
-          <ion-button expand="block" color="success" @click="createOrder()" routerLink="/folder/MenuPage">
+          <ion-button expand="block" color="success" @click="createOrder" >
             <ion-icon slot="start" :icon="addCircle"></ion-icon>
             เพิ่ม
-            <ion-label v-model="menudata.price">: {{menudata.price}}</ion-label>
+            <ion-label v-model="menudata.price">: {{ menudata.price }}</ion-label>
           </ion-button>
 
         </ion-card-content>
@@ -96,12 +96,13 @@
 <script lang="ts">
 import { ref, defineComponent } from 'vue';
 // import { RouteLocationRaw, useRoute } from 'vue-router';
-import { IonButton, IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonItem, IonItemGroup, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonLabel, IonCheckbox, IonList, IonRadio, IonRadioGroup, IonListHeader, IonText, IonInput, IonIcon, } from '@ionic/vue';
+import { IonButton, IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonItem, IonItemGroup, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonLabel, IonCheckbox, IonList, IonRadio, IonRadioGroup, IonListHeader, IonText, IonInput, IonIcon, RadioGroupCustomEvent, CheckboxCustomEvent, } from '@ionic/vue';
 import { star, addCircle, removeCircle, constructOutline, shapesSharp, compassOutline, } from 'ionicons/icons';
 import axios from 'axios';
 import { Method } from '@babel/types';
 
 const dataurl = "https://restaurant-e109e-default-rtdb.asia-southeast1.firebasedatabase.app/";
+const api = axios.create({ baseURL: 'https://restaurant-e109e-default-rtdb.asia-southeast1.firebasedatabase.app/' });
 
 export default defineComponent({
   components: {
@@ -132,6 +133,7 @@ export default defineComponent({
   },
   data() {
     return {
+      idorder: "",
       choicetabie: [
         {
           nameoption: 'ตัวเลือก 1',
@@ -161,35 +163,35 @@ export default defineComponent({
       filteredoption: [],
       menudata: [],
       order: {
+        note: null,
+        ordertype: "โต๊ะ",
+        statorder: 1,
         menu: {
           menu_id: this.$route.params.id,
           menu_name: this.$route.params.name,
           price: "",
           quantiry: "",
-          menu_option: {
-          },
+          menu_option: this.optionselect,
 
         },
+      }, ///
+      optionselect: [] as any,
+      optionselectold: [] as any,
+      neworder: {
+        menu_id: Date.now(),
+        menu: [
+          {
+            menu_id: "", name: this.filteredoption.name, price: 0, quantity: 0, option: [
+              { id: "", name: "", price: "" }
+            ]
+          },
+        ],
+        // menu: [
+        // ],
         note: null,
         ordertype: "โต๊ะ",
         statorder: 1
-      },
-      optionselect: [],
-      // neworder: {
-      //   menu_id: Date.now(),
-      //   menu: [
-      //     {
-      //       menu_id: "", name: this.filteredoption.name, price: 0, quantity: 0, option: [
-      //         { id: "", name: "", price: "" }
-      //       ]
-      //     },
-      //   ],
-      //   // menu: [
-      //   // ],
-      //   note: null,
-      //   ordertype: "โต๊ะ",
-      //   statorder: 1
-      // },
+      }, ///
     }
   },
   setup() {
@@ -215,7 +217,8 @@ export default defineComponent({
     //get id option in category
     async getCategoryFromDatabase() {
       try {
-        const response = await axios.get(`${dataurl}categorymenu/${this.$route.params.category}/Optionmenu.json`);
+        // const response = await axios.get(`${dataurl}categorymenu/${this.$route.params.category}/Optionmenu.json`);
+        const response = await api.get(`categorymenu/${this.$route.params.category}/Optionmenu.json`);
         this.categorydata = Object.values(response.data);
         // console.log("I I OptionMenu", this.categorydata);
       } catch (error) {
@@ -226,7 +229,8 @@ export default defineComponent({
     //get option details
     async getOptionFromDatabase() {
       try {
-        const response = await axios.get(`${dataurl}optionmenu.json`);
+        // const response = await axios.get(`${dataurl}optionmenu.json`);
+        const response = await api.get(`optionmenu.json`);
         this.optiondata = Object.values(response.data);
         // console.log("II I AllOption", this.optiondata);
       } catch (error) {
@@ -236,7 +240,8 @@ export default defineComponent({
 
     async getMenuFromDatabase() {
       try {
-        const response = await axios.get(`${dataurl}listmenu.json`);
+        // const response = await axios.get(`${dataurl}listmenu.json`);
+        const response = await api.get(`listmenu.json`);
         this.menudata = Object.values(response.data);
         this.menudata = this.menudata.filter((item: { Key: string }) => item.Key === this.$route.params.id);
         console.log("III I Menu", this.menudata);
@@ -245,29 +250,68 @@ export default defineComponent({
         // this.order.menu.price = this.menudata
         // console.log("III II Menu", this.menudata.price);
 
-
       } catch (error) {
         console.error(error);
       }
     },
 
-    createOrder() {
-      // axios.post(`${dataurl}/order/`,{
-      //   menu: {
-      //     menu_id: this.$route.params.id,
-      //     menu_name: this.$route.params.name,
-      //     menu_option:[
-      //       this.optionselect
-      //     ],
-      //     price: this.menudata.price,
+    radioChanged(event: RadioGroupCustomEvent) {
+      const valuetarger = event.target.value
+      console.log("Radio", event.target.value)
+      if (this.optionselect.find((element: any) => element === valuetarger)) {
+        console.log(true)
+      }
+      else {
+        console.log(false)
 
-      //   },
-      //   note: null,
-      //   ordertype: "โต๊ะ",
-      //   statorder: 1
-      // })
+        this.optionselect.pop(this.optionselectold)
+        this.optionselect.push(valuetarger)
+        this.optionselectold = valuetarger
+        console.log(this.optionselect)
+      }
+    },
+
+    checkboxChanged(event: CheckboxCustomEvent) {
+      const valuetarger = event.target.value
+      console.log("Checkbox", event.target.value)
+      if (this.optionselect.find((element: any) => element === valuetarger)) {
+        this.optionselect.pop(valuetarger)
+        console.log(true)
+        console.log(this.optionselect)
+      }
+      else {
+        console.log(false)
+        this.optionselect.push(valuetarger)
+        console.log(this.optionselect)
+      }
+    },
+
+    async createOrder() {
+      await api.post("order.json", {
+        idorder: "",
+        note: "",
+        ordertype: "โต๊ะ",
+        statorder: 1,
+        menu: {
+          menu_id: this.$route.params.id,
+          menu_name: this.$route.params.name,
+          price: "",
+          quantiry: "",
+          menu_option: this.optionselect,
+
+        },
+      })
+        .then(response => {
+          console.log(response.data);
+          api.patch(`order/${response.data.name}.json`, { idorder: response.data.name })
+          this.idorder = response.data.name;
+        })
+        .catch(error => {
+          console.log(error)
+        })
     },
   },
+
 
   created() {
     this.filteroption();

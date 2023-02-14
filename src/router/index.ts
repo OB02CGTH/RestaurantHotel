@@ -21,6 +21,11 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import ('../views/Menu/MenuPage.vue')
   },
   {
+    path: '/MenuPage:idorder',
+    component: () => import ('../views/Menu/MenuPage.vue'),
+    name: 'menu2'
+  },
+  {
     path: '/ListMenu',
     component: () => import ('../views/Menu/ListMenu.vue')
   },

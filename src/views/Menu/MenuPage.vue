@@ -55,6 +55,7 @@
     <ion-fab slot="fixed" vertical="bottom" horizontal="end">
       <ion-fab-button routerLink="/ListMenu">
         <ion-icon :icon="fastFood"></ion-icon>
+        <ion-badge>???</ion-badge>
       </ion-fab-button>
     </ion-fab>
 
@@ -66,7 +67,7 @@
 import { ref, defineComponent } from 'vue';
 import { RouteLocationRaw, useRoute } from 'vue-router';
 import {
-  IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonCol, IonGrid, IonRow, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonSearchbar, IonLabel, IonSegment, IonSegmentButton, IonFab, IonFabButton, IonButton
+  IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonCol, IonGrid, IonRow, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonSearchbar, IonLabel, IonSegment, IonSegmentButton, IonFab, IonFabButton, IonButton, IonBadge
 } from '@ionic/vue';
 import { fastFood, time, } from 'ionicons/icons';
 import axios from 'axios';
@@ -97,6 +98,7 @@ export default defineComponent({
     IonSegmentButton,
     IonFab,
     IonFabButton,
+    IonBadge
     // IonButton,
   },
   data() {
@@ -251,9 +253,8 @@ export default defineComponent({
     },
     filterMenu(iddata: string) {
       console.log("filteredMenu filteredMenu", this.filteredMenu);
-      this.filteredMenu = this.listmenudataarray.filter((item: { categorykey: string; }) => item.categorykey === iddata)
+      this.filteredMenu = this.listmenudataarray.filter((item: { categorykey: string }) => item.categorykey === iddata)
       console.log("filteredMenu2 filteredMenu", this.filteredMenu);
-      // console.log("filterMenu 5 filteredMenu " + this.filteredMenu)
     },
   },
 
