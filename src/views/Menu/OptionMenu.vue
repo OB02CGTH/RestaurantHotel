@@ -81,11 +81,17 @@
             <ion-icon :icon="addCircle"></ion-icon>
           </ion-item> -->
 
-          <ion-button expand="block" color="success" @click="createOrder" >
-            <ion-icon slot="start" :icon="addCircle"></ion-icon>
-            เพิ่ม
-            <ion-label v-model="menudata.price">: {{ menudata.price }}</ion-label>
-          </ion-button>
+          <!-- <router-link :to="{
+            name: 'menu2', params: {
+              order: idorder
+            }
+          }"> -->
+            <ion-button expand="block" color="success" @click="createOrder" routerLink="/MenuPage">
+              <ion-icon slot="start" :icon="addCircle"></ion-icon>
+              เพิ่ม
+              <ion-label v-model="menudata.price">: {{ menudata.price }}</ion-label>
+            </ion-button>
+          <!-- </router-link> -->
 
         </ion-card-content>
       </ion-card>
@@ -133,7 +139,7 @@ export default defineComponent({
   },
   data() {
     return {
-      idorder: "",
+      idorder:"",
       choicetabie: [
         {
           nameoption: 'ตัวเลือก 1',
@@ -174,24 +180,10 @@ export default defineComponent({
           menu_option: this.optionselect,
 
         },
-      }, ///
+      },
       optionselect: [] as any,
       optionselectold: [] as any,
-      neworder: {
-        menu_id: Date.now(),
-        menu: [
-          {
-            menu_id: "", name: this.filteredoption.name, price: 0, quantity: 0, option: [
-              { id: "", name: "", price: "" }
-            ]
-          },
-        ],
-        // menu: [
-        // ],
-        note: null,
-        ordertype: "โต๊ะ",
-        statorder: 1
-      }, ///
+      radio: "",
     }
   },
   setup() {
@@ -257,18 +249,20 @@ export default defineComponent({
 
     radioChanged(event: RadioGroupCustomEvent) {
       const valuetarger = event.target.value
-      console.log("Radio", event.target.value)
-      if (this.optionselect.find((element: any) => element === valuetarger)) {
-        console.log(true)
-      }
-      else {
-        console.log(false)
+      // console.log("Radio", event.target.value)
+      this.radio = valuetarger;
+      console.log("Radio", this.radio)
+      // if (this.radioold == valuetarger) {
+      //   console.log(true)
+      // }
+      // else {
+      //   console.log(false)
 
-        this.optionselect.pop(this.optionselectold)
-        this.optionselect.push(valuetarger)
-        this.optionselectold = valuetarger
-        console.log(this.optionselect)
-      }
+      //   this.optionselect.pop(this.optionselectold)
+      //   this.optionselectold = valuetarger
+      //   this.optionselect.push(valuetarger)
+      //   console.log(this.optionselect)
+      // }
     },
 
     checkboxChanged(event: CheckboxCustomEvent) {
@@ -287,28 +281,29 @@ export default defineComponent({
     },
 
     async createOrder() {
+      this.optionselect.push(this.radio)
       await api.post("order.json", {
         idorder: "",
         note: "",
         ordertype: "โต๊ะ",
         statorder: 1,
-        menu: {
-          menu_id: this.$route.params.id,
+        menu: [
+          {menu_id: this.$route.params.id,
           menu_name: this.$route.params.name,
-          price: "",
-          quantiry: "",
+          price: 10,
+          quantiry: 1,
           menu_option: this.optionselect,
-
-        },
+        }
+      ],
       })
-        .then(response => {
-          console.log(response.data);
-          api.patch(`order/${response.data.name}.json`, { idorder: response.data.name })
-          this.idorder = response.data.name;
-        })
-        .catch(error => {
-          console.log(error)
-        })
+      .then(response => {
+        console.log(response.data);
+        api.patch(`order/${response.data.name}.json`, {idorder: response.data.name})
+        this.idorder = response.data.name;
+      })
+      .catch(error => {
+        console.log(error)
+      })
     },
   },
 

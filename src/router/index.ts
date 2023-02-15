@@ -19,12 +19,13 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/MenuPage',
     component: () => import ('../views/Menu/MenuPage.vue')
+
   },
-  {
-    path: '/MenuPage:idorder',
-    component: () => import ('../views/Menu/MenuPage.vue'),
-    name: 'menu2'
-  },
+  // {
+  //   path: '/MenuPage2/:order',
+  //   component: () => import ('../views/Menu/MenuPage.vue'),
+  //   name: 'menu2'
+  // },
   {
     path: '/ListMenu',
     component: () => import ('../views/Menu/ListMenu.vue')

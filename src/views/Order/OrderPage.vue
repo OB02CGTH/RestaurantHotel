@@ -32,18 +32,23 @@
               <ion-card-header>
 
                 <ion-item>
-                  <ion-card-title>{{ i.ordertype }}: {{ i.order_id }}</ion-card-title>
+                  <ion-card-title>{{ i.ordertype }}: ???</ion-card-title>
                   <ion-checkbox slot="end" v-if="i.statorder === 3"></ion-checkbox>
                 </ion-item>
 
               </ion-card-header>
               <ion-card-content>
                 <ion-item lines="none" v-for="n in i.menu" :key="n.name">
-                  <ion-label slot="start" text-wrap>
-                    x{{ n.quantity }}{{ n.name }} <br>
-                    <ion-item lines="none" text-wrap>
-                      <ion-text v-for="op, indexo in n.option" :key="indexo" color="medium">{{ op.name }}
-                        &nbsp;</ion-text> <br>
+                  <ion-label slot="start">
+                    x{{ n.quantity }}{{ n.menu_name }} <br>
+                    <ion-item lines="none">
+                      <!-- <ion-text>
+                        {{ n.menu_option }}
+                      </ion-text> -->
+                      <ion-text v-for="op, indexo in n.menu_option" :key="indexo" color="medium">
+                        {{ op }}
+                        &nbsp;
+                      </ion-text> <br>
                     </ion-item>
                   </ion-label>
                   <ion-label slot="end">{{ n.price * n.quantity }}</ion-label>
