@@ -39,44 +39,72 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import ('../views/Chef/ChefOrder.vue')
   },
   {
-    path: '/reserveTable',
+    path: '/folder/room',
+    component: () => import ('../views/room/OrderRoomPage.vue')
+  },
+  {
+    path: '/folder/delivery',
+    component: () => import ('../views/delivery/OrderDeliveryPage.vue')
+  },
+  {
+    path: '/folder/reserveTable',
     component: () => import ('../views/reserveTable/searchTable.vue')
   },
   {
-    path: '/detailsTable',
+    path: '/folder/detailsTable',
     component: () => import ('../views/reserveTable/DetailsTable.vue')
   },
   {
-    path: '/summaryTable',
+    path: '/folder/summaryTable',
     component: () => import ('../views/reserveTable/SummaryTable.vue')
   },
+
+
+
   {
-    path: '/manage',
+    path: '/folder/manage',
     component: () => import ('../views/manage/MenuPageManage.vue')
   },
   {
-    path: '/mnageeditmenu',
+    path: '/folder/mnageeditmenu',
     component: () => import ('../views/manage/ManageEditMenu.vue')
   },
   {
-    path: '/managelistcategory',
+    path: '/folder/managelistcategory',
     component: () => import ('../views/manage/ManageListCategory.vue')
   },
   {
-    path: '/manageaddcategory',
+    path: '/folder/manageaddcategory',
     component: () => import ('../views/manage/ManageAddCategory.vue')
   },
   {
-    path: '/managelistmenu',
+    path: '/folder/managelistmenu',
     component: () => import ('../views/manage/ManageListMenu.vue')
   },
   {
-    path: '/managelistdetails',
+    path: '/folder/managelistdetails',
     component: () => import ('../views/manage/ManageListDetails.vue')
   },
   {
-    path: '/manageadddetails',
+    path: '/folder/manageadddetails',
     component: () => import ('../views/manage/ManageAddDetails.vue')
+  },
+  {
+    path: '/folder/manageeditdetails',
+    component: () => import ('../views/manage/ManageEditDetails.vue')
+  },
+  {
+    path: '/folder/managemenuincategory',
+    component: () => import ('../views/manage/ManageMenuInCategory.vue')
+  },
+
+  {
+    path: '/folder/managemenuincategory',
+    component: () => import ('../views/manage/ManageMenuInCategory.vue')
+  },
+  {
+    path: '/folder/setupshop',
+    component: () => import ('../views/set/SetUpShop.vue')
   },
 ]
 

@@ -24,7 +24,10 @@
           </ion-select>
         </ion-item>
       </ion-list>
-
+   <ion-item>
+      <ion-label>เลขห้อง</ion-label>
+      <ion-input type="number" placeholder="000"></ion-input>
+    </ion-item>
       <ion-card>
         <ion-card-header>
           <ion-item lines="none">
@@ -54,7 +57,7 @@
 
     <ion-footer>
       <ion-toolbar>
-        <ion-button expand="block" color="success" routerLink="/folder/Order">
+        <ion-button expand="block" color="success" routerLink="/folder/MenuPage">
           <ion-text>
             สั่งอาหาร
           </ion-text>

@@ -68,8 +68,8 @@
   </ion-grid>
   
       </ion-content>
-      
-      <ion-button expand="block" @click="presentAlert" color="success"  >
+       <!-- @click="presentAlert" color="success"  -->
+      <ion-button expand="block"  routerLink="/folder/reserveTable">
               <p>{{ handlerMessage }}</p>
   <p>{{ roleMessage }}</p>
              จอง

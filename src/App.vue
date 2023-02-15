@@ -118,7 +118,7 @@ const appPages = [
   
   {
     title: 'ตั้งค่า',
-    url: '/???',
+    url: '/folder/setupshop',
     iosIcon: alarmOutline,
     mdIcon: alarmOutline,
   },

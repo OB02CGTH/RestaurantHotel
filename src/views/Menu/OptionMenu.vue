@@ -20,8 +20,7 @@
         <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
         <ion-card-header>
           <ion-label color="dark">
-            <h1>{{ $route.params.name }}</h1>
-            <!-- <h1>{{ $route.params.category }}</h1> -->
+            <h1>{{ $route.params.id }}</h1>
           </ion-label>
         </ion-card-header>
 
@@ -30,19 +29,17 @@
             <h2>ตัวเลือกอาหาร</h2>
           </ion-label>
 
-          <div v-for="i in filteredoption" :key="i">
-            <ion-item>
-              <ion-list>
-                <ion-list-header>
-                  <ion-item lines="none">
-                    <ion-text>
-                      {{ i.name }}
-                    </ion-text>
-                    <ion-text v-if="i.request === true" slot="end" color="medium">*จำเป็นต้องเลือก</ion-text>
-                    <ion-text v-if="i.requestmax > 1" slot="end" color="medium">*เลือกได้สูงสุด {{ i.requestmax }}
-                      ชิ้น</ion-text>
-                  </ion-item>
-                </ion-list-header>
+          <ion-item v-for="i in choicetabie" :key="i.nameoption">
+            <ion-list>
+              <ion-list-header>
+                <ion-item lines="none">
+                  <ion-text>
+                    {{ i.nameoption }}
+                  </ion-text>
+                  <ion-text v-if="i.request === 1" slot="end" color="medium">*จำเป็นต้องเลือก</ion-text>
+                  <ion-text v-if="i.requestmax > 0" slot="end" color="medium">*เลือกได้สูงสุด {{ i.requestmax }} ชิ้น</ion-text>
+                </ion-item>
+              </ion-list-header>
 
                 <ion-radio-group v-if="i.typecheck === 1" @ionChange="radioChanged">
                   <ion-item v-for="n in i.suboption" :key="n.name" lines="none">
@@ -74,7 +71,7 @@
           <ion-item>
             <ion-input placeholder="เพิ่มหมายเหตุเมนูนี้ "></ion-input>
           </ion-item>
-
+          
           <!-- <ion-item class="ion-align-items-center ion-justify-content-center">
             <ion-icon :icon="removeCircle"></ion-icon>
             <ion-text>1</ion-text>
@@ -135,9 +132,9 @@ export default defineComponent({
     IonText,
     IonInput,
     IonIcon
-
+    
   },
-  data() {
+  data(){
     return {
       idorder:"",
       choicetabie: [
@@ -147,9 +144,9 @@ export default defineComponent({
           requestmax: 3,
           checktype: 2, //Type CheckBox
           suboption: [
-            { namesub: 'ตัวเลือกย่อย 1', price: 0 },
-            { namesub: 'ตัวเลือกย่อย 2', price: 5 },
-            { namesub: 'ตัวเลือกย่อย 3', price: 10 },
+            {namesub: 'ตัวเลือกย่อย 1', price: 0},
+            {namesub: 'ตัวเลือกย่อย 2', price: 5},
+            {namesub: 'ตัวเลือกย่อย 3', price: 10},
           ],
         },
         {
@@ -158,9 +155,9 @@ export default defineComponent({
           requestmax: 0,
           checktype: 1, //Type Radio
           suboption: [
-            { namesub: 'ตัวเลือกย่อย 1', price: 0 },
-            { namesub: 'ตัวเลือกย่อย 2', price: 0 },
-            { namesub: 'ตัวเลือกย่อย 3', price: 0 },
+            {namesub: 'ตัวเลือกย่อย 1', price: 0},
+            {namesub: 'ตัวเลือกย่อย 2', price: 0},
+            {namesub: 'ตัวเลือกย่อย 3', price: 0},
           ],
         },
       ],
@@ -193,7 +190,6 @@ export default defineComponent({
       removeCircle,
     }
   },
-  methods: {
 
     //get all data and filter option details
     async filteroption() {
