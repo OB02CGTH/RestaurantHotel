@@ -24,30 +24,33 @@
         </ion-segment-button>
       </ion-segment>
 
+      <ion-item v-if="page === 3">
+        <ion-label slot="start">รวมบิล</ion-label>
+        <ion-toggle v-model="toggleValue" slot="end"></ion-toggle>
+      </ion-item>
+
       <ion-grid>
         <ion-row>
           <ion-col :sizeXs="12" :sizeMd="6" v-for="i in filteredOrder" :key="i.order_id">
             <ion-card>
-              <ion-card-header>
 
+              <ion-card-header>
                 <ion-item>
                   <ion-card-title>{{ i.ordertype }}: ???</ion-card-title>
-                  <ion-checkbox slot="end" v-if="i.statorder === 3"></ion-checkbox>
+                  <!-- <ion-checkbox slot="end" v-if="i.statorder === 3"></ion-checkbox> -->
                 </ion-item>
-
               </ion-card-header>
+
               <ion-card-content>
-                <ion-item lines="none" v-for="n in i.menu" :key="n.name">
+                <ion-item lines="none" v-for="n in i.menu" :key="n.menu_name">
                   <ion-label slot="start">
                     x{{ n.quantity }}{{ n.menu_name }} <br>
                     <ion-label lines="none">
-                      <!-- <ion-text>
-                        {{ n.menu_option }}
-                      </ion-text> -->
-                      <p v-for="op, indexo in n.menu_option" :key="indexo" color="medium">
+                      <ion-text v-for="O, indexo in n.menu_option" :key="indexo" color="medium"  class="ion-text-wrap"> {{ O }} &nbsp;</ion-text> <br>
+                      <!-- <p v-for="op, indexo in n.menu_option" :key="indexo" color="medium">
                         {{ op }}
-                        <!-- <br> -->
-                      </p>
+                        <br>
+                      </p> -->
                     </ion-label>
                   </ion-label>
                   <ion-label slot="end">{{ n.price * n.quantity}}</ion-label>
@@ -81,10 +84,10 @@
 
     </ion-content>
 
-    <ion-footer v-if="filteredOrder[0].statorder === 3">
+    <ion-footer v-if="page === 3">
       <ion-toolbar>
-        <ion-button v-show="isChecked = false" :disabled="true" expand="block" color="primary">ชำระหลายบิล</ion-button>
-        <ion-button v-show="isChecked = true" expand="block" color="primary">ชำระหลายบิล</ion-button>
+        <!-- <ion-button v-show="isChecked = false" :disabled="true" expand="block" color="primary">ชำระหลายบิล</ion-button>
+        <ion-button v-show="isChecked = true" expand="block" color="primary">ชำระหลายบิล</ion-button> -->
       </ion-toolbar>
     </ion-footer>
 
@@ -96,11 +99,12 @@
 import { ref, defineComponent } from 'vue';
 import { RouteLocationRaw, useRoute } from 'vue-router';
 import {
-  IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonCol, IonGrid, IonRow, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonLabel, IonSegment, IonSegmentButton, IonItem, IonButton, IonCheckbox, IonFooter, IonText,
+  IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonCol, IonGrid, IonRow, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonLabel, IonSegment, IonSegmentButton, IonItem, IonButton, IonCheckbox, IonFooter, IonText, IonToggle,
 } from '@ionic/vue';
 import axios from 'axios';
 
-const dataurl = "https://restaurant-e109e-default-rtdb.asia-southeast1.firebasedatabase.app/"
+const api = axios.create({ baseURL: 'https://restaurant-e109e-default-rtdb.asia-southeast1.firebasedatabase.app/' });
+// const dataurl = "https://restaurant-e109e-default-rtdb.asia-southeast1.firebasedatabase.app/"
 
 export default defineComponent({
   components: {
@@ -125,9 +129,10 @@ export default defineComponent({
     IonSegmentButton,
     IonItem,
     IonButton,
-    IonCheckbox,
+    // IonCheckbox,
     IonFooter,
     IonText,
+    IonToggle
   },
   data() {
     return {
@@ -183,14 +188,15 @@ export default defineComponent({
       ],
       filteredOrder: [],
       listorderdata: [],
+      toggleValue: false,
+      page: 0,
     }
   },
   methods: {
     async getCategoryFromDatabase() {
       try {
-        const response = await axios.get(`${dataurl}order.json`);
+        const response = await api.get(`/order.json`);
         this.listorderdata = Object.values(response.data);
-        console.log("x", this.listorderdata);
         this.filterOrder(1);
       } catch (error) {
         console.error(error);
@@ -199,10 +205,11 @@ export default defineComponent({
     // toroute(rou: RouteLocationRaw) {
     //   this.$router.push(rou)
     // },
-    filterOrder(iddata: any) {
+    filterOrder(iddata: number) {
       console.log(iddata)
-      this.filteredOrder = this.listorderdata.filter((item: { statorder: number; }) => item.statorder === iddata)
-      console.log("xx", this.filteredOrder);
+      this.page = iddata; 
+      this.filteredOrder = this.listorderdata.filter((item: { statorder: number}) => item.statorder === iddata)
+      // console.log("xx", this.filteredOrder);
     },
     sumprice(menu: { name: string; price: number; quantity: number; }[]) {
       let sum = 0;

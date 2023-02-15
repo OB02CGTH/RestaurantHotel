@@ -24,7 +24,7 @@
         </ion-segment-button>
       </ion-segment>
 
-      <ion-item v-if="filteredOrder[0].statorder === 1">
+      <ion-item v-if="page === 1">
         <ion-label slot="start">เสร็จบางเมนู</ion-label>
         <ion-toggle v-model="toggleValue" slot="end"></ion-toggle>
       </ion-item>
@@ -34,7 +34,7 @@
           <ion-col :sizeXs="12" :sizeMd="6" v-for="(i, indexi) in filteredOrder" :key="indexi">
             <ion-card>
 
-              <ion-card-header v-if="i.statorder != 3">
+              <ion-card-header v-if="i.statorder != 4">
                   <ion-card-title>{{ i.ordertype }}: {{ i.ordernum }}</ion-card-title>
               </ion-card-header>
               <ion-card-header v-else color="danger">
@@ -43,11 +43,11 @@
 
               <ion-card-content>
                 <div v-for="(n, indexn) in i.menu" :key="indexn">
-                  <ion-item v-if="n.statmenu != 3" lines="none" >
+                  <ion-item v-if="n.statmenu != 4" lines="none" >
                     <ion-label slot="start" text-wrap>
                       x{{ n.quantity }}{{ n.name }} <br>
-                      <ion-text v-for="O, indexo in n.option" :key="indexo" color="medium">{{ O }} &nbsp;</ion-text> <br>
-                      <ion-text v-if="n.note">{{ n.note }}</ion-text>
+                      <ion-text v-for="O, indexo in n.option" :key="indexo" color="medium" class="ion-text-wrap">{{ O }} &nbsp;</ion-text> <br>
+                      <!-- <ion-text v-if="n.note">{{ n.note }}</ion-text> -->
                     </ion-label>
                     <ion-label slot="end">{{ n.price * n.quantity }}</ion-label>
                     <ion-button v-if="toggleValue && i.statorder === 1" @click="menusuc(indexi, indexn)" slot="end" fill="outline">เสร็จ</ion-button>
@@ -56,8 +56,8 @@
                   <ion-item v-else lines="none" >
                     <ion-label slot="start" color="danger" text-wrap>
                       x{{ n.quantity }}{{ n.name }} <br>
-                      <ion-text v-for="O, indexo in n.option" :key="indexo" color="medium">{{ O }} &nbsp;</ion-text> <br>
-                      <ion-text v-if="n.note">{{ n.note }}</ion-text>
+                      <ion-text v-for="O, indexo in n.option" :key="indexo" color="medium" class="ion-text-wrap">{{ O }} &nbsp;</ion-text> <br>
+                      <!-- <ion-text v-if="n.note">{{ n.note }}</ion-text> -->
                     </ion-label>
                     <ion-label slot="end" color="danger">{{ n.price * n.quantity }}</ion-label>
                     <ion-button v-if="toggleValue && i.statorder === 1" @click="menusuc(indexi, indexn)" slot="end" fill="outline">เสร็จ</ion-button>
@@ -70,7 +70,7 @@
               </ion-card-content>
 
               <ion-button v-if="i.statorder === 1" expand="block" color="success">พร้อมเสิร์ฟ</ion-button>
-              <!-- <ion-button v-if="i.statorder === 3" expand="block" color="warning">แก้ไขออเดอร์</ion-button> -->
+              <!-- <ion-button v-if="i.statorder === 4" expand="block" color="warning">แก้ไขออเดอร์</ion-button> -->
 
             </ion-card>
           </ion-col>
@@ -172,10 +172,13 @@ export default defineComponent({
       categorymenu: [
         { name: 'ออเดอร์ใหม่', statorder: 1, },
         { name: 'รอเสิร์ฟ', statorder: 2, },
-        { name: 'รอแก้ไข', statorder: 3, },
+        { name: 'รอแก้ไข', statorder: 4, },
       ],
-      filteredOrder: [{menu: [ {statmenu: 0,}] }],
+      filteredOrder: [],
+
+      
       toggleValue: false,
+      page: 0,
     }
   },
   methods: {
@@ -192,12 +195,9 @@ export default defineComponent({
       }
     },
 
-    radioChanged(event: any) {
-      console.log("Radio",event.target.value)
-    },
-
     filterOrder(iddata: number) {
       console.log(iddata)
+      this.page =  iddata;
       this.filteredOrder = this.orderdata.filter((item: {statorder: number}) => item.statorder === iddata)
     },
 
@@ -209,10 +209,10 @@ export default defineComponent({
       }
       return sum;
     },
-    menusuc(indexi: never, indexn: number) {
-      console.log(indexi, indexn)
-      this.filteredOrder[indexi].menu[indexn].statmenu = 2
-    }
+    // menusuc(indexi: never, indexn: number) {
+    //   console.log(indexi, indexn)
+    //   this.filteredOrder[indexi].menu[indexn].statmenu = 2
+    // }
   },
   created() {
     this.getOrderFromDatabase();
