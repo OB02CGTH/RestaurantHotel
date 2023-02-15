@@ -29,49 +29,49 @@
             <h2>ตัวเลือกอาหาร</h2>
           </ion-label>
 
-          <ion-item v-for="i in choicetabie" :key="i.nameoption">
+          <ion-item v-for="i in filteredoption" :key="i">
             <ion-list>
               <ion-list-header>
                 <ion-item lines="none">
                   <ion-text>
-                    {{ i.nameoption }}
+                    {{ i.name }}
                   </ion-text>
                   <ion-text v-if="i.request === 1" slot="end" color="medium">*จำเป็นต้องเลือก</ion-text>
-                  <ion-text v-if="i.requestmax > 0" slot="end" color="medium">*เลือกได้สูงสุด {{ i.requestmax }} ชิ้น</ion-text>
+                  <ion-text v-if="i.requestmax > 0" slot="end" color="medium">*เลือกได้สูงสุด {{ i.requestmax }}
+                    ชิ้น</ion-text>
                 </ion-item>
               </ion-list-header>
 
-                <ion-radio-group v-if="i.typecheck === 1" @ionChange="radioChanged">
-                  <ion-item v-for="n in i.suboption" :key="n.name" lines="none">
-                    <ion-radio slot="start" :value="n.name"></ion-radio>
-                    <ion-text>
-                      <h3>{{ n.name }}</h3>
-                    </ion-text>
-                    <ion-text slot="end">
-                      <h3>+{{ n.price }}</h3>
-                    </ion-text>
-                  </ion-item>
-                </ion-radio-group>
+              <ion-radio-group v-if="i.typecheck === 1" @ionChange="radioChanged">
+                <ion-item v-for="n in i.suboption" :key="n.name" lines="none">
+                  <ion-radio slot="start" :value="n"></ion-radio>
+                  <ion-text>
+                    <h3>{{ n.name }}</h3>
+                  </ion-text>
+                  <ion-text slot="end">
+                    <h3>+{{ n.price }}</h3>
+                  </ion-text>
+                </ion-item>
+              </ion-radio-group>
 
-                <div v-if="i.typecheck === 2">
-                  <ion-item v-for="n in i.suboption" :key="n.name" lines="none">
-                    <ion-checkbox slot="start" :value="n.name" @ionChange="checkboxChanged($event)"></ion-checkbox>
-                    <ion-text>
-                      <h3>{{ n.name }}</h3>
-                    </ion-text>
-                    <ion-text slot="end">
-                      <h3>+{{ n.price }}</h3>
-                    </ion-text>
-                  </ion-item>
-                </div>
-              </ion-list>
-            </ion-item>
-          </div>
+              <div v-if="i.typecheck === 2">
+                <ion-item v-for="n in i.suboption" :key="n.name" lines="none">
+                  <ion-checkbox slot="start" :value="n" @ionChange="checkboxChanged($event)"></ion-checkbox>
+                  <ion-text>
+                    <h3>{{ n.name }}</h3>
+                  </ion-text>
+                  <ion-text slot="end">
+                    <h3>+{{ n.price }}</h3>
+                  </ion-text>
+                </ion-item>
+              </div>
+            </ion-list>
+          </ion-item>
 
           <ion-item>
             <ion-input placeholder="เพิ่มหมายเหตุเมนูนี้ "></ion-input>
           </ion-item>
-          
+
           <!-- <ion-item class="ion-align-items-center ion-justify-content-center">
             <ion-icon :icon="removeCircle"></ion-icon>
             <ion-text>1</ion-text>
@@ -83,11 +83,11 @@
               order: idorder
             }
           }"> -->
-            <ion-button expand="block" color="success" @click="createOrder" routerLink="/MenuPage">
-              <ion-icon slot="start" :icon="addCircle"></ion-icon>
-              เพิ่ม
-              <ion-label v-model="menudata.price">: {{ menudata.price }}</ion-label>
-            </ion-button>
+          <ion-button expand="block" color="success" @click="createOrder" routerLink="/MenuPage">
+            <ion-icon slot="start" :icon="addCircle"></ion-icon>
+            เพิ่ม
+            <ion-label>: {{ menudata.price+radioprice+checkboxprice }}</ion-label>
+          </ion-button>
           <!-- </router-link> -->
 
         </ion-card-content>
@@ -103,6 +103,8 @@ import { IonButton, IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, I
 import { star, addCircle, removeCircle, constructOutline, shapesSharp, compassOutline, } from 'ionicons/icons';
 import axios from 'axios';
 import { Method } from '@babel/types';
+import { toastController } from '@ionic/core';
+import { Item } from '@ionic/core/dist/types/components/item/item';
 
 const dataurl = "https://restaurant-e109e-default-rtdb.asia-southeast1.firebasedatabase.app/";
 const api = axios.create({ baseURL: 'https://restaurant-e109e-default-rtdb.asia-southeast1.firebasedatabase.app/' });
@@ -132,11 +134,10 @@ export default defineComponent({
     IonText,
     IonInput,
     IonIcon
-    
   },
-  data(){
+  data() {
     return {
-      idorder:"",
+      idorder: "",
       choicetabie: [
         {
           nameoption: 'ตัวเลือก 1',
@@ -144,9 +145,9 @@ export default defineComponent({
           requestmax: 3,
           checktype: 2, //Type CheckBox
           suboption: [
-            {namesub: 'ตัวเลือกย่อย 1', price: 0},
-            {namesub: 'ตัวเลือกย่อย 2', price: 5},
-            {namesub: 'ตัวเลือกย่อย 3', price: 10},
+            { namesub: 'ตัวเลือกย่อย 1', price: 0 },
+            { namesub: 'ตัวเลือกย่อย 2', price: 5 },
+            { namesub: 'ตัวเลือกย่อย 3', price: 10 },
           ],
         },
         {
@@ -155,16 +156,16 @@ export default defineComponent({
           requestmax: 0,
           checktype: 1, //Type Radio
           suboption: [
-            {namesub: 'ตัวเลือกย่อย 1', price: 0},
-            {namesub: 'ตัวเลือกย่อย 2', price: 0},
-            {namesub: 'ตัวเลือกย่อย 3', price: 0},
+            { namesub: 'ตัวเลือกย่อย 1', price: 0 },
+            { namesub: 'ตัวเลือกย่อย 2', price: 0 },
+            { namesub: 'ตัวเลือกย่อย 3', price: 0 },
           ],
         },
-      ],
+      ], //
       categorydata: [],
-      optiondata: [],
+      optiondata: [] as any,
       filteredoption: [],
-      menudata: [],
+      menudata: [] as any,
       order: {
         note: null,
         ordertype: "โต๊ะ",
@@ -177,12 +178,16 @@ export default defineComponent({
           menu_option: this.optionselect,
 
         },
-      },
+      }, //
       optionselect: [] as any,
-      optionselectold: [] as any,
+      // optionselectold: [] as any,
       radio: "",
+      radioprice: 0,
+      checkboxprice: 0,
+      totalprice: 0,
     }
   },
+
   setup() {
     return {
       star,
@@ -190,6 +195,8 @@ export default defineComponent({
       removeCircle,
     }
   },
+
+  methods: {
 
     //get all data and filter option details
     async filteroption() {
@@ -232,75 +239,71 @@ export default defineComponent({
         const response = await api.get(`listmenu.json`);
         this.menudata = Object.values(response.data);
         this.menudata = this.menudata.filter((item: { Key: string }) => item.Key === this.$route.params.id);
-        console.log("III I Menu", this.menudata);
         this.menudata = this.menudata[0];
-        console.log("III II Menu", this.menudata);
-        // this.order.menu.price = this.menudata
+        this.totalprice = this.menudata.price
         // console.log("III II Menu", this.menudata.price);
-
       } catch (error) {
         console.error(error);
       }
     },
 
     radioChanged(event: RadioGroupCustomEvent) {
-      const valuetarger = event.target.value
-      // console.log("Radio", event.target.value)
-      this.radio = valuetarger;
-      console.log("Radio", this.radio)
-      // if (this.radioold == valuetarger) {
-      //   console.log(true)
-      // }
-      // else {
-      //   console.log(false)
+      // const valuetarger = event.target.value
+      console.log("RadioI", event.target.value)
+      this.radio = event.target.value.name;
+      this.radioprice = event.target.value.price;
 
-      //   this.optionselect.pop(this.optionselectold)
-      //   this.optionselectold = valuetarger
-      //   this.optionselect.push(valuetarger)
-      //   console.log(this.optionselect)
-      // }
+      console.log("RadioII", this.radio)
+      console.log("RadioII", this.radioprice)
     },
 
     checkboxChanged(event: CheckboxCustomEvent) {
-      const valuetarger = event.target.value
+      // const valuetarger = event.target.value
       console.log("Checkbox", event.target.value)
-      if (this.optionselect.find((element: any) => element === valuetarger)) {
-        this.optionselect.pop(valuetarger)
+      if (this.optionselect.find((element: any) => element === event.target.value.name)) {
+        this.optionselect.pop(event.target.value.name)
+        this.checkboxprice -= event.target.value.price
+
         console.log(true)
         console.log(this.optionselect)
+        console.log(this.checkboxprice)
       }
       else {
         console.log(false)
-        this.optionselect.push(valuetarger)
+        this.optionselect.push(event.target.value.name)
+        this.checkboxprice += event.target.value.price
         console.log(this.optionselect)
+        console.log(this.checkboxprice)
       }
     },
 
     async createOrder() {
       this.optionselect.push(this.radio)
+      this.totalprice = this.menudata.price + this.radioprice + this.checkboxprice
       await api.post("order.json", {
         idorder: "",
         note: "",
         ordertype: "โต๊ะ",
         statorder: 1,
         menu: [
-          {menu_id: this.$route.params.id,
-          menu_name: this.$route.params.name,
-          price: 10,
-          quantiry: 1,
-          menu_option: this.optionselect,
-        }
-      ],
+          {
+            menu_id: this.$route.params.id,
+            menu_name: this.$route.params.name,
+            price: this.totalprice,
+            quantity: 1,
+            menu_option: this.optionselect,
+          }
+        ],
       })
-      .then(response => {
-        console.log(response.data);
-        api.patch(`order/${response.data.name}.json`, {idorder: response.data.name})
-        this.idorder = response.data.name;
-      })
-      .catch(error => {
-        console.log(error)
-      })
-    },
+        .then(response => {
+          console.log(response.data);
+          api.patch(`order/${response.data.name}.json`, { idorder: response.data.name })
+          this.idorder = response.data.name;
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    }
   },
 
 
@@ -309,7 +312,7 @@ export default defineComponent({
     console.log(this.$route.params.id);
     console.log(this.$route.params.name);
     console.log(this.$route.params.category);
-  },
+  }
 })
 </script>
 

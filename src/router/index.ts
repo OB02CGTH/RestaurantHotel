@@ -19,7 +19,6 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/MenuPage',
     component: () => import ('../views/Menu/MenuPage.vue')
-
   },
   // {
   //   path: '/MenuPage2/:order',
@@ -35,7 +34,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import ('../views/Order/OrderPage.vue')
   },
   {
-    path: '/cheforder',
+    path: '/Cheforder',
     component: () => import ('../views/Chef/ChefOrder.vue')
   },
   {

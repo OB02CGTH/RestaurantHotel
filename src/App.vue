@@ -99,7 +99,7 @@ const appPages = [
   },
   {
     title: 'ออเดอร์เชฟ',
-    url: '/cheforder',
+    url: '/Cheforder',
     iosIcon: readerOutline,
     mdIcon: readerOutline,
   },

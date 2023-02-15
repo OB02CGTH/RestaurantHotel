@@ -19,8 +19,7 @@
       <!-- <ion-searchbar placeholder="ค้นหาเมนู"></ion-searchbar> -->
 
       <ion-segment :scrollable="true" :value="categorymenu[0].name">
-        <ion-segment-button v-for="i in categorymenu" :key="i.statorder" :value="i.name"
-          @click="filterOrder(i.statorder)">
+        <ion-segment-button v-for="i in categorymenu" :key="i.statorder" :value="i.name" @click="filterOrder(i.statorder)">
           <ion-label>{{ i.name }}</ion-label>
         </ion-segment-button>
       </ion-segment>
@@ -41,17 +40,17 @@
                 <ion-item lines="none" v-for="n in i.menu" :key="n.name">
                   <ion-label slot="start">
                     x{{ n.quantity }}{{ n.menu_name }} <br>
-                    <ion-item lines="none">
+                    <ion-label lines="none">
                       <!-- <ion-text>
                         {{ n.menu_option }}
                       </ion-text> -->
-                      <ion-text v-for="op, indexo in n.menu_option" :key="indexo" color="medium">
+                      <p v-for="op, indexo in n.menu_option" :key="indexo" color="medium">
                         {{ op }}
-                        &nbsp;
-                      </ion-text> <br>
-                    </ion-item>
+                        <!-- <br> -->
+                      </p>
+                    </ion-label>
                   </ion-label>
-                  <ion-label slot="end">{{ n.price * n.quantity }}</ion-label>
+                  <ion-label slot="end">{{ n.price * n.quantity}}</ion-label>
                 </ion-item>
 
                 <ion-text v-if="i.note" slot="start">
@@ -192,15 +191,15 @@ export default defineComponent({
         const response = await axios.get(`${dataurl}order.json`);
         this.listorderdata = Object.values(response.data);
         console.log("x", this.listorderdata);
+        this.filterOrder(1);
       } catch (error) {
         console.error(error);
       }
-      this.filterOrder(1);
     },
     // toroute(rou: RouteLocationRaw) {
     //   this.$router.push(rou)
     // },
-    filterOrder(iddata: number) {
+    filterOrder(iddata: any) {
       console.log(iddata)
       this.filteredOrder = this.listorderdata.filter((item: { statorder: number; }) => item.statorder === iddata)
       console.log("xx", this.filteredOrder);
@@ -217,9 +216,6 @@ export default defineComponent({
   created() {
     this.getCategoryFromDatabase();
   },
-  // beforeMount() {
-  //   this.filterOrder(1)
-  // },
 });
 </script>
 

@@ -19,7 +19,7 @@
       <!-- <ion-searchbar placeholder="ค้นหาเมนู"></ion-searchbar> -->
 
       <ion-segment :scrollable="true" :value="categorymenu[0].name">
-        <ion-segment-button v-for="(c, index) in categorymenu" :key="index" :value="c.name" @click="filterOrder(c.statorder)">
+        <ion-segment-button v-for="c, index in categorymenu" :key="index" :value="c.name" @click="filterOrder(c.statorder)">
           <ion-label>{{ c.name }}</ion-label>
         </ion-segment-button>
       </ion-segment>
@@ -88,7 +88,10 @@ import { RouteLocationRaw, useRoute } from 'vue-router';
 import {
   IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonCol, IonGrid, IonRow, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonLabel, IonSegment, IonSegmentButton, IonItem, IonButton, IonCheckbox, IonFooter, IonText, IonToggle,
 } from '@ionic/vue';
+import axios from 'axios';
 import { pricetag } from 'ionicons/icons';
+
+const api = axios.create({ baseURL: 'https://restaurant-e109e-default-rtdb.asia-southeast1.firebasedatabase.app/' });
 
 export default defineComponent({
   components: {
@@ -165,6 +168,7 @@ export default defineComponent({
           // url: '/folder/Menu1',
         },
       ],
+      orderdata: [],
       categorymenu: [
         { name: 'ออเดอร์ใหม่', statorder: 1, },
         { name: 'รอเสิร์ฟ', statorder: 2, },
@@ -178,10 +182,25 @@ export default defineComponent({
     // toroute(rou: RouteLocationRaw) {
     //   this.$router.push(rou)
     // },
+    async getOrderFromDatabase() {
+      try {
+        const response = await api.get(`/order.json`)
+        this.orderdata = Object.values(response.data);
+        this.filterOrder(1);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    radioChanged(event: any) {
+      console.log("Radio",event.target.value)
+    },
+
     filterOrder(iddata: number) {
       console.log(iddata)
-      this.filteredOrder = this.ordermenu.filter(item => item.statorder === iddata)
+      this.filteredOrder = this.orderdata.filter((item: {statorder: number}) => item.statorder === iddata)
     },
+
     sumprice(menu: { name: string; price: number; quantity: number; }[]) {
       let sum = 0;
       for (const i in menu) {
@@ -195,8 +214,8 @@ export default defineComponent({
       this.filteredOrder[indexi].menu[indexn].statmenu = 2
     }
   },
-  beforeMount() {
-    this.filterOrder(1)
+  created() {
+    this.getOrderFromDatabase();
   },
 });
 </script>

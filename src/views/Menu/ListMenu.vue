@@ -134,9 +134,7 @@ export default defineComponent({
   },
   methods: {
 
-    sumprice(menu: {
-      name: string; price: number; quantity: number;
-    }[]) {
+    sumprice(menu: {name: string; price: number; quantity: number;}[]) {
       let sum = 0;
       for (const i in menu) {
         const menuobject = menu[i];
