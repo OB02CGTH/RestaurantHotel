@@ -112,6 +112,10 @@ const routes: Array<RouteRecordRaw> = [
     path: '/folder/setupshop',
     component: () => import ('../views/set/SetUpShop.vue')
   },
+    {
+    path: '/folder/record',
+    component: () => import ('../views/record/RecordMenu.vue')
+  },
 ]
 
 const router = createRouter({
