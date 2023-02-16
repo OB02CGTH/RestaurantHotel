@@ -87,15 +87,21 @@ const appPages = [
   },
   {
     title: 'เดลิเวอรี',
-    url: '/Favorites',
+    url: '/folder/delivery',
     iosIcon: bagHandleOutline,
     mdIcon: bagHandleOutline,
   },
   {
     title: 'ออเดอร์ห้องพัก',
-    url: '/Archived',
+    url: '/folder/room',
     iosIcon: homeOutline,
     mdIcon: homeOutline,
+  },
+   {
+    title: 'ประวัติจบงานทั้งหมด',
+    url: '/folder/record',
+    iosIcon: readerOutline,
+    mdIcon: readerOutline,
   },
   {
     title: 'ออเดอร์เชฟ',
@@ -105,23 +111,24 @@ const appPages = [
   },
   {
     title: 'จองโต๊ะ',
-    url: '/reserveTable',
-    iosIcon: alarmOutline,
-    mdIcon: alarmOutline,
+    url: '/folder/reserveTable',
+    iosIcon: homeOutline,
+    mdIcon: homeOutline,
   },
   {
     title: 'จัดการร้าน',
-    url: '/manage',
-    iosIcon: alarmOutline,
-    mdIcon: alarmOutline,
+    url: '/folder/manage',
+    iosIcon: storefront,
+    mdIcon: storefront,
   },
   
   {
     title: 'ตั้งค่า',
     url: '/folder/setupshop',
-    iosIcon: alarmOutline,
-    mdIcon: alarmOutline,
+    iosIcon: settings,
+    mdIcon: settings,
   },
+ 
 ];
 // const labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
 
