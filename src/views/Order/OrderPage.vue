@@ -19,7 +19,8 @@
       <!-- <ion-searchbar placeholder="ค้นหาเมนู"></ion-searchbar> -->
 
       <ion-segment :scrollable="true" :value="categorymenu[0].name">
-        <ion-segment-button v-for="i in categorymenu" :key="i.statorder" :value="i.name" @click="filterOrder(i.statorder)">
+        <ion-segment-button v-for="i in categorymenu" :key="i.statorder" :value="i.name"
+          @click="filterOrder(i.statorder)">
           <ion-label>{{ i.name }}</ion-label>
         </ion-segment-button>
       </ion-segment>
@@ -34,26 +35,29 @@
           <ion-col :sizeXs="12" :sizeMd="6" v-for="i in filteredOrder" :key="i.order_id">
             <ion-card>
 
+              <!-- Title -->
               <ion-card-header>
                 <ion-item>
-                  <ion-card-title>{{ i.ordertype }}: ???</ion-card-title>
+                  <ion-card-title>{{ i.ordertype }}: {{ i.idorder }}</ion-card-title>
                   <!-- <ion-checkbox slot="end" v-if="i.statorder === 3"></ion-checkbox> -->
                 </ion-item>
               </ion-card-header>
 
+              <!-- Optional -->
               <ion-card-content>
                 <ion-item lines="none" v-for="n in i.menu" :key="n.menu_name">
                   <ion-label slot="start">
                     x{{ n.quantity }}{{ n.menu_name }} <br>
                     <ion-label lines="none">
-                      <ion-text v-for="O, indexo in n.menu_option" :key="indexo" color="medium"  class="ion-text-wrap"> {{ O }} &nbsp;</ion-text> <br>
+                      <ion-text v-for="O, indexo in n.menu_option" :key="indexo" color="medium" class="ion-text-wrap">
+                        {{ O }} &nbsp;</ion-text> <br>
                       <!-- <p v-for="op, indexo in n.menu_option" :key="indexo" color="medium">
                         {{ op }}
                         <br>
                       </p> -->
                     </ion-label>
                   </ion-label>
-                  <ion-label slot="end">{{ n.price * n.quantity}}</ion-label>
+                  <ion-label slot="end">{{ n.price * n.quantity }}</ion-label>
                 </ion-item>
 
                 <ion-text v-if="i.note" slot="start">
@@ -64,7 +68,7 @@
                   <h1>รวม {{ sumprice(i.menu) }} บาท</h1>
                 </ion-text>
               </ion-card-content>
-              <ion-button v-if="i.statorder === 2" expand="block" color="secondary">นำเสิร์ฟ</ion-button>
+              <ion-button v-if="i.statorder === 2" @click="readytoserve(i.idorder)" expand="block" color="secondary">นำเสิร์ฟ</ion-button>
               <div v-if="i.statorder === 3">
                 <ion-grid>
                   <ion-row>
@@ -72,7 +76,7 @@
                       <ion-button expand="block" color="secondary" routerLink="/folder/MenuPage">สั่งเพิ่ม</ion-button>
                     </ion-col>
                     <ion-col :sizeXs="8">
-                      <ion-button expand="block" color="success">ชำระ</ion-button>
+                      <ion-button @click="completepay(i.idorder)" expand="block" color="success">ชำระ</ion-button>
                     </ion-col>
                   </ion-row>
                 </ion-grid>
@@ -207,8 +211,8 @@ export default defineComponent({
     // },
     filterOrder(iddata: number) {
       console.log(iddata)
-      this.page = iddata; 
-      this.filteredOrder = this.listorderdata.filter((item: { statorder: number}) => item.statorder === iddata)
+      this.page = iddata;
+      this.filteredOrder = this.listorderdata.filter((item: { statorder: number }) => item.statorder === iddata)
       // console.log("xx", this.filteredOrder);
     },
     sumprice(menu: { name: string; price: number; quantity: number; }[]) {
@@ -219,6 +223,17 @@ export default defineComponent({
       }
       return sum;
     },
+
+    async readytoserve(idorder: string) {
+      await api.patch(`order/${idorder}.json`, {statorder: 3})
+      this.getCategoryFromDatabase();
+    },
+
+    async completepay(idorder: string) {
+      await api.patch(`order/${idorder}.json`, {statorder: 0})
+      this.getCategoryFromDatabase();
+    }
+
   },
   created() {
     this.getCategoryFromDatabase();

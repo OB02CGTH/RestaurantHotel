@@ -31,6 +31,8 @@
 
           <ion-item v-for="i in filteredoption" :key="i">
             <ion-list>
+              
+              //Title
               <ion-list-header>
                 <ion-item lines="none">
                   <ion-text>
@@ -42,6 +44,7 @@
                 </ion-item>
               </ion-list-header>
 
+              //Option Radio
               <ion-radio-group v-if="i.typecheck === 1" @ionChange="radioChanged">
                 <ion-item v-for="n in i.suboption" :key="n.name" lines="none">
                   <ion-radio slot="start" :value="n"></ion-radio>
@@ -54,6 +57,7 @@
                 </ion-item>
               </ion-radio-group>
 
+              //Option CheckBox
               <div v-if="i.typecheck === 2">
                 <ion-item v-for="n in i.suboption" :key="n.name" lines="none">
                   <ion-checkbox slot="start" :value="n" @ionChange="checkboxChanged($event)"></ion-checkbox>
