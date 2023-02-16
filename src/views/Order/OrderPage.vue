@@ -18,8 +18,8 @@
 
       <!-- <ion-searchbar placeholder="ค้นหาเมนู"></ion-searchbar> -->
 
-      <ion-segment :scrollable="true" :value="categorymenu[0].name">
-        <ion-segment-button v-for="i in categorymenu" :key="i.statorder" :value="i.name"
+      <ion-segment :scrollable="true" :value="page">
+        <ion-segment-button v-for="i in categorymenu" :key="i.statorder" :value="i.statorder"
           @click="filterOrder(i.statorder)">
           <ion-label>{{ i.name }}</ion-label>
         </ion-segment-button>

@@ -11,11 +11,6 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import ('../views/Menu/OptionMenu.vue'),
     name: 'option'
   },
-  // {
-  //   path: '/:id/:name/:category',
-  //   component: () => import ('../views/reserveTable/searchTable.vue'),
-  //   name: 'menu'
-  // },
   {
     path: '/MenuPage',
     component: () => import ('../views/Menu/MenuPage.vue')
@@ -26,16 +21,28 @@ const routes: Array<RouteRecordRaw> = [
   //   name: 'menu2'
   // },
   {
-    path: '/ListMenu',
-    component: () => import ('../views/Menu/ListMenu.vue')
-  },
-  {
     path: '/Order',
     component: () => import ('../views/Order/OrderPage.vue')
   },
   {
+    path: '/Favorites',
+    component: () => import ('../views/Menu/MenuPage.vue')
+  },
+  {
+    path: '/Favorites',
+    component: () => import ('../views/Menu/MenuPage.vue')
+  },
+  {
+    path: '/Archived',
+    component: () => import ('../views/Menu/MenuPage.vue')
+  },
+  {
     path: '/Cheforder',
     component: () => import ('../views/Chef/ChefOrder.vue')
+  },
+  {
+    path: '/ListMenu',
+    component: () => import ('../views/Menu/ListMenu.vue')
   },
   {
     path: '/folder/room',

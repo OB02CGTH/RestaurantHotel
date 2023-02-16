@@ -105,13 +105,13 @@ const appPages = [
   },
   {
     title: 'จองโต๊ะ',
-    url: '/reserveTable',
+    url: '/folder/reserveTable',
     iosIcon: alarmOutline,
     mdIcon: alarmOutline,
   },
   {
     title: 'จัดการร้าน',
-    url: '/manage',
+    url: '/folder/manage',
     iosIcon: alarmOutline,
     mdIcon: alarmOutline,
   },

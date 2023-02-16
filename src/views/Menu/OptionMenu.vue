@@ -20,7 +20,7 @@
         <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
         <ion-card-header>
           <ion-label color="dark">
-            <h1>{{ $route.params.id }}</h1>
+            <h1>{{ $route.params.name }}</h1>
           </ion-label>
         </ion-card-header>
 
@@ -31,8 +31,8 @@
 
           <ion-item v-for="i in filteredoption" :key="i">
             <ion-list>
-              
-              //Title
+
+              <!-- Title -->
               <ion-list-header>
                 <ion-item lines="none">
                   <ion-text>
@@ -44,7 +44,7 @@
                 </ion-item>
               </ion-list-header>
 
-              //Option Radio
+              <!-- Option Radio -->
               <ion-radio-group v-if="i.typecheck === 1" @ionChange="radioChanged">
                 <ion-item v-for="n in i.suboption" :key="n.name" lines="none">
                   <ion-radio slot="start" :value="n"></ion-radio>
@@ -57,7 +57,7 @@
                 </ion-item>
               </ion-radio-group>
 
-              //Option CheckBox
+              <!-- Option CheckBox -->
               <div v-if="i.typecheck === 2">
                 <ion-item v-for="n in i.suboption" :key="n.name" lines="none">
                   <ion-checkbox slot="start" :value="n" @ionChange="checkboxChanged($event)"></ion-checkbox>
