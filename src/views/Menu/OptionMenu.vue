@@ -87,7 +87,11 @@
               order: idorder
             }
           }"> -->
-          <ion-button expand="block" color="success" @click="createOrder" routerLink="/MenuPage">
+
+          <!-- routerLink="/MenuPage" -->
+          <!-- :to="{ name: 'menu2', params: {id: idorder}}" -->
+          
+          <ion-button expand="block" color="success" @click="createOrder">
             <ion-icon slot="start" :icon="addCircle"></ion-icon>
             เพิ่ม
             <ion-label>: {{ menudata.price+radioprice+checkboxprice }}</ion-label>
@@ -106,9 +110,6 @@ import { ref, defineComponent } from 'vue';
 import { IonButton, IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonItem, IonItemGroup, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonLabel, IonCheckbox, IonList, IonRadio, IonRadioGroup, IonListHeader, IonText, IonInput, IonIcon, RadioGroupCustomEvent, CheckboxCustomEvent, } from '@ionic/vue';
 import { star, addCircle, removeCircle, constructOutline, shapesSharp, compassOutline, } from 'ionicons/icons';
 import axios from 'axios';
-import { Method } from '@babel/types';
-import { toastController } from '@ionic/core';
-import { Item } from '@ionic/core/dist/types/components/item/item';
 
 const dataurl = "https://restaurant-e109e-default-rtdb.asia-southeast1.firebasedatabase.app/";
 const api = axios.create({ baseURL: 'https://restaurant-e109e-default-rtdb.asia-southeast1.firebasedatabase.app/' });
@@ -142,30 +143,6 @@ export default defineComponent({
   data() {
     return {
       idorder: "",
-      choicetabie: [
-        {
-          nameoption: 'ตัวเลือก 1',
-          request: 0,   //จำเป็นต้องเลือก
-          requestmax: 3,
-          checktype: 2, //Type CheckBox
-          suboption: [
-            { namesub: 'ตัวเลือกย่อย 1', price: 0 },
-            { namesub: 'ตัวเลือกย่อย 2', price: 5 },
-            { namesub: 'ตัวเลือกย่อย 3', price: 10 },
-          ],
-        },
-        {
-          nameoption: 'ตัวเลือก 2',
-          request: 1,   //จำเป็นต้องเลือก
-          requestmax: 0,
-          checktype: 1, //Type Radio
-          suboption: [
-            { namesub: 'ตัวเลือกย่อย 1', price: 0 },
-            { namesub: 'ตัวเลือกย่อย 2', price: 0 },
-            { namesub: 'ตัวเลือกย่อย 3', price: 0 },
-          ],
-        },
-      ], //
       categorydata: [],
       optiondata: [] as any,
       filteredoption: [],
@@ -284,30 +261,43 @@ export default defineComponent({
     async createOrder() {
       this.optionselect.push(this.radio)
       this.totalprice = this.menudata.price + this.radioprice + this.checkboxprice
-      await api.post("order.json", {
-        idorder: "",
-        note: "",
-        ordertype: "โต๊ะ",
-        statorder: 1,
-        menu: [
-          {
-            menu_id: this.$route.params.id,
-            menu_name: this.$route.params.name,
-            price: this.totalprice,
-            quantity: 1,
-            menu_option: this.optionselect,
-          }
-        ],
-      })
-        .then(response => {
-          console.log(response.data);
-          api.patch(`order/${response.data.name}.json`, { idorder: response.data.name })
-          this.idorder = response.data.name;
+      if(this.$route.params.idorder){
+        await api.post(`order/${this.$route.params.idorder}/menu.json`,
+        {
+          menu_id: this.$route.params.id,
+          menu_name: this.$route.params.name,
+          price: this.totalprice,
+          quantity: 1,
+          menu_option: this.optionselect,
+        });
+        this.$router.push({name: 'menu2', params: {id: this.$route.params.idorder}})
+      } else {
+        await api.post("order.json", {
+          idorder: "",
+          note: "",
+          ordertype: "โต๊ะ",
+          statorder: 1,
+          menu: [
+            {
+              menu_id: this.$route.params.id,
+              menu_name: this.$route.params.name,
+              price: this.totalprice,
+              quantity: 1,
+              menu_option: this.optionselect,
+            }
+          ],
         })
-        .catch(error => {
-          console.log(error)
-        })
-    }
+          .then(async response => {
+            console.log(response.data);
+            api.patch(`order/${response.data.name}.json`, { idorder: response.data.name })
+            this.idorder = response.data.name;
+            this.$router.push({name: 'menu2', params: {id: this.idorder}})
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      }
+    } 
   },
 
 

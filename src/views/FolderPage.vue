@@ -5,7 +5,7 @@
         <ion-buttons slot="start">
           <ion-menu-button color="primary"></ion-menu-button>
         </ion-buttons>
-        <ion-title>???</ion-title>
+        <ion-title>{{$route.params.id}}</ion-title>
       </ion-toolbar>
     </ion-header>
 

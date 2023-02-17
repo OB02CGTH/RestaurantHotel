@@ -7,34 +7,35 @@ const routes: Array<RouteRecordRaw> = [
     redirect: '/MenuPage'
   },
   {
+    path: '/MenuPage',
+    component: () => import ('../views/Menu/MenuPage.vue'),
+  },
+  {
+    path: '/MenuPage/:id',
+    component: () => import ('../views/Menu/MenuPage.vue'),
+    name: 'menu2'
+  },
+  {
     path: '/option/:id/:name/:category',
     component: () => import ('../views/Menu/OptionMenu.vue'),
     name: 'option'
   },
   {
-    path: '/MenuPage',
-    component: () => import ('../views/Menu/MenuPage.vue')
+    path: '/option/:id/:name/:category/:idorder',
+    component: () => import ('../views/Menu/OptionMenu.vue'),
+    name: 'option2'
   },
-  // {
-  //   path: '/MenuPage2/:order',
-  //   component: () => import ('../views/Menu/MenuPage.vue'),
-  //   name: 'menu2'
-  // },
   {
     path: '/Order',
     component: () => import ('../views/Order/OrderPage.vue')
   },
   {
-    path: '/Favorites',
-    component: () => import ('../views/Menu/MenuPage.vue')
+    path: '/delivery',
+    component: () => import ('../views/FolderPage.vue')
   },
   {
-    path: '/Favorites',
-    component: () => import ('../views/Menu/MenuPage.vue')
-  },
-  {
-    path: '/Archived',
-    component: () => import ('../views/Menu/MenuPage.vue')
+    path: '/room',
+    component: () => import ('../views/FolderPage.vue')
   },
   {
     path: '/Cheforder',

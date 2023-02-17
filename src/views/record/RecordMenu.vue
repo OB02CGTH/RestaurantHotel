@@ -18,7 +18,7 @@
 
       <!-- <ion-searchbar placeholder="ค้นหาเมนู"></ion-searchbar> -->
 
-      <ion-segment :scrollable="true" :value="categorymenu[0].name">
+      <ion-segment :scrollable="true" :value="page">
         <ion-segment-button v-for="i in categorymenu" :key="i.statorder" :value="i.name" @click="filterOrder(i.statorder)">
           <ion-label>{{ i.name }}</ion-label>
         </ion-segment-button>
@@ -36,7 +36,7 @@
 
               <ion-card-header>
                 <ion-item>
-                  <ion-card-title>{{ i.ordertype }}: ???</ion-card-title>
+                  <ion-card-title>{{ i.ordertype }}: {{ i.idorder }}</ion-card-title>
                   <!-- <ion-checkbox slot="end" v-if="i.statorder === 3"></ion-checkbox> -->
                 </ion-item>
               </ion-card-header>
@@ -71,13 +71,6 @@
       </ion-grid>
 
     </ion-content>
-
-    <ion-footer v-if="page === 3">
-      <ion-toolbar>
-        <!-- <ion-button v-show="isChecked = false" :disabled="true" expand="block" color="primary">ชำระหลายบิล</ion-button>
-        <ion-button v-show="isChecked = true" expand="block" color="primary">ชำระหลายบิล</ion-button> -->
-      </ion-toolbar>
-    </ion-footer>
 
   </ion-page>
 </template>
@@ -118,59 +111,14 @@ export default defineComponent({
     IonItem,
     // IonButton,
     // IonCheckbox,
-    IonFooter,
+    // IonFooter,
     IonText,
     IonToggle
   },
   data() {
     return {
-      ordermenu: [
-        {
-          ordertype: 'โต๊ะ',
-          ordernum: 'A01',
-          menu: [
-            { name: 'ราดหน้า', price: 70, quantity: 1, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: '???' },
-            { name: 'ข้าวผัดอเมริกัน', price: 130, quantity: 1, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: null },
-            { name: 'สุกี้', price: 70, quantity: 2, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: null },
-          ],
-          statorder: 1,
-          // url: '/folder/Menu1',
-        },
-        {
-          ordertype: 'โต๊ะ',
-          ordernum: 'A02',
-          menu: [
-            { name: 'ผัดไทยห่อไข่', price: 79, quantity: 1, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: null },
-            { name: 'ข้าวอบสับปะรด', price: 120, quantity: 1, },
-          ],
-          statorder: 2,
-          // url: '/folder/Menu1',
-        },
-        {
-          ordertype: 'ห้อง',
-          ordernum: '222',
-          menu: [
-            { name: 'ข้าวต้ม', price: 60, quantity: 1, option: ['ตัวเลือก1', 'ตัวเลือก2', 'ตัวเลือก3'], note: null },
-            { name: 'ข้าวผัดอเมริกัน', price: 130, quantity: 1, option: ['ตัวเลือก1', 'ตัวเลือก2', 'ตัวเลือก3', 'ตัวเลือก4',], note: null },
-            { name: 'ผัดไทยห่อไข่', price: 79, quantity: 1, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: null },
-          ],
-          statorder: 3,
-          // url: '/folder/Menu1',
-        },
-        {
-          ordertype: 'ห้อง',
-          ordernum: '205',
-          menu: [
-            { name: 'ข้าวต้ม', price: 60, quantity: 1, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: '???' },
-            { name: 'สุกี้', price: 70, quantity: 2, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: null },
-            { name: 'ผัดไทยห่อไข่', price: 79, quantity: 1, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: null },
-          ],
-          statorder: 3,
-          // url: '/folder/Menu1',
-        },
-      ],
       categorymenu: [
-        { name: 'ประวัติออเดอร์', statorder: 4, },
+        { name: 'ประวัติออเดอร์', statorder: 0, },
       ],
       filteredOrder: [],
       listorderdata: [],
@@ -183,7 +131,9 @@ export default defineComponent({
       try {
         const response = await api.get(`/order.json`);
         this.listorderdata = Object.values(response.data);
-        this.filterOrder(1);
+        this.filteredOrder = this.listorderdata.filter((item: { statorder: number}) => item.statorder === 0)
+        // this.filterOrder(this.page);
+        console.log("I", this.filteredOrder);
       } catch (error) {
         console.error(error);
       }
@@ -192,9 +142,9 @@ export default defineComponent({
     //   this.$router.push(rou)
     // },
     filterOrder(iddata: number) {
-      console.log(iddata)
-      this.page = iddata; 
-      this.filteredOrder = this.listorderdata.filter((item: { statorder: number}) => item.statorder === iddata)
+      // console.log(iddata)
+      // this.page = iddata; 
+      // this.filteredOrder = this.listorderdata.filter((item: { statorder: number}) => item.statorder === iddata)
       // console.log("xx", this.filteredOrder);
     },
     sumprice(menu: { name: string; price: number; quantity: number; }[]) {

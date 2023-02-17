@@ -37,10 +37,10 @@
 
               <!-- Title -->
               <ion-card-header v-if="i.statorder != 4">
-                <ion-card-title>{{ i.ordertype }}: {{ i.ordernum }}</ion-card-title>
+                <ion-card-title>{{ i.ordertype }}: {{ i.idorder }}</ion-card-title>
               </ion-card-header>
               <ion-card-header v-else color="danger">
-                <ion-card-title>{{ i.ordertype }}: {{ i.ordernum }}</ion-card-title>
+                <ion-card-title>{{ i.ordertype }}: {{ i.idorder }}</ion-card-title>
               </ion-card-header>
 
               <!-- Optional -->
@@ -138,51 +138,6 @@ export default defineComponent({
   },
   data() {
     return {
-      ordermenu: [
-        {
-          ordertype: 'โต๊ะ',
-          ordernum: 'A01',
-          menu: [
-            { name: 'ราดหน้า', price: 70, quantity: 1, statmenu: 1, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: '???' },
-            { name: 'ข้าวผัดอเมริกัน', price: 130, quantity: 1, statmenu: 1, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: null },
-            { name: 'สุกี้', price: 70, quantity: 2, statmenu: 1, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: null },
-          ],
-          statorder: 1,
-          // url: '/folder/Menu1',
-        },
-        {
-          ordertype: 'ห้อง',
-          ordernum: '205',
-          menu: [
-            { name: 'ข้าวต้ม', price: 60, quantity: 1, statmenu: 1, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: null },
-            { name: 'สุกี้', price: 70, quantity: 2, statmenu: 1, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: null },
-            { name: 'ผัดไทยห่อไข่', price: 79, quantity: 1, statmenu: 1, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: '???' },
-          ],
-          statorder: 1,
-          // url: '/folder/Menu1',
-        },
-        {
-          ordertype: 'โต๊ะ',
-          ordernum: 'A02',
-          menu: [
-            { name: 'ผัดไทยห่อไข่', price: 79, quantity: 1, statmenu: 2, option: ['ตัวเลือก1', 'ตัวเลือก2', 'ตัวเลือก3'], note: null },
-            { name: 'ข้าวอบสับปะรด', price: 120, quantity: 1, statmenu: 2, option: ['ตัวเลือก1', 'ตัวเลือก2', 'ตัวเลือก3', 'ตัวเลือก4',], note: null },
-          ],
-          statorder: 2,
-          // url: '/folder/Menu1',
-        },
-        {
-          ordertype: 'ห้อง',
-          ordernum: '222',
-          menu: [
-            { name: 'ข้าวต้ม', price: 60, quantity: 1, statmenu: 1, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: '???' },
-            { name: 'ข้าวผัดอเมริกัน', price: 130, quantity: 1, statmenu: 3, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: null },
-            { name: 'ผัดไทยห่อไข่', price: 79, quantity: 1, statmenu: 1, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: null },
-          ],
-          statorder: 3,
-          // url: '/folder/Menu1',
-        },
-      ],
       orderdata: [],
       categorymenu: [
         { name: 'ออเดอร์ใหม่', statorder: 1, },
@@ -193,7 +148,7 @@ export default defineComponent({
 
 
       toggleValue: false,
-      page: 0,
+      page: 1,
     }
   },
   methods: {
@@ -204,7 +159,7 @@ export default defineComponent({
       try {
         const response = await api.get(`/order.json`);
         this.orderdata = Object.values(response.data);
-        this.filterOrder(1);
+        this.filterOrder(this.page);
       } catch (error) {
         console.error(error);
       }

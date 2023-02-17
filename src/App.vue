@@ -8,7 +8,8 @@
             <ion-note>hi@ionicframework.com</ion-note> -->
 
             <ion-menu-toggle :autoHide="false" v-for="(p, i) in appPages" :key="i">
-              <ion-item @click="selectedIndex = i" router-direction="root" :router-link="p.url" lines="none" :detail="false" class="hydrated" :class="{ selected: selectedIndex === i }">
+              <ion-item @click="selectedIndex = i" router-direction="root" :router-link="p.url" lines="none"
+                :detail="false" class="hydrated" :class="{ selected: selectedIndex === i }">
                 <ion-icon slot="start" :ios="p.iosIcon" :md="p.mdIcon"></ion-icon>
                 <ion-label>{{ p.title }}</ion-label>
               </ion-item>
@@ -61,7 +62,7 @@ import {
   // trashSharp,
   // warningOutline,
   // warningSharp,
- fastFoodOutline,
+  fastFoodOutline,
   readerOutline,
   bagHandleOutline,
   homeOutline,
@@ -87,25 +88,25 @@ const appPages = [
   },
   {
     title: 'เดลิเวอรี',
-    url: '/folder/delivery',
+    url: '/delivery',
     iosIcon: bagHandleOutline,
     mdIcon: bagHandleOutline,
   },
   {
     title: 'ออเดอร์ห้องพัก',
-    url: '/folder/room',
+    url: '/room',
     iosIcon: homeOutline,
     mdIcon: homeOutline,
-  },
-   {
-    title: 'ประวัติจบงานทั้งหมด',
-    url: '/folder/record',
-    iosIcon: readerOutline,
-    mdIcon: readerOutline,
   },
   {
     title: 'ออเดอร์เชฟ',
     url: '/Cheforder',
+    iosIcon: readerOutline,
+    mdIcon: readerOutline,
+  },
+  {
+    title: 'ประวัติจบงานทั้งหมด',
+    url: '/folder/record',
     iosIcon: readerOutline,
     mdIcon: readerOutline,
   },
@@ -121,14 +122,14 @@ const appPages = [
     iosIcon: storefront,
     mdIcon: storefront,
   },
-  
+
   {
     title: 'ตั้งค่า',
     url: '/folder/setupshop',
     iosIcon: settings,
     mdIcon: settings,
   },
- 
+
 ];
 // const labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
 

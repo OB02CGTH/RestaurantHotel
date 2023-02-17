@@ -32,27 +32,29 @@
         <ion-row>
           <!-- <ion-col :sizeXs="6" :sizeMd="2.4" v-for="i in filteredMenu" :key="i.name" :routerLink="i.name"> -->
           <!-- <ion-col :sizeXs="6" :sizeMd="2.4" v-for="i in filteredMenu" :key="i.name" :routerLink="i.name"> -->
-          <ion-col :sizeXs="6" :sizeMd="2.4" v-for="i in filteredMenu" :key="i.name">
-            <router-link style="text-decoration: none;" :to="{
+          <ion-col :sizeXs="6" :sizeMd="2.4" v-for="i in filteredMenu" :key="i.name"
+            @click="toOptonal(i.Key, i.name, i.categorykey)">
+            <!-- <router-link style="text-decoration: none;" :to="{
               name: 'option', params: {
                 id: i.Key, name: i.name, category: i.categorykey
               }
-            }">
-              <ion-card>
-                <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
-                <ion-card-header>
-                  <ion-card-title>{{ i.name }}</ion-card-title>
-                  <ion-card-subtitle>{{ i.price }} THB</ion-card-subtitle>
-                </ion-card-header>
-              </ion-card>
-            </router-link>
+            }"> -->
+            <ion-card>
+              <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+              <ion-card-header>
+                <ion-card-title>{{ i.name }}</ion-card-title>
+                <ion-card-subtitle>{{ i.price }} THB</ion-card-subtitle>
+              </ion-card-header>
+            </ion-card>
+            <!-- </router-link> -->
+
           </ion-col>
         </ion-row>
       </ion-grid>
 
     </ion-content>
 
-    <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab v-if="$route.params.id" slot="fixed" vertical="bottom" horizontal="end">
       <ion-fab-button routerLink="/ListMenu">
         <ion-icon :icon="fastFood"></ion-icon>
       </ion-fab-button>
@@ -101,106 +103,6 @@ export default defineComponent({
   },
   data() {
     return {
-      listmenu: [
-        {
-          name: 'ข้าวเปล่า',
-          price: '10',
-          url: '/folder/ข้าวเปล่า',
-          Key: 'M01',
-        },
-        {
-          name: 'ราดหน้า',
-          price: '70',
-          url: '/folder/ราดหน้า',
-          Key: 'M01',
-        },
-        {
-          name: 'ข้าวราดผักพริกหยวก',
-          price: '70',
-          url: '/folder/ข้าวราดผักพริกหยวก',
-          Key: 'M02',
-        },
-        {
-          name: 'ข้าวผัดอเมริกัน',
-          price: '130',
-          url: '/folder/ข้าวผัดอเมริกัน',
-          Key: 'M02',
-        },
-        {
-          name: 'สุกี้',
-          price: '70',
-          url: '/folder/สุกี้',
-          Key: 'M03',
-        },
-        {
-          name: 'ข้าวราดพะแนง',
-          price: '70',
-          url: '/folder/ข้าวราดพะแนง',
-          Key: 'M03',
-        },
-        {
-          name: 'ข้าวต้ม',
-          price: '60',
-          url: '/folder/ข้าวต้ม',
-          Key: 'M04',
-        },
-        {
-          name: 'ข้าวราดผัดผักรวมมิตร',
-          price: '70',
-          url: '/folder/ข้าวราดผัดผักรวมมิตร',
-          Key: 'M04',
-        },
-        {
-          name: 'ข้าวราดผักคะน้าหมูกรอบ',
-          price: '89',
-          url: '/folder/ข้าวราดผักคะน้าหมูกรอบ',
-          Key: 'M04',
-        },
-        {
-          name: 'ข้าวราดผักคะน้าปลาเค็ม',
-          price: '75',
-          url: '/folder/ข้าวราดผักคะน้าปลาเค็ม',
-          Key: 'M05',
-        },
-        {
-          name: 'ผัดไทยห่อไข่',
-          price: '79',
-          url: '/folder/ผัดไทยห่อไข่',
-          Key: 'M05',
-        },
-        {
-          name: 'ข้าวอบสับปะรด',
-          price: '120',
-          url: '/folder/ข้าวอบสับปะรด',
-          Key: 'M05',
-        },
-      ],
-      categorymenu: [
-        {
-          name: 'อาหารจานเดียว',
-          category: 1,
-        },
-        {
-          name: 'ยำ',
-          category: 2,
-        },
-        {
-          name: 'กับข้าว',
-          category: 3,
-        },
-        {
-          name: 'ต้ม',
-          category: 4,
-        },
-        {
-          name: 'ทอด',
-          category: 5,
-        },
-        {
-          name: 'เครื่องดื่ม',
-          category: 6,
-        },
-      ],
       filteredMenu: [],
       categorymenudata: [],
       // listmenudata: [],
@@ -253,6 +155,22 @@ export default defineComponent({
       console.log("filteredMenu filteredMenu", this.filteredMenu);
       this.filteredMenu = this.listmenudataarray.filter((item: { categorykey: string }) => item.categorykey === iddata)
       console.log("filteredMenu2 filteredMenu", this.filteredMenu);
+    },
+
+    toOptonal(Key: string, name: string, categorykey: string) {
+      if (this.$route.params.id) {
+        this.$router.push({
+          name: 'option2', params: {
+            id: Key, name: name, category: categorykey, idorder: this.$route.params.id
+          }
+        });
+      } else {
+        this.$router.push({
+          name: 'option', params: {
+            id: Key, name: name, category: categorykey
+          }
+        });
+      }
     },
   },
 

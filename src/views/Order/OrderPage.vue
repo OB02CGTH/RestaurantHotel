@@ -193,7 +193,7 @@ export default defineComponent({
       filteredOrder: [],
       listorderdata: [],
       toggleValue: false,
-      page: 0,
+      page: 1,
     }
   },
   methods: {
@@ -201,7 +201,7 @@ export default defineComponent({
       try {
         const response = await api.get(`/order.json`);
         this.listorderdata = Object.values(response.data);
-        this.filterOrder(1);
+        this.filterOrder(this.page);
       } catch (error) {
         console.error(error);
       }
@@ -223,12 +223,10 @@ export default defineComponent({
       }
       return sum;
     },
-
     async readytoserve(idorder: string) {
       await api.patch(`order/${idorder}.json`, {statorder: 3})
       this.getCategoryFromDatabase();
     },
-
     async completepay(idorder: string) {
       await api.patch(`order/${idorder}.json`, {statorder: 0})
       this.getCategoryFromDatabase();
