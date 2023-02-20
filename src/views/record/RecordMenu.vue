@@ -5,14 +5,14 @@
         <ion-buttons slot="start">
           <ion-menu-button color="primary"></ion-menu-button>
         </ion-buttons>
-        <ion-title>ประวัติจบงานทั้งหมด</ion-title>
+        <ion-title>ประวัติออเดอร์ทั้งหมด</ion-title>
       </ion-toolbar>
     </ion-header>
 
     <ion-content :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title size="large">ประวัติจบงานทั้งหมด</ion-title>
+          <ion-title size="large">ประวัติออเดอร์ทั้งหมด</ion-title>
         </ion-toolbar>
       </ion-header>
 
@@ -131,7 +131,7 @@ export default defineComponent({
       try {
         const response = await api.get(`/order.json`);
         this.listorderdata = Object.values(response.data);
-        this.filteredOrder = this.listorderdata.filter((item: { statorder: number}) => item.statorder === 0)
+        this.filteredOrder = this.listorderdata.filter((item: { statorder: number}) => item.statorder === 10)
         // this.filterOrder(this.page);
         console.log("I", this.filteredOrder);
       } catch (error) {

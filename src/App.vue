@@ -105,7 +105,7 @@ const appPages = [
     mdIcon: readerOutline,
   },
   {
-    title: 'ประวัติจบงานทั้งหมด',
+    title: 'ประวัติออเดอร์',
     url: '/folder/record',
     iosIcon: readerOutline,
     mdIcon: readerOutline,

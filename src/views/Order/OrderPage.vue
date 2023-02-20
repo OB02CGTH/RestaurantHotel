@@ -38,7 +38,7 @@
               <!-- Title -->
               <ion-card-header>
                 <ion-item>
-                  <ion-card-title>{{ i.ordertype }}: {{ i.idorder }}</ion-card-title>
+                  <ion-card-title>{{ i.ordertype }}: {{ i.order_name }}</ion-card-title>
                   <!-- <ion-checkbox slot="end" v-if="i.statorder === 3"></ion-checkbox> -->
                 </ion-item>
               </ion-card-header>
@@ -108,7 +108,6 @@ import {
 import axios from 'axios';
 
 const api = axios.create({ baseURL: 'https://restaurant-e109e-default-rtdb.asia-southeast1.firebasedatabase.app/' });
-// const dataurl = "https://restaurant-e109e-default-rtdb.asia-southeast1.firebasedatabase.app/"
 
 export default defineComponent({
   components: {
@@ -140,51 +139,6 @@ export default defineComponent({
   },
   data() {
     return {
-      ordermenu: [
-        {
-          ordertype: 'โต๊ะ',
-          ordernum: 'A01',
-          menu: [
-            { name: 'ราดหน้า', price: 70, quantity: 1, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: '???' },
-            { name: 'ข้าวผัดอเมริกัน', price: 130, quantity: 1, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: null },
-            { name: 'สุกี้', price: 70, quantity: 2, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: null },
-          ],
-          statorder: 1,
-          // url: '/folder/Menu1',
-        },
-        {
-          ordertype: 'โต๊ะ',
-          ordernum: 'A02',
-          menu: [
-            { name: 'ผัดไทยห่อไข่', price: 79, quantity: 1, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: null },
-            { name: 'ข้าวอบสับปะรด', price: 120, quantity: 1, },
-          ],
-          statorder: 2,
-          // url: '/folder/Menu1',
-        },
-        {
-          ordertype: 'ห้อง',
-          ordernum: '222',
-          menu: [
-            { name: 'ข้าวต้ม', price: 60, quantity: 1, option: ['ตัวเลือก1', 'ตัวเลือก2', 'ตัวเลือก3'], note: null },
-            { name: 'ข้าวผัดอเมริกัน', price: 130, quantity: 1, option: ['ตัวเลือก1', 'ตัวเลือก2', 'ตัวเลือก3', 'ตัวเลือก4',], note: null },
-            { name: 'ผัดไทยห่อไข่', price: 79, quantity: 1, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: null },
-          ],
-          statorder: 3,
-          // url: '/folder/Menu1',
-        },
-        {
-          ordertype: 'ห้อง',
-          ordernum: '205',
-          menu: [
-            { name: 'ข้าวต้ม', price: 60, quantity: 1, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: '???' },
-            { name: 'สุกี้', price: 70, quantity: 2, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: null },
-            { name: 'ผัดไทยห่อไข่', price: 79, quantity: 1, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: null },
-          ],
-          statorder: 3,
-          // url: '/folder/Menu1',
-        },
-      ],
       categorymenu: [
         { name: 'กำลังเตรียม', statorder: 1, },
         { name: 'รอนำเสิร์ฟ', statorder: 2, },
@@ -197,7 +151,7 @@ export default defineComponent({
     }
   },
   methods: {
-    async getCategoryFromDatabase() {
+    async getOrderFromDatabase() {
       try {
         const response = await api.get(`/order.json`);
         this.listorderdata = Object.values(response.data);
@@ -225,16 +179,16 @@ export default defineComponent({
     },
     async readytoserve(idorder: string) {
       await api.patch(`order/${idorder}.json`, {statorder: 3})
-      this.getCategoryFromDatabase();
+      this.getOrderFromDatabase();
     },
     async completepay(idorder: string) {
-      await api.patch(`order/${idorder}.json`, {statorder: 0})
-      this.getCategoryFromDatabase();
+      await api.patch(`order/${idorder}.json`, {statorder: 10})
+      this.getOrderFromDatabase();
     }
 
   },
   created() {
-    this.getCategoryFromDatabase();
+    this.getOrderFromDatabase();
   },
 });
 </script>

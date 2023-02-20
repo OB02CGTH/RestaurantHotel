@@ -147,19 +147,6 @@ export default defineComponent({
       optiondata: [] as any,
       filteredoption: [],
       menudata: [] as any,
-      order: {
-        note: null,
-        ordertype: "โต๊ะ",
-        statorder: 1,
-        menu: {
-          menu_id: this.$route.params.id,
-          menu_name: this.$route.params.name,
-          price: "",
-          quantiry: "",
-          menu_option: this.optionselect,
-
-        },
-      }, //
       optionselect: [] as any,
       // optionselectold: [] as any,
       radio: "",
@@ -259,7 +246,9 @@ export default defineComponent({
     },
 
     async createOrder() {
-      this.optionselect.push(this.radio)
+      if(this.radio){
+        this.optionselect.push(this.radio)
+      }
       this.totalprice = this.menudata.price + this.radioprice + this.checkboxprice
       if(this.$route.params.idorder){
         await api.post(`order/${this.$route.params.idorder}/menu.json`,
@@ -274,9 +263,10 @@ export default defineComponent({
       } else {
         await api.post("order.json", {
           idorder: "",
+          order_name: "",
           note: "",
           ordertype: "โต๊ะ",
-          statorder: 1,
+          statorder: 0,
           menu: [
             {
               menu_id: this.$route.params.id,

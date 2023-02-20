@@ -37,7 +37,7 @@
 
               <!-- Title -->
               <ion-card-header v-if="i.statorder != 4">
-                <ion-card-title>{{ i.ordertype }}: {{ i.idorder }}</ion-card-title>
+                <ion-card-title>{{ i.ordertype }}: {{ i.order_name }}</ion-card-title>
               </ion-card-header>
               <ion-card-header v-else color="danger">
                 <ion-card-title>{{ i.ordertype }}: {{ i.idorder }}</ion-card-title>

@@ -30,6 +30,11 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import ('../views/Order/OrderPage.vue')
   },
   {
+    path: '/ListMenu/:id',
+    component: () => import ('../views/Menu/ListMenu.vue'),
+    name: 'listmenu'
+  },
+  {
     path: '/delivery',
     component: () => import ('../views/FolderPage.vue')
   },
@@ -40,10 +45,6 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/Cheforder',
     component: () => import ('../views/Chef/ChefOrder.vue')
-  },
-  {
-    path: '/ListMenu',
-    component: () => import ('../views/Menu/ListMenu.vue')
   },
   {
     path: '/folder/room',

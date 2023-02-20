@@ -35,10 +35,10 @@
           <ion-col :sizeXs="6" :sizeMd="2.4" v-for="i in filteredMenu" :key="i.name"
             @click="toOptonal(i.Key, i.name, i.categorykey)">
             <!-- <router-link style="text-decoration: none;" :to="{
-              name: 'option', params: {
-                id: i.Key, name: i.name, category: i.categorykey
-              }
-            }"> -->
+                name: 'option', params: {
+                  id: i.Key, name: i.name, category: i.categorykey
+                }
+              }"> -->
             <ion-card>
               <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
               <ion-card-header>
@@ -54,11 +54,13 @@
 
     </ion-content>
 
-    <ion-fab v-if="$route.params.id" slot="fixed" vertical="bottom" horizontal="end">
-      <ion-fab-button routerLink="/ListMenu">
-        <ion-icon :icon="fastFood"></ion-icon>
-      </ion-fab-button>
-    </ion-fab>
+    <router-link v-if="$route.params.id"  :to="{ name: 'listmenu', params: { id: $route.params.id } }">
+      <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+        <ion-fab-button>
+          <ion-icon :icon="fastFood"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+    </router-link>
 
   </ion-page>
 </template>
@@ -130,30 +132,24 @@ export default defineComponent({
     async getMenuFromDatabase() {
       try {
         const response = await axios.get(`${dataurl}listmenu.json`);
-        console.log("x getMenuFromDatabase", JSON.stringify(response.data));
         this.listmenudataarray = Object.values(response.data);
-        console.log("xx getMenuFromDatabase", this.listmenudataarray);
-
-        // this.listmenudata = Object.entries(this.listmenudata);
-        // console.log("xxx",JSON.stringify(this.listmenudata));
-        // console.log("xxxx",JSON.stringify(this.listmenu));
+        this.allMenu();
       } catch (error) {
         console.error(error);
       }
       // console.log("getMenuFromDatabase listmenudata " + JSON.stringify(this.listmenudata))
-      this.allMenu();
     },
 
     allMenu() {
       // this.getMenuFromDatabase()
-      this.filteredMenu = this.listmenudataarray
+      this.filteredMenu = this.listmenudataarray.sort((a: { name: string }, b: { name: string }) => (a.name < b.name) ? -1 : 1)
       console.log("allMemu listmenudata ", this.filteredMenu)
       // console.log(JSON.stringify(this.filteredMenu))
       // console.log("???")
     },
     filterMenu(iddata: string) {
       console.log("filteredMenu filteredMenu", this.filteredMenu);
-      this.filteredMenu = this.listmenudataarray.filter((item: { categorykey: string }) => item.categorykey === iddata)
+      this.filteredMenu = this.listmenudataarray.filter((item: { categorykey: string }) => item.categorykey === iddata).sort((a: { name: string }, b: { name: string }) => (a.name < b.name) ? -1 : 1)
       console.log("filteredMenu2 filteredMenu", this.filteredMenu);
     },
 
