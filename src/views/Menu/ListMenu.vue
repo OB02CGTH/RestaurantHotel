@@ -18,14 +18,23 @@
 
       <ion-list>
         <ion-item>
+          <ion-select v-model="type" interface="action-sheet" placeholder="เลือกประเภทออเดอร์">
+            <ion-select-option :value="1">โต๊ะ</ion-select-option>
+            <ion-select-option :value="2">ห้องพัก</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+
+      <ion-list v-if="type == 1" >
+        <ion-item>
           <ion-select v-model="numroom" interface="action-sheet" placeholder="เลือกโต๊ะของออเดอร์นี้">
             <ion-select-option v-for="i in listtable" :key="i.name" :value="i.name">{{ i.name }}</ion-select-option>
           </ion-select>
         </ion-item>
       </ion-list>
-      <ion-item>
-        <ion-label>เลขห้อง</ion-label>
-        <ion-input type="number" placeholder="000"></ion-input>
+      <ion-item v-if="type == 2" >
+        <ion-label>เลขห้อง: </ion-label>
+        <ion-input v-model="numroom" type="number" :value=numroom placeholder="000"></ion-input>
       </ion-item>
 
       <!-- ใบออเดอร์ -->
@@ -33,7 +42,10 @@
         <ion-card-header>
           <ion-item lines="none">
             <ion-card-title>รายการอาหารในตะกร้า</ion-card-title>
-            <ion-button slot="end" fill="clear">
+            <ion-button slot="end" fill="clear" :routerLink="{
+              name: 'menu2', params: {
+                id: $route.params.id}
+            }">
               เพิ่มรายการอาหาร
             </ion-button>
           </ion-item>
@@ -51,7 +63,7 @@
               <ion-text v-for="o in i.menu_option" :key="o" color="medium">{{ o }} &nbsp;</ion-text> <br>
             </ion-label>
             <!-- menu price -->
-            <ion-label slot="end">{{ sumpriceorder(i.price, i.quantity) }}</ion-label>
+            <ion-label slot="end">{{ (i.price * i.quantity) }}</ion-label>
           </ion-item>
 
           <!-- order price -->
@@ -90,7 +102,8 @@ import {
   IonSelect, IonSelectOption,
 } from '@ionic/vue';
 import axios from 'axios';
-import { man } from 'ionicons/icons';
+import { man, map } from 'ionicons/icons';
+import { Item } from '@ionic/core/dist/types/components/item/item';
 
 const api = axios.create({ baseURL: 'https://restaurant-e109e-default-rtdb.asia-southeast1.firebasedatabase.app/' });
 
@@ -124,16 +137,6 @@ export default defineComponent({
   },
   data() {
     return {
-      ordermenu: {
-        ordertype: 'โต๊ะ',
-        ordernum: 'od01',
-        menu: [
-          { name: 'ราดหน้า', price: 70, quantity: 1, option: ['ตัวเลือก1', 'ตัวเลือก2',], note: null },
-          { name: 'ข้าวผัดอเมริกัน', price: 130, quantity: 1, option: ['ตัวเลือก3', 'ตัวเลือก4', 'ตัวเลือก5'], note: '???' },
-          { name: 'สุกี้', price: 70, quantity: 2, option: ['ตัวเลือก6', 'ตัวเลือก7', 'ตัวเลือก8', 'ตัวเลือก9'], note: null },
-        ],
-        // url: '/folder/Menu1',
-      }, //
       listtable: [
         { name: 'A01' },
         { name: 'A02' },
@@ -141,12 +144,14 @@ export default defineComponent({
         { name: 'B01' },
         { name: 'B02' },
       ],
-      filteredOrder: [] as any,
+      filteredOrder: [],
+      filteredOrder2: [] as any,
       listorderdata: [],
       sumpriceall: 0,
       counts: 0,
       counts2: 0,
-      numroom: 0
+      numroom: 0,
+      type: 0,
     }
   },
   methods: {
@@ -156,30 +161,18 @@ export default defineComponent({
         this.listorderdata = Object.values(response.data);
         console.log("old", this.listorderdata);
         this.filteredOrder = this.listorderdata.filter((item: { idorder: string }) => item.idorder === this.$route.params.id)
-        console.log("new", this.filteredOrder);
+        this.sumorder();
       } catch (error) {
         console.error(error);
       }
     },
-    sumorder(menu: any) {
-      console.log("menu", menu)
-      menu = Object.values(menu);
-      console.log("menu2", menu)
-      menu.forEach((item: { price: number, quantity: number }) => {
-        this.sumpriceall += item.price * item.quantity
-      });
-      console.log("sum", this.sumpriceall)
-      this.counts2 += 1;
-      console.log("counts2", this.counts2)
-      return this.sumpriceall;
-    },
-
-    sumpriceorder(price: number, quantity: number) {
-      const sum = price * quantity;
-      this.sumpriceall += sum;
-      this.counts += 1;
-      console.log("count", this.counts, "sum", this.sumpriceall)
-      return sum;
+    sumorder() {
+      this.filteredOrder.forEach((item: {menu: object}) => 
+        this.sumpriceall = Object.values(item.menu).reduce((sum, item: {price: number, quantity: number}) => 
+        sum + item.price * item.quantity, 0
+        )
+      )
+      console.log("Total price: ", this.sumpriceall)
     },
 
     addmenu() {
@@ -187,7 +180,7 @@ export default defineComponent({
     },
 
     async sentorder() {
-      await api.patch(`order/${this.$route.params.id}.json`, { order_name: this.numroom, statorder: 1 })
+      await api.patch(`order/${this.$route.params.id}.json`, { order_name: this.numroom, statorder: 1 ,ordertype: (this.type == 1 ? "โต๊ะ" : "ห้อง")}, )
       this.$router.push("/MenuPage")
     }
   },

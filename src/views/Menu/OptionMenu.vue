@@ -231,17 +231,10 @@ export default defineComponent({
       if (this.optionselect.find((element: any) => element === event.target.value.name)) {
         this.optionselect.pop(event.target.value.name)
         this.checkboxprice -= event.target.value.price
-
-        console.log(true)
-        console.log(this.optionselect)
-        console.log(this.checkboxprice)
       }
       else {
-        console.log(false)
         this.optionselect.push(event.target.value.name)
         this.checkboxprice += event.target.value.price
-        console.log(this.optionselect)
-        console.log(this.checkboxprice)
       }
     },
 
@@ -250,6 +243,7 @@ export default defineComponent({
         this.optionselect.push(this.radio)
       }
       this.totalprice = this.menudata.price + this.radioprice + this.checkboxprice
+      // สร้างออเดอร์
       if(this.$route.params.idorder){
         await api.post(`order/${this.$route.params.idorder}/menu.json`,
         {
@@ -261,11 +255,12 @@ export default defineComponent({
         });
         this.$router.push({name: 'menu2', params: {id: this.$route.params.idorder}})
       } else {
+        // เพิ่มเมนู
         await api.post("order.json", {
           idorder: "",
           order_name: "",
           note: "",
-          ordertype: "โต๊ะ",
+          ordertype: "",
           statorder: 0,
           menu: [
             {
@@ -278,7 +273,6 @@ export default defineComponent({
           ],
         })
           .then(async response => {
-            console.log(response.data);
             api.patch(`order/${response.data.name}.json`, { idorder: response.data.name })
             this.idorder = response.data.name;
             this.$router.push({name: 'menu2', params: {id: this.idorder}})
