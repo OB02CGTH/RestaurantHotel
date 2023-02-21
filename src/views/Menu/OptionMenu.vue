@@ -72,10 +72,6 @@
             </ion-list>
           </ion-item>
 
-          <ion-item>
-            <ion-input placeholder="เพิ่มหมายเหตุเมนูนี้ "></ion-input>
-          </ion-item>
-
           <!-- <ion-item class="ion-align-items-center ion-justify-content-center">
             <ion-icon :icon="removeCircle"></ion-icon>
             <ion-text>1</ion-text>
@@ -137,7 +133,7 @@ export default defineComponent({
     IonRadioGroup,
     IonListHeader,
     IonText,
-    IonInput,
+    // IonInput,
     IonIcon
   },
   data() {
@@ -195,7 +191,7 @@ export default defineComponent({
         // const response = await axios.get(`${dataurl}optionmenu.json`);
         const response = await api.get(`optionmenu.json`);
         this.optiondata = Object.values(response.data);
-        // console.log("II I AllOption", this.optiondata);
+        console.log("II I AllOption", this.optiondata);
       } catch (error) {
         console.error(error);
       }

@@ -62,7 +62,7 @@
               <ion-item>
 
                 <ion-button fill="clear" color="danger">เเก้ไข</ion-button>
-                <ion-toggle v-model="toggleValue" slot="end"></ion-toggle>
+                <ion-toggle v-model="toggleValue" slot="end" :checked="true"></ion-toggle>
               </ion-item>
             </ion-card>
           </ion-col>
@@ -73,7 +73,7 @@
 
 
 
-</ion-page>
+  </ion-page>
 </template>
 
 <script lang="ts">
@@ -83,7 +83,7 @@
 import { ref, defineComponent } from 'vue';
 import { RouteLocationRaw, useRoute } from 'vue-router';
 import {
-  IonButton, IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonCol, IonGrid, IonRow, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonSearchbar, IonLabel, IonSegment, IonSegmentButton, IonFab, IonFabButton,
+  IonButton, IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonCol, IonGrid, IonRow, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonSearchbar, IonLabel, IonSegment, IonSegmentButton, IonFab, IonFabButton, IonItem, IonToggle
 } from '@ionic/vue';
 import { fastFood, } from 'ionicons/icons';
 import axios from 'axios';
@@ -108,13 +108,12 @@ export default defineComponent({
     IonCardHeader,
     IonCardSubtitle,
     IonCardTitle,
-    // IonCardContent,
     IonSearchbar,
     IonLabel,
     IonSegment,
     IonSegmentButton,
-    // IonFab,
-    // IonFabButton,
+    IonItem,
+    IonToggle,
   },
   data() {
     return {
@@ -134,8 +133,6 @@ export default defineComponent({
           text: 'รายละเอียดเพิ่มเติม'
         }
       ],
-
-
       listmenu: [
         {
           name: 'ข้าวเปล่า',
@@ -272,12 +269,12 @@ export default defineComponent({
       this.$router.push(rou)
     },
     allMenu() {
-      this.filteredMenu = this.listmenudataarray.sort((a: {name: string}, b: {name: string}) => (a.name < b.name) ? -1 : 1)
+      this.filteredMenu = this.listmenudataarray.sort((a: { name: string }, b: { name: string }) => (a.name < b.name) ? -1 : 1)
       console.log(this.filteredMenu);
     },
     filterMenu(iddata: string) {
       console.log(iddata)
-      this.filteredMenu = this.listmenudataarray.filter((item: { categorykey: string }) => item.categorykey === iddata).sort( (a: {name: string}, b: {name: string}) => (a.name < b.name) ? -1 : 1)
+      this.filteredMenu = this.listmenudataarray.filter((item: { categorykey: string }) => item.categorykey === iddata).sort((a: { name: string }, b: { name: string }) => (a.name < b.name) ? -1 : 1)
       // this.filteredMenu.sort();
       console.log(this.filteredMenu);
     },

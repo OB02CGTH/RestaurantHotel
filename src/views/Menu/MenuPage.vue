@@ -16,7 +16,7 @@
         </ion-toolbar>
       </ion-header>
 
-      <ion-searchbar placeholder="ค้นหาเมนู"></ion-searchbar>
+      <ion-searchbar type="text" v-model="serachmenu" @ionChange="searchChanged" placeholder="ค้นหาเมนู"></ion-searchbar>
 
       <!-- A segment that is scrollable. It has two buttons, one for all menu and one for each category. -->
       <ion-segment :scrollable="true" value="all">
@@ -54,7 +54,7 @@
 
     </ion-content>
 
-    <router-link v-if="$route.params.id"  :to="{ name: 'listmenu', params: { id: $route.params.id } }">
+    <router-link v-if="$route.params.id" :to="{ name: 'listmenu', params: { id: $route.params.id } }">
       <ion-fab slot="fixed" vertical="bottom" horizontal="end">
         <ion-fab-button>
           <ion-icon :icon="fastFood"></ion-icon>
@@ -110,7 +110,8 @@ export default defineComponent({
       // listmenudata: [],
       listmenudataarray: [],
       // listmenudata2: {},
-    }
+      serachmenu: '',
+    };
   },
 
   setup() {
@@ -127,7 +128,7 @@ export default defineComponent({
       } catch (error) {
         console.error(error);
       }
-      console.log("getCategoryFromDatabase categorymenudata " + JSON.stringify(this.categorymenudata))
+      // console.log("getCategoryFromDatabase categorymenudata " + JSON.stringify(this.categorymenudata))
     },
     async getMenuFromDatabase() {
       try {
@@ -143,14 +144,23 @@ export default defineComponent({
     allMenu() {
       // this.getMenuFromDatabase()
       this.filteredMenu = this.listmenudataarray.sort((a: { name: string }, b: { name: string }) => (a.name < b.name) ? -1 : 1)
-      console.log("allMemu listmenudata ", this.filteredMenu)
-      // console.log(JSON.stringify(this.filteredMenu))
-      // console.log("???")
+      // console.log("allMemu listmenudata ", this.filteredMenu)
     },
     filterMenu(iddata: string) {
-      console.log("filteredMenu filteredMenu", this.filteredMenu);
+      // console.log("filteredMenu filteredMenu", this.filteredMenu);
       this.filteredMenu = this.listmenudataarray.filter((item: { categorykey: string }) => item.categorykey === iddata).sort((a: { name: string }, b: { name: string }) => (a.name < b.name) ? -1 : 1)
-      console.log("filteredMenu2 filteredMenu", this.filteredMenu);
+      // console.log("filteredMenu2 filteredMenu", this.filteredMenu);
+    },
+
+    searchChanged() {
+      if(this.serachmenu){
+        // console.log(this.serachmenu)
+        this.filteredMenu = this.filteredMenu.filter((item: {name: string}) => 
+        item.name.toLowerCase().includes(this.serachmenu.toLowerCase())).sort((a: { name: string }, b: { name: string }) => (a.name < b.name) ? -1 : 1)
+        // console.log(this.filteredMenu)
+      } else {
+        this.allMenu()
+      }
     },
 
     toOptonal(Key: string, name: string, categorykey: string) {
@@ -174,16 +184,6 @@ export default defineComponent({
     this.getCategoryFromDatabase();
     this.getMenuFromDatabase();
   },
-
-  // beforeMount() {
-  //   this.allMenu();
-  //   console.log("allMemu listmenudata " + JSON.stringify(this.listmenudata))
-  // },
-
-  // mounted() {
-  //   this.allMenu();
-  //   console.log("allMemu listmenudata " + JSON.stringify(this.listmenudata))
-  // },
 });
 </script>
 

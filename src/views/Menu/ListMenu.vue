@@ -25,14 +25,14 @@
         </ion-item>
       </ion-list>
 
-      <ion-list v-if="type == 1" >
+      <ion-list v-if="type == 1">
         <ion-item>
           <ion-select v-model="numroom" interface="action-sheet" placeholder="เลือกโต๊ะของออเดอร์นี้">
             <ion-select-option v-for="i in listtable" :key="i.name" :value="i.name">{{ i.name }}</ion-select-option>
           </ion-select>
         </ion-item>
       </ion-list>
-      <ion-item v-if="type == 2" >
+      <ion-item v-if="type == 2">
         <ion-label>เลขห้อง: </ion-label>
         <ion-input v-model="numroom" type="number" :value=numroom placeholder="000"></ion-input>
       </ion-item>
@@ -44,7 +44,8 @@
             <ion-card-title>รายการอาหารในตะกร้า</ion-card-title>
             <ion-button slot="end" fill="clear" :routerLink="{
               name: 'menu2', params: {
-                id: $route.params.id}
+                id: $route.params.id
+              }
             }">
               เพิ่มรายการอาหาร
             </ion-button>
@@ -75,11 +76,15 @@
         </ion-card-content>
       </ion-card>
 
+      <ion-item>
+        <ion-input v-model="note" placeholder="เพิ่มหมายเหตุเมนูนี้ "></ion-input>
+      </ion-item>
+
     </ion-content>
 
     <ion-footer>
       <ion-toolbar>
-        <ion-button expand="block" color="success" @click="sentorder" routerLink="/MenuPage">
+        <ion-button expand="block" color="success" @click="sentorder">
           <ion-text>
             สั่งอาหาร
           </ion-text>
@@ -99,11 +104,9 @@ import {
   IonCol, IonGrid, IonRow, IonCard,
   IonCardContent, IonCardHeader, IonCardTitle,
   IonSegment, IonSegmentButton,
-  IonSelect, IonSelectOption,
+  IonSelect, IonSelectOption, alertController,
 } from '@ionic/vue';
 import axios from 'axios';
-import { man, map } from 'ionicons/icons';
-import { Item } from '@ionic/core/dist/types/components/item/item';
 
 const api = axios.create({ baseURL: 'https://restaurant-e109e-default-rtdb.asia-southeast1.firebasedatabase.app/' });
 
@@ -147,11 +150,12 @@ export default defineComponent({
       filteredOrder: [],
       filteredOrder2: [] as any,
       listorderdata: [],
+      note: "",
       sumpriceall: 0,
       counts: 0,
       counts2: 0,
-      numroom: 0,
-      type: 0,
+      numroom: "",
+      type: 1,
     }
   },
   methods: {
@@ -167,9 +171,9 @@ export default defineComponent({
       }
     },
     sumorder() {
-      this.filteredOrder.forEach((item: {menu: object}) => 
-        this.sumpriceall = Object.values(item.menu).reduce((sum, item: {price: number, quantity: number}) => 
-        sum + item.price * item.quantity, 0
+      this.filteredOrder.forEach((item: { menu: object }) =>
+        this.sumpriceall = Object.values(item.menu).reduce((sum, item: { price: number, quantity: number }) =>
+          sum + item.price * item.quantity, 0
         )
       )
       console.log("Total price: ", this.sumpriceall)
@@ -180,8 +184,22 @@ export default defineComponent({
     },
 
     async sentorder() {
-      await api.patch(`order/${this.$route.params.id}.json`, { order_name: this.numroom, statorder: 1 ,ordertype: (this.type == 1 ? "โต๊ะ" : "ห้อง")}, )
-      this.$router.push("/MenuPage")
+      if(this.numroom){
+        await api.patch(`order/${this.$route.params.id}.json`, { 
+          order_name: this.numroom, 
+          statorder: 1,
+          ordertype: (this.type == 1 ? "โต๊ะ" : "ห้อง"),
+          note: this.note,
+        }).then(() => {
+          this.$router.push("/MenuPage")
+        })
+      } else {
+        const alert = await alertController.create({
+          message: 'กรุณาเลือกประเภทของออเดอร์ และหมายเลขโต๊ะหรือหมายเลขห้อง',
+          buttons: ['ตกลง']
+        })
+        await alert.present();
+      }
     }
   },
   created() {

@@ -167,7 +167,7 @@ export default defineComponent({
     filterOrder(iddata: number) {
       console.log(iddata)
       this.page = iddata;
-      this.filteredOrder = this.listorderdata.filter((item: { statorder: number, ordertype: string }) => item.statorder === iddata && item.ordertype === "โต๊ะ" )
+      this.filteredOrder = this.listorderdata.filter((item: { statorder: number, ordertype: string }) => item.statorder === iddata && item.ordertype === "ห้อง" )
       // console.log("xx", this.filteredOrder);
     },
     sumprice(menu: { name: string; price: number; quantity: number; }[]) {

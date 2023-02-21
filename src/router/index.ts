@@ -35,11 +35,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'listmenu'
   },
   {
-    path: '/delivery',
-    component: () => import ('../views/FolderPage.vue')
+    path: '/room',
+    component: () => import ('../views/Order/OrderRoomPage.vue')
   },
   {
-    path: '/room',
+    path: '/delivery',
     component: () => import ('../views/FolderPage.vue')
   },
   {
@@ -54,6 +54,8 @@ const routes: Array<RouteRecordRaw> = [
     path: '/folder/delivery',
     component: () => import ('../views/delivery/OrderDeliveryPage.vue')
   },
+
+  // จ้องห้อง
   {
     path: '/folder/reserveTable',
     component: () => import ('../views/reserveTable/searchTable.vue')
@@ -67,8 +69,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import ('../views/reserveTable/SummaryTable.vue')
   },
 
-
-
+  // จัดการร้าน
   {
     path: '/folder/manage',
     component: () => import ('../views/manage/MenuPageManage.vue')
@@ -114,7 +115,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/folder/setupshop',
     component: () => import ('../views/set/SetUpShop.vue')
   },
-    {
+  {
     path: '/folder/record',
     component: () => import ('../views/record/RecordMenu.vue')
   },
