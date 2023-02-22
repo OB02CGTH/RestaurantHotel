@@ -38,9 +38,11 @@
               <!-- Title -->
               <ion-card-header v-if="i.statorder != 4">
                 <ion-card-title>{{ i.ordertype }}: {{ i.order_name }}</ion-card-title>
+                <p>สั่งเมื่อ : {{ i.timecomplete }}</p>
               </ion-card-header>
               <ion-card-header v-else color="danger">
                 <ion-card-title>{{ i.ordertype }}: {{ i.idorder }}</ion-card-title>
+                <p>สั่งเมื่อ : {{ i.timecomplete }}</p>
               </ion-card-header>
 
               <!-- Optional -->

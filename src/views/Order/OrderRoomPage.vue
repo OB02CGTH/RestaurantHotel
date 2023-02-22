@@ -41,6 +41,7 @@
                   <ion-card-title>{{ i.ordertype }}: {{ i.order_name }}</ion-card-title>
                   <ion-checkbox slot="end" v-if="toggleValue === true"></ion-checkbox>
                 </ion-item>
+                <p>สั่งเมื่อ : {{ i.timecomplete }}</p>
               </ion-card-header>
 
               <!-- Optional -->
@@ -161,9 +162,6 @@ export default defineComponent({
         console.error(error);
       }
     },
-    // toroute(rou: RouteLocationRaw) {
-    //   this.$router.push(rou)
-    // },
     filterOrder(iddata: number) {
       console.log(iddata)
       this.page = iddata;
@@ -183,11 +181,16 @@ export default defineComponent({
       this.getOrderFromDatabase();
     },
     async completepay(idorder: string) {
-      await api.patch(`order/${idorder}.json`, {statorder: 10})
+      await api.patch(`order/${idorder}.json`, {
+        statorder: 10,
+        datecomplete: new Date().toLocaleDateString(),
+        timecomplete: new Date().toLocaleTimeString(),
+      })
       this.getOrderFromDatabase();
     }
   },
-  created() {
+
+  mounted() {
     this.getOrderFromDatabase();
   },
 });

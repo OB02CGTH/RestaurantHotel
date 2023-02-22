@@ -190,6 +190,7 @@ export default defineComponent({
           statorder: 1,
           ordertype: (this.type == 1 ? "โต๊ะ" : "ห้อง"),
           note: this.note,
+          timecomplete: new Date().toLocaleTimeString(),
         }).then(() => {
           this.$router.push("/MenuPage")
         })
@@ -202,7 +203,7 @@ export default defineComponent({
       }
     }
   },
-  created() {
+  mounted() {
     this.getOrderFromDatabase();
   }
 });

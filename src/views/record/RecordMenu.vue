@@ -19,15 +19,11 @@
       <!-- <ion-searchbar placeholder="ค้นหาเมนู"></ion-searchbar> -->
 
       <ion-segment :scrollable="true" :value="page">
-        <ion-segment-button v-for="i in categorymenu" :key="i.statorder" :value="i.name" @click="filterOrder(i.statorder)">
+        <ion-segment-button v-for="i in categorymenu" :key="i.statorder" :value="i.name"
+          @click="filterOrder(i.statorder)">
           <ion-label>{{ i.name }}</ion-label>
         </ion-segment-button>
       </ion-segment>
-
-      <ion-item v-if="page === 3">
-        <ion-label slot="start">รวมบิล</ion-label>
-        <ion-toggle v-model="toggleValue" slot="end"></ion-toggle>
-      </ion-item>
 
       <ion-grid>
         <ion-row>
@@ -35,10 +31,9 @@
             <ion-card>
 
               <ion-card-header>
-                <ion-item>
-                  <ion-card-title>{{ i.ordertype }}: {{ i.idorder }}</ion-card-title>
-                  <!-- <ion-checkbox slot="end" v-if="i.statorder === 3"></ion-checkbox> -->
-                </ion-item>
+                <ion-card-title>{{ i.ordertype }}: {{ i.order_name }}</ion-card-title>
+                <!-- <ion-checkbox slot="end" v-if="i.statorder === 3"></ion-checkbox> -->
+                <p>เสร็จเมื่อ : {{ i.datecomplete }} {{ i.timecomplete }}</p>
               </ion-card-header>
 
               <ion-card-content>
@@ -46,14 +41,15 @@
                   <ion-label slot="start">
                     x{{ n.quantity }}{{ n.menu_name }} <br>
                     <ion-label lines="none">
-                      <ion-text v-for="O, indexo in n.menu_option" :key="indexo" color="medium"  class="ion-text-wrap"> {{ O }} &nbsp;</ion-text> <br>
+                      <ion-text v-for="O, indexo in n.menu_option" :key="indexo" color="medium" class="ion-text-wrap"> {{
+                        O }} &nbsp;</ion-text> <br>
                       <!-- <p v-for="op, indexo in n.menu_option" :key="indexo" color="medium">
                         {{ op }}
                         <br>
                       </p> -->
                     </ion-label>
                   </ion-label>
-                  <ion-label slot="end">{{ n.price * n.quantity}}</ion-label>
+                  <ion-label slot="end">{{ n.price * n.quantity }}</ion-label>
                 </ion-item>
 
                 <ion-text v-if="i.note" slot="start">
@@ -63,8 +59,8 @@
                 <ion-text>
                   <h1>รวม {{ sumprice(i.menu) }} บาท</h1>
                 </ion-text>
-             
-               </ion-card-content>
+
+              </ion-card-content>
             </ion-card>
           </ion-col>
         </ion-row>
@@ -113,7 +109,7 @@ export default defineComponent({
     // IonCheckbox,
     // IonFooter,
     IonText,
-    IonToggle
+    // IonToggle
   },
   data() {
     return {
@@ -131,7 +127,7 @@ export default defineComponent({
       try {
         const response = await api.get(`/order.json`);
         this.listorderdata = Object.values(response.data);
-        this.filteredOrder = this.listorderdata.filter((item: { statorder: number}) => item.statorder === 10)
+        this.filteredOrder = this.listorderdata.filter((item: { statorder: number }) => item.statorder === 10)
         // this.filterOrder(this.page);
         console.log("I", this.filteredOrder);
       } catch (error) {

@@ -72,25 +72,10 @@
             </ion-list>
           </ion-item>
 
-          <!-- <ion-item class="ion-align-items-center ion-justify-content-center">
-            <ion-icon :icon="removeCircle"></ion-icon>
-            <ion-text>1</ion-text>
-            <ion-icon :icon="addCircle"></ion-icon>
-          </ion-item> -->
-
-          <!-- <router-link :to="{
-            name: 'menu2', params: {
-              order: idorder
-            }
-          }"> -->
-
-          <!-- routerLink="/MenuPage" -->
-          <!-- :to="{ name: 'menu2', params: {id: idorder}}" -->
-          
           <ion-button expand="block" color="success" @click="createOrder">
             <ion-icon slot="start" :icon="addCircle"></ion-icon>
             เพิ่ม
-            <ion-label>: {{ menudata.price+radioprice+checkboxprice }}</ion-label>
+            <ion-label>: {{ menudata.price + radioprice + checkboxprice }}</ion-label>
           </ion-button>
           <!-- </router-link> -->
 
@@ -107,7 +92,6 @@ import { IonButton, IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, I
 import { star, addCircle, removeCircle, constructOutline, shapesSharp, compassOutline, } from 'ionicons/icons';
 import axios from 'axios';
 
-const dataurl = "https://restaurant-e109e-default-rtdb.asia-southeast1.firebasedatabase.app/";
 const api = axios.create({ baseURL: 'https://restaurant-e109e-default-rtdb.asia-southeast1.firebasedatabase.app/' });
 
 export default defineComponent({
@@ -138,14 +122,14 @@ export default defineComponent({
   },
   data() {
     return {
-      idorder: "",
+      idorder: '',
       categorydata: [],
       optiondata: [] as any,
       filteredoption: [],
       menudata: [] as any,
       optionselect: [] as any,
       // optionselectold: [] as any,
-      radio: "",
+      radio: '',
       radioprice: 0,
       checkboxprice: 0,
       totalprice: 0,
@@ -218,7 +202,7 @@ export default defineComponent({
       this.radioprice = event.target.value.price;
 
       console.log("RadioII", this.radio)
-      console.log("RadioII", this.radioprice)
+      // console.log("RadioII", this.radioprice)
     },
 
     checkboxChanged(event: CheckboxCustomEvent) {
@@ -232,24 +216,34 @@ export default defineComponent({
         this.optionselect.push(event.target.value.name)
         this.checkboxprice += event.target.value.price
       }
+      console.log("CheckboxSet", this.optionselect, this.checkboxprice)
     },
 
     async createOrder() {
-      if(this.radio){
+      if (this.radio) {
         this.optionselect.push(this.radio)
+        // this.optionselect = [...this.optionselect, ...this.radio]
       }
       this.totalprice = this.menudata.price + this.radioprice + this.checkboxprice
+      
       // สร้างออเดอร์
-      if(this.$route.params.idorder){
+      if (this.$route.params.idorder) {
         await api.post(`order/${this.$route.params.idorder}/menu.json`,
-        {
-          menu_id: this.$route.params.id,
-          menu_name: this.$route.params.name,
-          price: this.totalprice,
-          quantity: 1,
-          menu_option: this.optionselect,
+          {
+            menu_id: this.$route.params.id,
+            menu_name: this.$route.params.name,
+            price: this.totalprice,
+            quantity: 1,
+            menu_option: this.optionselect,
+          });
+        this.$router.push({
+          name: 'menu2', params: {
+            id: this.$route.params.idorder
+          }
+        }).then(() => {
+          location.reload();
         });
-        this.$router.push({name: 'menu2', params: {id: this.$route.params.idorder}})
+
       } else {
         // เพิ่มเมนู
         await api.post("order.json", {
@@ -271,22 +265,28 @@ export default defineComponent({
           .then(async response => {
             api.patch(`order/${response.data.name}.json`, { idorder: response.data.name })
             this.idorder = response.data.name;
-            this.$router.push({name: 'menu2', params: {id: this.idorder}})
+            this.$router.push({
+              name: 'menu2', params: {
+                id: this.idorder
+              }
+            }).then(() => {
+              location.reload();
+            });
           })
           .catch(error => {
             console.log(error)
           })
       }
-    } 
+    }
   },
 
 
-  created() {
+  mounted() {
     this.filteroption();
     console.log(this.$route.params.id);
     console.log(this.$route.params.name);
     console.log(this.$route.params.category);
-  }
+  },
 })
 </script>
 

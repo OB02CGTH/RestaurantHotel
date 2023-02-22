@@ -30,15 +30,8 @@
 
       <ion-grid>
         <ion-row>
-          <!-- <ion-col :sizeXs="6" :sizeMd="2.4" v-for="i in filteredMenu" :key="i.name" :routerLink="i.name"> -->
-          <!-- <ion-col :sizeXs="6" :sizeMd="2.4" v-for="i in filteredMenu" :key="i.name" :routerLink="i.name"> -->
           <ion-col :sizeXs="6" :sizeMd="2.4" v-for="i in filteredMenu" :key="i.name"
             @click="toOptonal(i.Key, i.name, i.categorykey)">
-            <!-- <router-link style="text-decoration: none;" :to="{
-                name: 'option', params: {
-                  id: i.Key, name: i.name, category: i.categorykey
-                }
-              }"> -->
             <ion-card>
               <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
               <ion-card-header>
@@ -55,8 +48,16 @@
     </ion-content>
 
     <router-link v-if="$route.params.id" :to="{ name: 'listmenu', params: { id: $route.params.id } }">
+      <!-- <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+        <ion-fab-button>
+          <ion-icon :icon="fastFood"></ion-icon>
+          <ion-badge color="danger">{{ sumorder }}</ion-badge>
+        </ion-fab-button>
+      </ion-fab> -->
+
       <ion-fab slot="fixed" vertical="bottom" horizontal="end">
         <ion-fab-button>
+          <ion-badge color="danger">{{ sumorder }}</ion-badge>
           <ion-icon :icon="fastFood"></ion-icon>
         </ion-fab-button>
       </ion-fab>
@@ -70,12 +71,12 @@
 import { ref, defineComponent } from 'vue';
 import { RouteLocationRaw, useRoute } from 'vue-router';
 import {
-  IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonCol, IonGrid, IonRow, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonSearchbar, IonLabel, IonSegment, IonSegmentButton, IonFab, IonFabButton, IonButton
+  IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonCol, IonGrid, IonRow, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonSearchbar, IonLabel, IonSegment, IonSegmentButton, IonFab, IonFabButton, IonButton, IonBadge, IonIcon
 } from '@ionic/vue';
-import { fastFood, time, } from 'ionicons/icons';
+import { compassOutline, fastFood, time, } from 'ionicons/icons';
 import axios from 'axios';
 
-const dataurl = "https://restaurant-e109e-default-rtdb.asia-southeast1.firebasedatabase.app/"
+const api = axios.create({ baseURL: 'https://restaurant-e109e-default-rtdb.asia-southeast1.firebasedatabase.app/' });
 // const datamenu: MyData[] = [];
 
 export default defineComponent({
@@ -101,7 +102,9 @@ export default defineComponent({
     IonSegmentButton,
     IonFab,
     IonFabButton,
+    IonBadge,
     // IonButton,
+    IonIcon,
   },
   data() {
     return {
@@ -111,6 +114,7 @@ export default defineComponent({
       listmenudataarray: [],
       // listmenudata2: {},
       serachmenu: '',
+      sumorder: 0,
     };
   },
 
@@ -123,7 +127,7 @@ export default defineComponent({
   methods: {
     async getCategoryFromDatabase() {
       try {
-        const response = await axios.get(`${dataurl}categorymenu.json`);
+        const response = await api.get(`categorymenu.json`);
         this.categorymenudata = response.data
       } catch (error) {
         console.error(error);
@@ -132,13 +136,23 @@ export default defineComponent({
     },
     async getMenuFromDatabase() {
       try {
-        const response = await axios.get(`${dataurl}listmenu.json`);
+        const response = await api.get(`listmenu.json`);
         this.listmenudataarray = Object.values(response.data);
         this.allMenu();
       } catch (error) {
         console.error(error);
       }
       // console.log("getMenuFromDatabase listmenudata " + JSON.stringify(this.listmenudata))
+    },
+    async getOrderFromDatabase() {
+      try {
+        const response = await api.get(`order/${this.$route.params.id}/menu.json`);
+        const order = Object.values(response.data);
+        this.sumorder = order.length;
+        console.log("จำนวน", this.sumorder)
+      } catch (error) {
+        console.error(error);
+      }
     },
 
     allMenu() {
@@ -153,10 +167,10 @@ export default defineComponent({
     },
 
     searchChanged() {
-      if(this.serachmenu){
+      if (this.serachmenu) {
         // console.log(this.serachmenu)
-        this.filteredMenu = this.filteredMenu.filter((item: {name: string}) => 
-        item.name.toLowerCase().includes(this.serachmenu.toLowerCase())).sort((a: { name: string }, b: { name: string }) => (a.name < b.name) ? -1 : 1)
+        this.filteredMenu = this.filteredMenu.filter((item: { name: string }) =>
+          item.name.toLowerCase().includes(this.serachmenu.toLowerCase())).sort((a: { name: string }, b: { name: string }) => (a.name < b.name) ? -1 : 1)
         // console.log(this.filteredMenu)
       } else {
         this.allMenu()
@@ -169,20 +183,25 @@ export default defineComponent({
           name: 'option2', params: {
             id: Key, name: name, category: categorykey, idorder: this.$route.params.id
           }
+        }).then(() => {
+          location.reload();
         });
       } else {
         this.$router.push({
           name: 'option', params: {
             id: Key, name: name, category: categorykey
           }
+        }).then(() => {
+          location.reload();
         });
       }
     },
   },
 
-  created() {
+  mounted() {
     this.getCategoryFromDatabase();
     this.getMenuFromDatabase();
+    if (this.$route.params.id) { this.getOrderFromDatabase(); }
   },
 });
 </script>
