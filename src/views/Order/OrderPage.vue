@@ -78,7 +78,7 @@
                 <ion-grid>
                   <ion-row>
                     <ion-col :sizeXs="4">
-                      <ion-button expand="block" color="secondary" routerLink="/folder/MenuPage">สั่งเพิ่ม</ion-button>
+                      <ion-button expand="block" color="secondary" routerLink="//MenuPage">สั่งเพิ่ม</ion-button>
                     </ion-col>
                     <ion-col :sizeXs="8">
                       <ion-button @click="completepay(i.idorder)" expand="block" color="success">ชำระ</ion-button>
