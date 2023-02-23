@@ -30,6 +30,10 @@
         <ion-toggle v-model="toggleValue" slot="end"></ion-toggle>
       </ion-item>
 
+      <ion-text v-if="filteredOrder.length == 0" id="container">
+        <h2>ไม่มีออเดอร์ที่อยู่ในสถานะนี้</h2>
+      </ion-text>
+
       <ion-grid>
         <ion-row>
           <ion-col :sizeXs="12" :sizeMd="6" v-for="(i, indexi) in filteredOrder" :key="indexi">

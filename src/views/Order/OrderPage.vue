@@ -30,6 +30,10 @@
         <ion-toggle v-model="toggleValue" slot="end"></ion-toggle>
       </ion-item>
 
+      <ion-text v-if="filteredOrder.length == 0" id="container">
+        <h2>ไม่มีออเดอร์ที่อยู่ในสถานะนี้</h2>
+      </ion-text>
+
       <ion-grid>
         <ion-row>
           <ion-col :sizeXs="12" :sizeMd="6" v-for="i in filteredOrder" :key="i.order_id">
@@ -166,7 +170,7 @@ export default defineComponent({
       console.log(iddata)
       this.page = iddata;
       this.filteredOrder = this.listorderdata.filter((item: { statorder: number, ordertype: string }) => item.statorder === iddata && item.ordertype === "โต๊ะ" )
-      // console.log("xx", this.filteredOrder);
+      console.log("xx", this.filteredOrder);
     },
     sumprice(menu: { name: string; price: number; quantity: number; }[]) {
       let sum = 0;

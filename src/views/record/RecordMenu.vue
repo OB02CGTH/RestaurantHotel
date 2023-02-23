@@ -16,14 +16,11 @@
         </ion-toolbar>
       </ion-header>
 
-      <!-- <ion-searchbar placeholder="ค้นหาเมนู"></ion-searchbar> -->
+      <ion-text v-if="filteredOrder.length == 0" id="container">
+        <h2>ยังไม่มีประวัติออเดอร์</h2>
+      </ion-text>
 
-      <ion-segment :scrollable="true" :value="page">
-        <ion-segment-button v-for="i in categorymenu" :key="i.statorder" :value="i.name"
-          @click="filterOrder(i.statorder)">
-          <ion-label>{{ i.name }}</ion-label>
-        </ion-segment-button>
-      </ion-segment>
+      <!-- <ion-searchbar placeholder="ค้นหาเมนู"></ion-searchbar> -->
 
       <ion-grid>
         <ion-row>
@@ -101,9 +98,9 @@ export default defineComponent({
     // IonCardSubtitle,
     IonCardContent,
     // IonSearchbar,
-    IonLabel,
-    IonSegment,
-    IonSegmentButton,
+    // IonLabel,
+    // IonSegment,
+    // IonSegmentButton,
     IonItem,
     // IonButton,
     // IonCheckbox,
@@ -137,12 +134,12 @@ export default defineComponent({
     // toroute(rou: RouteLocationRaw) {
     //   this.$router.push(rou)
     // },
-    filterOrder(iddata: number) {
-      // console.log(iddata)
-      // this.page = iddata; 
-      // this.filteredOrder = this.listorderdata.filter((item: { statorder: number}) => item.statorder === iddata)
-      // console.log("xx", this.filteredOrder);
-    },
+    // filterOrder(iddata: number) {
+    //   // console.log(iddata)
+    //   // this.page = iddata; 
+    //   // this.filteredOrder = this.listorderdata.filter((item: { statorder: number}) => item.statorder === iddata)
+    //   // console.log("xx", this.filteredOrder);
+    // },
     sumprice(menu: { name: string; price: number; quantity: number; }[]) {
       let sum = 0;
       for (const i in menu) {

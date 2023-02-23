@@ -263,8 +263,8 @@ export default defineComponent({
           ],
         })
           .then(async response => {
-            api.patch(`order/${response.data.name}.json`, { idorder: response.data.name })
-            this.idorder = response.data.name;
+            await api.patch(`order/${response.data.name}.json`, { idorder: response.data.name })
+              this.idorder = response.data.name;
             this.$router.push({
               name: 'menu2', params: {
                 id: this.idorder
