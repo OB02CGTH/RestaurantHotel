@@ -22,34 +22,38 @@
             <ion-label>วันที่-เวลา</ion-label>
             <ion-note slot="end"></ion-note>
           </ion-item>
-          <ion-datetime slot="content" presentation="date-time" onIonChange={this.onStartChange}
-            minute-values="0,15,30,45"></ion-datetime></ion-accordion>
+          <ion-datetime v-model="setdate" slot="content" presentation="date-time" onIonChange={this.onStartChange}
+            minute-values="0,15,30,45">
+          </ion-datetime>
+        </ion-accordion>
         <ion-accordion value="end">
           <ion-item slot="header">
             <ion-label>ถึง-เวลา</ion-label>
             <ion-note slot="end"></ion-note>
           </ion-item>
-          <ion-datetime slot="content" presentation="date-time" onIonChange={this.onEndChange}
-            minute-values="0,15,30,45"></ion-datetime> </ion-accordion>
+          <ion-datetime v-model="regisdate" slot="content" presentation="date-time" onIonChange={this.onEndChange}
+            minute-values="0,15,30,45">
+          </ion-datetime>
+        </ion-accordion>
         <ion-item>
           <ion-label position="floating">ชื่อ-สกุล</ion-label>
-          <ion-input placeholder="กรุณากรอกชื่อ-สกุล"></ion-input>
+          <ion-input v-model="name" placeholder="กรุณากรอกชื่อ-สกุล"></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label position="floating">จํานวนคน</ion-label>
-          <ion-input type="number" placeholder="0"></ion-input>
+          <ion-input v-model="amount" type="number" placeholder="0"></ion-input>
         </ion-item>
 
 
         <ion-item>
           <ion-label position="floating">Email</ion-label>
-          <ion-input type="email" placeholder="email@domain.com"></ion-input>
+          <ion-input v-model="email" type="email" placeholder="email@domain.com"></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label position="floating">เบอร์ติดต่อ</ion-label>
-          <ion-input type="tel" placeholder="888-888-8888"></ion-input>
+          <ion-input v-model="phone" type="tel" placeholder="888-888-8888"></ion-input>
         </ion-item>
       </ion-accordion-group>
       <ion-button fill="clear" expand="block" color="danger" routerLink="/folder/reserveTable">
@@ -57,7 +61,11 @@
         ย้อนกลับ
       </ion-button>
 
-      <ion-button expand="block" color="success" routerLink="/folder/summarytable">
+      <!-- <ion-button expand="block" color="success" routerLink="/folder/summarytable">
+        <ion-icon slot="start" :icon="addCircle"></ion-icon>
+        จอง
+      </ion-button> -->
+      <ion-button expand="block" color="success" @click="checkvalue()">
         <ion-icon slot="start" :icon="addCircle"></ion-icon>
         จอง
       </ion-button>
@@ -92,7 +100,14 @@ export default defineComponent({
   },
   data() {
     return {
-
+      setdate: '',
+      settime: '',
+      regisdate: '',
+      registime: '',
+      name: '',
+      amount: 0,
+      email: '',
+      phone: ''
     }
   },
 
@@ -106,6 +121,10 @@ export default defineComponent({
   }
   ,
   methods: {
+    checkvalue() {
+      console.log(this.setdate, this.regisdate, this.name, this.amount, this.email, this.phone)
+    },
+
     toroute(rou: RouteLocationRaw) {
       this.$router.push(rou)
     },
@@ -199,5 +218,6 @@ img {
   width: 100%;
   height: 200px;
   object-fit: cover;
-}</style>
+}
+</style>
   
