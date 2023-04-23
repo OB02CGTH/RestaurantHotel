@@ -22,7 +22,7 @@
             <ion-label>วันที่-เวลา</ion-label>
             <ion-note slot="end"></ion-note>
           </ion-item>
-          <ion-datetime v-model="setdate" slot="content" presentation="date-time" onIonChange={this.onStartChange}
+          <ion-datetime v-model="setdate" slot="content" presentation="date-time" locale="th-TH" onIonChange={this.onStartChange}
             minute-values="0,15,30,45">
           </ion-datetime>
         </ion-accordion>
@@ -31,7 +31,7 @@
             <ion-label>ถึง-เวลา</ion-label>
             <ion-note slot="end"></ion-note>
           </ion-item>
-          <ion-datetime v-model="regisdate" slot="content" presentation="date-time" onIonChange={this.onEndChange}
+          <ion-datetime v-model="regisdate" slot="content" presentation="date-time" locale="th-TH" onIonChange={this.onEndChange}
             minute-values="0,15,30,45">
           </ion-datetime>
         </ion-accordion>
@@ -65,7 +65,7 @@
         <ion-icon slot="start" :icon="addCircle"></ion-icon>
         จอง
       </ion-button> -->
-      <ion-button expand="block" color="success" @click="checkvalue()">
+      <ion-button expand="block" color="success" @click="createTableorder()">
         <ion-icon slot="start" :icon="addCircle"></ion-icon>
         จอง
       </ion-button>
@@ -78,6 +78,9 @@ import { defineComponent } from 'vue';
 import { RouteLocationRaw } from 'vue-router';
 import { IonDatetime, IonNote, IonButton, IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonItem, IonCard, IonCardContent, IonCardHeader, IonLabel, IonCheckbox, IonList, IonRadio, IonRadioGroup, IonListHeader, IonText, IonInput, IonIcon, IonAccordion, IonAccordionGroup, } from '@ionic/vue';
 import { star, addCircle, removeCircle, } from 'ionicons/icons';
+import axios from 'axios';
+
+const api = axios.create({ baseURL: 'https://restaurant-e109e-default-rtdb.asia-southeast1.firebasedatabase.app/' });
 
 export default defineComponent({
   components: {
@@ -100,6 +103,7 @@ export default defineComponent({
   },
   data() {
     return {
+      id: '',
       setdate: '',
       settime: '',
       regisdate: '',
@@ -107,10 +111,10 @@ export default defineComponent({
       name: '',
       amount: 0,
       email: '',
-      phone: ''
+      phone: '',
+      state: 1,
     }
   },
-
   setup() {
     return {
       star,
@@ -118,46 +122,43 @@ export default defineComponent({
       removeCircle,
       value1: ''
     }
-  }
-  ,
+  },
   methods: {
     checkvalue() {
       console.log(this.setdate, this.regisdate, this.name, this.amount, this.email, this.phone)
     },
-
     toroute(rou: RouteLocationRaw) {
       this.$router.push(rou)
     },
-    // validateEmail(email) {
-    //   return email.match(/^(?=.{1,254}$)(?=.{1,64}@)[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/);
-    // }, 
-    //  validate(ev) {
-    //    const value = ev.target.value;
-
-    // this.$refs.item.$el.classList.remove('ion-valid');
-    //   this.$refs.item.$el.classList.remove('ion-invalid');
-
-    //   if (value === '') return;
-
-    //   this.validateEmail(value)
-    //   ? this.$refs.item.$el.classList.add('ion-valid')
-    //   : this.$refs.item.$el.classList.add('ion-invalid');
-    //  },
-
-    //  markTouched() {
-    //    this.$refs.item.$el.classList.add('ion-touched')}},
-
-
     checkValue() {
       if (this.value1 !== '11') {
         this.value1 = ''
       }
+    },
+    async createTableorder() {
+      await api.post(`ordertable.json`,{
+          id: "",
+          setdate: this.setdate,
+          regisdate: this.regisdate,
+          name: this.name,
+          amount: this.amount,
+          email: this.email,
+          phone: this.phone,
+          state: this.state,
+      })
+      .then(async response => {
+        await api.patch(`ordertable/${response.data.name}.json`, { id: response.data.name })
+        this.id = response.data.name;
+        this.$router.push("/folder/reserveTable").then(() => {
+          location.reload();
+        });
+      })
+      .catch(error => {
+        console.log(error)
+      })
     }
-
   }
-
-},
-);
+})
 </script>
   
 <style scoped>

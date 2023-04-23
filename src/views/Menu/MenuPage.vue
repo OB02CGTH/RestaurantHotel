@@ -138,6 +138,7 @@ export default defineComponent({
       try {
         const response = await api.get(`listmenu.json`);
         this.listmenudataarray = Object.values(response.data);
+        // console.log("allmenu"+ JSON.stringify(this.listmenudataarray));
         this.allMenu();
       } catch (error) {
         console.error(error);

@@ -32,33 +32,43 @@
       </div>
       <ion-grid>
         <ion-row>
-          <ion-col :sizeXs="12" :sizeMd="6" v-for="i, indexi in filteredOrder" :key="indexi">
+          <ion-col :sizeXs="12" :sizeMd="6" v-for="i, indexi in ls_table" :key="indexi">
             <ion-card>
-
-              <ion-card-header v-if="i.statorder != 3">
-                <ion-card-title>{{ i.ordertype }}: {{ i.ordernum }}</ion-card-title>
-              </ion-card-header>
-              <ion-card-header v-else color="danger">
-                <ion-card-title>{{ i.ordertype }}: {{ i.ordernum }}</ion-card-title>
+              <ion-card-header>
+                <ion-card-title>รหัสการจอง: {{ i.id }}</ion-card-title>
               </ion-card-header>
 
               <ion-card-content>
-                <ion-item lines="none" v-for="(n, indexn) in i.menu" :key="indexn">
-                  <ion-label v-if="n.statmenu != 4" slot="start">{{ n.name }}</ion-label>
-                  <ion-label v-else slot="start" color="danger">{{ n.name }}</ion-label>
-                  <ion-label v-if="n.statmenu != 4" slot="end">{{ n.quantity }}</ion-label>
-                  <ion-label v-else slot="end" color="danger">{{ n.quantity }}</ion-label>
 
+                <ion-item lines="none">
+                  <div slot="start">เวลาที่กำหนด:</div>
+                  <div slot="end">{{ i.setdate }}</div>
                 </ion-item>
-
+                <ion-item lines="none">
+                  <div slot="start">ชื่อ:</div>
+                  <div slot="end">{{ i.name }}</div>
+                </ion-item>
+                <ion-item lines="none">
+                  <div slot="start">จำนวน:</div>
+                  <div slot="end">{{ i.amount }}</div>
+                </ion-item>
+                <ion-item lines="none">
+                  <div slot="start">เบอร์โทร:</div>
+                  <div slot="end">{{ i.phone }}</div>
+                </ion-item>
+                <ion-item lines="none">
+                  <div slot="start">อีเมล:</div>
+                  <div slot="end">{{ i.email }}</div>
+                </ion-item>
               </ion-card-content>
+
               <div class="container">
-                <ion-button v-if="i.statorder === 1" fill="clear" color="danger"
+                <ion-button v-if="i.state == 1" fill="clear" color="danger"
                   @click="presentActionSheet">เเก้ไข</ion-button>
                 <code>{{ result }}</code>
               </div>
 
-              <ion-button v-if="i.statorder === 1" expand="block" color="success"
+              <ion-button v-if="i.state == 1" expand="block" color="success"
                 routerLink="/folder/reserveTable">ถึงร้านเเล้ว</ion-button>
               <!-- <ion-button v-if="i.statorder === 3" expand="block" color="warning">แก้ไขออเดอร์</ion-button> -->
 
@@ -102,6 +112,9 @@ import {
 } from '@ionic/vue';
 import { Item } from '@ionic/core/dist/types/components/item/item';
 import { pricetag } from 'ionicons/icons';
+import axios from 'axios';
+
+const api = axios.create({ baseURL: 'https://restaurant-e109e-default-rtdb.asia-southeast1.firebasedatabase.app/' });
 
 export default defineComponent({
   components: {
@@ -172,8 +185,8 @@ export default defineComponent({
 
   data() {
     return {
-
-
+      idstate: 1,
+      ls_table: [],
       ordermenu: [
         {
           ordertype: 'รหัสการจอง',
@@ -216,9 +229,21 @@ export default defineComponent({
     toroute(rou: RouteLocationRaw) {
       this.$router.push(rou)
     },
+    async getOrderTableFromDatabase() {
+      try {
+        const response = await api.get(`/ordertable.json`);
+        // console.log(response.data);
+        this.ls_table = Object.values(response.data);
+        console.log("get " + JSON.stringify(this.ls_table));
+        this.filterOrder(1);
+      } catch (error) {
+        console.error(error);
+      }
+    },
     filterOrder(iddata: number) {
       console.log(iddata)
-      this.filteredOrder = this.ordermenu.filter(item => item.statorder === iddata)
+      this.ls_table = this.ls_table.filter((item: { state: number }) => item.state == iddata)
+      console.log("filter " + JSON.stringify(this.ls_table));
     },
     // sumprice(menu: { name: string;  quantity: number; }[]) {
     //   let sum = 0;
@@ -228,15 +253,13 @@ export default defineComponent({
     //   }
     //   return sum;
     // },
+    
 
   },
   beforeMount() {
-    this.filterOrder(1)
+    this.filterOrder(1);
+    this.getOrderTableFromDatabase();
   },
-
-
-
-
 });
 </script>
 
