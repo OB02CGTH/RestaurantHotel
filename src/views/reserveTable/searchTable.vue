@@ -21,25 +21,18 @@
         </ion-segment-button>
       </ion-segment>
 
-
       <ion-searchbar placeholder="ค้นหาโต๊ะ"></ion-searchbar>
-      <div>
-        <ion-button expand="block" color="success" routerLink="/folder/detailsTable">จองโต๊ะเพิ่ม</ion-button>
-
-        <ion-item>
-          <!-- <ion-label>Action Sheet Interface</ion-label> -->
-        </ion-item>
-      </div>
+      <ion-button expand="block" color="success" routerLink="/folder/detailsTable">จองโต๊ะเพิ่ม</ion-button>
+      
       <ion-grid>
         <ion-row>
-          <ion-col :sizeXs="12" :sizeMd="6" v-for="i, indexi in ls_table" :key="indexi">
-            <ion-card>
+          <ion-col :sizeXs="12" :sizeMd="6" v-for="i, indexi in table_filtered" :key="indexi">
+            <ion-card >
               <ion-card-header>
                 <ion-card-title>รหัสการจอง: {{ i.id }}</ion-card-title>
               </ion-card-header>
 
               <ion-card-content>
-
                 <ion-item lines="none">
                   <div slot="start">เวลาที่กำหนด:</div>
                   <div slot="end">{{ i.setdate }}</div>
@@ -62,29 +55,15 @@
                 </ion-item>
               </ion-card-content>
 
-              <div class="container">
-                <ion-button v-if="i.state == 1" fill="clear" color="danger"
-                  @click="presentActionSheet">เเก้ไข</ion-button>
-                <code>{{ result }}</code>
-              </div>
+                <ion-button v-if="i.state == 1" fill="clear" expand="block" color="danger"
+                  @click="presentActionSheet(i.id)">
+                  จัดการ
+                </ion-button>
 
-              <ion-button v-if="i.state == 1" expand="block" color="success"
+                <!-- <code>{{ result }}</code> -->
+
+              <ion-button v-if="i.state == 1" expand="block" color="success" @click="success(i.id)"
                 routerLink="/folder/reserveTable">ถึงร้านเเล้ว</ion-button>
-              <!-- <ion-button v-if="i.statorder === 3" expand="block" color="warning">แก้ไขออเดอร์</ion-button> -->
-
-              <!-- <div v-if="i.statorder === 3">
-                <ion-grid>
-                  <ion-row>
-                    <ion-col :sizeXs="4">
-                      <ion-button expand="block" color="secondary" routerLink="/folder/MenuPage">สั่งเพิ่ม</ion-button>
-                    </ion-col>
-                    <ion-col :sizeXs="8">
-                      <ion-button expand="block" color="success">ชำระ</ion-button>
-                    </ion-col>
-                  </ion-row>
-                </ion-grid>
-              </div> -->
-
             </ion-card>
           </ion-col>
         </ion-row>
@@ -150,22 +129,28 @@ export default defineComponent({
   setup() {
     const result = ref('');
 
-    const presentActionSheet = async () => {
+    const presentActionSheet = async (idorder: string) => {
       const actionSheet = await actionSheetController.create({
 
         buttons: [
           {
             text: 'เเก้ไข',
-            data: {
-              action: 'correct',
-            },
+            handler: () => {
+              // this.$router.push({
+              //   name: 'edittable', params: {
+              //     idtable: idorder
+              //   }
+              // })
+              // api.delete(`ordertable/${idorder}.json`)  
+            }
           },
           {
             text: 'ลบ',
-            role: 'destructive',
-            data: {
-              action: 'delete',
-            },
+            handler: async () => {  
+              console.log("remove ", idorder);
+              await api.delete(`ordertable/${idorder}.json`);
+              location.reload();
+            } 
           },
         ],
       });
@@ -187,6 +172,7 @@ export default defineComponent({
     return {
       idstate: 1,
       ls_table: [],
+      table_filtered: [],
       ordermenu: [
         {
           ordertype: 'รหัสการจอง',
@@ -218,7 +204,6 @@ export default defineComponent({
       categorymenu: [
         { name: 'การจอง', statorder: 1, },
         { name: 'ประวัติการจอง', statorder: 2, },
-
       ],
       filteredOrder: {},
 
@@ -234,7 +219,7 @@ export default defineComponent({
         const response = await api.get(`/ordertable.json`);
         // console.log(response.data);
         this.ls_table = Object.values(response.data);
-        console.log("get " + JSON.stringify(this.ls_table));
+        // console.log("get " + JSON.stringify(this.ls_table));
         this.filterOrder(1);
       } catch (error) {
         console.error(error);
@@ -242,17 +227,19 @@ export default defineComponent({
     },
     filterOrder(iddata: number) {
       console.log(iddata)
-      this.ls_table = this.ls_table.filter((item: { state: number }) => item.state == iddata)
-      console.log("filter " + JSON.stringify(this.ls_table));
+      this.table_filtered = this.ls_table.filter((item: { state: number }) => item.state == iddata)
+      // console.log("filter " + JSON.stringify(this.ls_table));
     },
-    // sumprice(menu: { name: string;  quantity: number; }[]) {
-    //   let sum = 0;
-    //   for (const i in menu) {
-    //     const menuobject = menu[i];
-    //     sum += menuobject.price * menuobject.quantity
-    //   }
-    //   return sum;
-    // },
+    async success(idorder: string) {
+      console.log("id", idorder);
+      await api.patch(`ordertable/${idorder}.json`,{state: 2});
+      // this.filterOrder(1);
+      location.reload();
+    },
+
+    // async remove(idorder: string) {
+    //   await api.delete(`ordertable/${idorder}.json`)
+    // }
     
 
   },
@@ -292,8 +279,9 @@ ion-button {
 }
 
 ion-col {
-  width: 29px;
-  height: 29px;
+  border-radius: 5px;
+  color: #fff;
+  text-align: center;
 }
 
 .image-preview2 {

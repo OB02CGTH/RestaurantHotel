@@ -36,9 +36,8 @@
 
       <ion-grid>
         <ion-row>
-          <ion-col :sizeXs="12" :sizeMd="6" v-for="i in filteredOrder" :key="i.order_id">
+          <ion-col :sizeXs="12" :sizeMd="6" v-for="i, index in filteredOrder" :key="index">
             <ion-card>
-
               <!-- Title -->
               <ion-card-header>
                 <ion-item>

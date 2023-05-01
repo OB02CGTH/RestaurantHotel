@@ -16,6 +16,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'menu2'
   },
   {
+    path: '/Edittable/:idtable',
+    component: () => import ('../views/reserveTable/EditDetailsTable.vue'),
+    name: 'edittable'
+  },
+  {
     path: '/option/:id/:name/:category',
     component: () => import ('../views/Menu/OptionMenu.vue'),
     name: 'option'
